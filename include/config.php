@@ -24,11 +24,14 @@ if (!defined("APP_ROOT")) define("APP_ROOT", $_SERVER["DOCUMENT_ROOT"]."/".APP_F
 if (!defined("APP_URL")) define("APP_URL", "http://".$_SERVER["HTTP_HOST"]."/".APP_FOLDER);
 if (!defined("APP_FULL_URL")) define("APP_FULL_URL", "http://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI']);
 
-function __autoload($class)
-{
-	$parts = end(explode('_', $class));
-	require_once APP_ROOT.'include/' . $parts . '.php';
-}
+//function __autoload($class)
+//{
+//	$parts = end(explode('_', $class));
+//	require_once APP_ROOT.'include/' . $parts . '.php';
+//}
+
+require_once(APP_ROOT.'include/aws-autoloader.php');
+
 
 $msgs  = new Cl_Messages();
 $common  = new Cl_Common();

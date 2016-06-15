@@ -1,5 +1,10 @@
 <?php
 
+//require("lib/aws/aws-autoloader.php");
+use Aws\Ses\SesClient;
+use Aws\Credentials\CredentialProvider;
+
+
 class Cl_Common extends Cl_Messages
 {
 	protected $_con;
@@ -340,6 +345,57 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 
 	public function sendemail( $email, $subject, $message )
 	{
+		echo 'lager sesclient '.$email;
+		echo 'tester '.$subject;
+		echo 'tester2 '.$message;
+
+		$profile = 'default';
+		$path = '/home/ubuntu/.aws/credentials';
+		$provider = CredentialProvider::ini($profile, $path);
+		$provider = CredentialProvider::memoize($provider);
+
+		$client = SesClient::factory(array(
+			'credentials' => [
+				'key'    => 'AKIAJSP57LI6NF4NDFFQ',
+				'secret' => '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'
+				],
+			'region' => 'eu-west-1',
+			'version' => 'latest'
+		));
+
+		$result = $client->sendEmail(array(
+			// Source is required
+			'Source' => 'post@photorunner.no',
+			// Destination is required
+			'Destination' => array(
+				'ToAddresses' => array($email),
+								),
+			// Message is required
+			'Message' => array(
+				// Subject is required
+				'Subject' => array(
+					// Data is required
+					'Data' => $subject,
+					'Charset' => 'UTF-8',
+				),
+				// Body is required
+				'Body' => array(
+					'Text' => array(
+						// Data is required
+						'Data' => $message,
+						'Charset' => 'UTF-8',
+					),
+					'Html' => array(
+						// Data is required
+						'Data' => $message,
+						'Charset' => 'UTF-8',
+					),
+				),
+			),
+			'SourceArn' => 'arn:aws:ses:eu-west-1:567219455324:identity/post@photorunner.no'
+		));
+
+		/*
 		if( !empty( $email ) && !empty( $subject ) && !empty( $message ) )
 		{
 
@@ -366,6 +422,7 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 			parent::add('e', '(*) Fields are required ...');	
 			return false;
 		}
+		*/
 	}
 	
 	public function personal( $postdata )
