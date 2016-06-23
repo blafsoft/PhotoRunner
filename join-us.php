@@ -202,12 +202,14 @@ if(isset($_POST['register']))
 									</select>
 								</div>*/ ?>
 								<input type="text" placeholder="Zip Code"  id="zip_code" name="zip_code"/>
+								<!--
 								<div class="form_riwidth" style="float:left">
 									<img src="captcha_code_file.php?rand=<?php echo rand(); ?>" id='captchaimg' ><br></a>	
 									<span style="float:left; color:grey;">Can't read the image? click <a href='javascript: refreshCaptcha();' style="font-weight:bold; color:#00A2B5;">&nbsp;&nbsp;here&nbsp;&nbsp;</a>to refresh</span>
 									<input type="text" id="6_letters_code" name="6_letters_code" class="input_div_div" placeholder="Enter The Code Above here" required="required"/>
 									</br>
 								</div>
+								-->
 								<script language='JavaScript' type='text/javascript'>
 								function refreshCaptcha()
 								{

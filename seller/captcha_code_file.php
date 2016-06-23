@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
 *
 * this code is based on captcha code by Simon Jarvis 
@@ -14,6 +14,10 @@
 * GNU General Public License for more details: 
 * http://www.gnu.org/licenses/gpl.html
 */
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
+
 
 session_start();
 //Settings: You can customize the captcha here

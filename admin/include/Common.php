@@ -5144,7 +5144,7 @@ class Cl_Common extends Cl_Messages
 	
 	public function sendemail( $eng_email, $subject, $message )
 	{
-		if( !empty( $eng_email ) && !empty( $subject ) && !empty( $message ) )
+	if( !empty( $eng_email ) && !empty( $subject ) && !empty( $message ) ) 
 		{
 
 			if ($this->is_email( $eng_email)) 
@@ -5156,14 +5156,48 @@ class Cl_Common extends Cl_Messages
 				parent::add('e', 'Please enter a valid email address!');
 				return false;
 			}
-			
-			$headers  = 'MIME-Version: 1.0' . "\r\n";
-			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
-			$headers .= 'From: '.APP_NAME.' <'.ADMIN_EMAIL.'>' . "\r\n";
-			mail($eng_email, $subject, $message, $headers);
+			$client = SesClient::factory(array(
+				'credentials' => [
+					'key'    => 'AKIAJSP57LI6NF4NDFFQ',
+					'secret' => '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'
+				],
+				'region' => 'eu-west-1',
+				'version' => 'latest'
+			));
+
+			$result = $client->sendEmail(array(
+				// Source is required
+				'Source' => 'post@photorunner.no',
+				// Destination is required
+				'Destination' => array(
+					'ToAddresses' => array($eng_email),
+				),
+				// Message is required
+				'Message' => array(
+					// Subject is required
+					'Subject' => array(
+						// Data is required
+						'Data' => $subject,
+						'Charset' => 'UTF-8',
+					),
+					// Body is required
+					'Body' => array(
+						'Text' => array(
+							// Data is required
+							'Data' => $message,
+							'Charset' => 'UTF-8',
+						),
+						'Html' => array(
+							// Data is required
+							'Data' => $message,
+							'Charset' => 'UTF-8',
+						),
+					),
+				),
+				'SourceArn' => 'arn:aws:ses:eu-west-1:567219455324:identity/post@photorunner.no'
+			));
 			return true;
-			
 		} 
 		else
 		{

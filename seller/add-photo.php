@@ -6,25 +6,24 @@ if(isset($_POST['submit']))
 		$msgs->add('i', 'Javascript not enable. Please enable javascript.');	
 		$common->redirect(APP_URL);
 	}
-	else
-	{
+	else {
+		$allids = array();
+		for($i=0; $i < count($_FILES['webfile']['name']); $i++)
+		{
+			$file['name'] = $_FILES['webfile']['name'][$i];
+			$file['type'] = $_FILES['webfile']['type'][$i];
+			$file['tmp_name'] = $_FILES['webfile']['tmp_name'][$i];
+			$file['error'] = $_FILES['webfile']['error'][$i];
+			$file['size'] = $_FILES['webfile']['size'][$i];
+
+			$lastid = $common->addphoto($_POST, $file);
+			$allids[] = $lastid;
+		}
+
+
 		if($_POST['emailsend'] == 'gallery')
 		{
-			for($i=0; $i < count($_FILES['webfile']['name']); $i++)
-			{
-				$file['name'] = $_FILES['webfile']['name'][$i];
-				$file['type'] = $_FILES['webfile']['type'][$i];
-				$file['tmp_name'] = $_FILES['webfile']['tmp_name'][$i];
-				$file['error'] = $_FILES['webfile']['error'][$i];
-				$file['size'] = $_FILES['webfile']['size'][$i];
-				$files['name'] = $_FILES['printfile']['name'][$i];
-				$files['type'] = $_FILES['printfile']['type'][$i];
-				$files['tmp_name'] = $_FILES['printfile']['tmp_name'][$i];
-				$files['error'] = $_FILES['printfile']['error'][$i];
-				$files['size'] = $_FILES['printfile']['size'][$i];
-				$common->addphoto1($_POST, $file, $files);
-			}
-			
+
 			for($i=0; $i < count($_POST['email']); $i++)
 			{
 				$email = $_POST['email'][$i];
@@ -45,24 +44,8 @@ if(isset($_POST['submit']))
 			$common->add('s', 'Photo Info has been added successfully.');	
 			$common->redirect(APP_URL."seller/photos.php");
 		}
-		if($_POST['emailsend'] == 'image')
+		else if($_POST['emailsend'] == 'image')
 		{
-			$allids = array();
-			for($i=0; $i < count($_FILES['webfile']['name']); $i++)
-			{
-				$file['name'] = $_FILES['webfile']['name'][$i];
-				$file['type'] = $_FILES['webfile']['type'][$i];
-				$file['tmp_name'] = $_FILES['webfile']['tmp_name'][$i];
-				$file['error'] = $_FILES['webfile']['error'][$i];
-				$file['size'] = $_FILES['webfile']['size'][$i];
-				$files['name'] = $_FILES['printfile']['name'][$i];
-				$files['type'] = $_FILES['printfile']['type'][$i];
-				$files['tmp_name'] = $_FILES['printfile']['tmp_name'][$i];
-				$files['error'] = $_FILES['printfile']['error'][$i];
-				$files['size'] = $_FILES['printfile']['size'][$i];
-				$lastid = $common->addphoto5($_POST, $file, $files);
-				$allids[] = $lastid;
-			}
 			$gallery = $_POST['gallery'];
 			$conditions = array('id'=>$gallery);
 			$checkgallery = $common->getrecord('pr_galleries','*',$conditions) ;
@@ -283,15 +266,10 @@ if(isset($_POST['submit']))
 			</select>
 			<div style="clear:both"></div>
 			<div id="filerowsdiv">
-				<label style="padding-left:8px;">Web File Photo</label> ( Best size 1200*800 )<br/>
+				<label style="padding-left:8px;">Photo</label> ( Best size 1200*800 )<br/>
 				 <?php /*Maximum uploaded pictures size should be less than 10mb at once*/ ?>
 				<div style="clear:both; height:10px;"></div>
 				<input type="file" name="webfile[]" id="filer_input2" multiple="multiple">
-				<div style="clear:both; height:10px;"></div>
-				<label style="padding-left:8px;">Print File Photo</label> ( Best size 1200*800 )<br/>
-				 <?php /*Maximum uploaded pictures size should be less than 10mb at once*/ ?>
-				<div style="clear:both; height:10px;"></div>
-				<input type="file" name="printfile[]" id="filer_input3" multiple="multiple">
 			</div>
 			<div style="clear:both; height:20px;"></div>
 			<div style="float:left">
@@ -310,8 +288,6 @@ if(isset($_POST['submit']))
 			<div id="div">
 				<label style="padding-left:8px;">Web File Price in USD</label>
 				<input type="text" placeholder="Web File Price in $" name="webfileprice" value="" style="width:70%;" class="number_only" id="webfileprice" />				
-				<label style="padding-left:8px;">Print File Price in USD</label>
-				<input type="text" placeholder="Print File Price in $" name="printfileprice" value="" style="width:70%;" id="printfileprice" class="number_only"/>
 				<label style="padding-left:8px;">A3 Print File Price in USD</label>
 				<input type="" placeholder="A3 Print File Price in $" name="printfilepricea3" value="" style="width:70%;" id="printfilepricea3" class="number_only"/>
 				<label style="padding-left:8px;">A4 Print File Price in USD</label>
@@ -445,7 +421,6 @@ $(document).ready(function(){
 			
 			$("#div").hide();
 			$("#webfileprice").val('0.00');
-			$("#printfileprice").val('0.00');
 			$("#printfilepricea3").val('0.00');
 			$("#printfilepricea4").val('0.00');
 			$("#printfilepricea5").val('0.00');
@@ -457,7 +432,6 @@ $(document).ready(function(){
 			
 			$("#div").show();
 			$("#webfileprice").val('');
-			$("#printfileprice").val('');
 			$("#printfilepricea3").val('');
 			$("#printfilepricea4").val('');
 			$("#printfilepricea5").val('');

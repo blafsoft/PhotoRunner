@@ -189,36 +189,31 @@ if(!empty($_GET['email']))
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
-			<?php } ?>
-			<?php if($reviewcount == '1') { ?>
+			<?php } else if($reviewcount == '1') { ?>
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
-			<?php } ?>
-			<?php if($reviewcount == '2') { ?>
+			<?php } else if($reviewcount == '2') { ?>
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
-			<?php } ?>
-			<?php if($reviewcount == '3') { ?>
+			<?php } else if($reviewcount == '3') { ?>
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
-			<?php } ?>
-			<?php if($reviewcount == '4') { ?>
+			<?php } else if($reviewcount == '4') { ?>
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
-			<?php } ?>
-			<?php if($reviewcount == '5') { ?>
+			<?php } else if($reviewcount == '5') { ?>
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />

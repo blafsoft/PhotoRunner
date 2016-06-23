@@ -154,11 +154,13 @@ class Cl_Common extends Cl_Messages
 			$state = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['state'], ENT_QUOTES ));
 			$city = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['city'], ENT_QUOTES ));
 			$zip_code = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['zip_code'], ENT_QUOTES ));
+			/*
 			if(empty($_SESSION['6_letters_code'] ) || strcasecmp($_SESSION['6_letters_code'], $_POST['6_letters_code']) != 0)
 			{
 				parent::add('e', 'Code Not Matched');	
 				return false;
 			}
+			*/
 
 if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstname)) || (empty($lastname)) || (empty($business_name)) || (empty($phone_number)) || (empty($country)) || (empty($state)) || (empty($city)) || (empty($zip_code)) || (empty($bankname)) || (empty($owner_name)) || (empty($banknumber))) 
 			{	
@@ -345,16 +347,19 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 
 	public function sendemail( $email, $subject, $message )
 	{
-		echo 'lager sesclient '.$email;
-		echo 'tester '.$subject;
-		echo 'tester2 '.$message;
+		if( !empty( $email ) && !empty( $subject ) && !empty( $message ) )
+		{
 
-		$profile = 'default';
-		$path = '/home/ubuntu/.aws/credentials';
-		$provider = CredentialProvider::ini($profile, $path);
-		$provider = CredentialProvider::memoize($provider);
-
-		$client = SesClient::factory(array(
+			if ($this->is_email( $email))
+			{
+				$email = mysqli_real_escape_string( $this->_con, $email);
+			}
+			else
+			{
+				parent::add('e', 'Please enter a valid email address!');
+				return false;
+			}
+			$client = SesClient::factory(array(
 			'credentials' => [
 				'key'    => 'AKIAJSP57LI6NF4NDFFQ',
 				'secret' => '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'
@@ -394,35 +399,13 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 			),
 			'SourceArn' => 'arn:aws:ses:eu-west-1:567219455324:identity/post@photorunner.no'
 		));
-
-		/*
-		if( !empty( $email ) && !empty( $subject ) && !empty( $message ) )
-		{
-
-			if ($this->is_email( $email)) 
-			{
-				$email = mysqli_real_escape_string( $this->_con, $email);
-			} 
-			else 
-			{				
-				parent::add('e', 'Please enter a valid email address!');
-				return false;
-			}
-			
-			$headers  = 'MIME-Version: 1.0' . "\r\n";
-			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-
-			$headers .= 'From: '.APP_NAME.' <'.ADMIN_EMAIL.'>' . "\r\n";
-			mail($email, $subject, $message, $headers);
-			return true;
-			
-		} 
+		return true;
+		}
 		else
 		{
-			parent::add('e', '(*) Fields are required ...');	
+			parent::add('e', '(*) Fields are required.');
 			return false;
 		}
-		*/
 	}
 	
 	public function personal( $postdata )
@@ -1130,342 +1113,65 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 		}
 	}
 
-	public function addphoto( $data, $filesdata )
+
+	public function addphoto( $data, $filesdata)
 	{
-		if(!empty( $data ) )
+		$trimmed_data = $data;
+		$name = mysqli_real_escape_string( $this->_con, $trimmed_data['name'] );
+		$category = mysqli_real_escape_string( $this->_con, $trimmed_data['category'] );
+		$gallery = mysqli_real_escape_string( $this->_con, $trimmed_data['gallery'] );
+		$webfileprice = mysqli_real_escape_string( $this->_con, $trimmed_data['webfileprice'] );
+		$printfilepricea3 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea3'] );
+		$printfilepricea4 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea4'] );
+		$printfilepricea5 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea5'] );
+
+		if(empty( $data ) || empty($name) || empty($category) || empty($gallery))
 		{
-			$trimmed_data = $data;
-			$name = mysqli_real_escape_string( $this->_con, $trimmed_data['name'] );
-			$category = mysqli_real_escape_string( $this->_con, $trimmed_data['category'] );
-			$gallery = mysqli_real_escape_string( $this->_con, $trimmed_data['gallery'] );
-			$webfileprice = mysqli_real_escape_string( $this->_con, $trimmed_data['webfileprice'] );
-			$printfileprice = mysqli_real_escape_string( $this->_con, $trimmed_data['printfileprice'] );
-			if(!empty($name) && !empty($category) && !empty($gallery) && !empty($webfileprice) && !empty($printfileprice))   
-			{
-				if(!empty($filesdata['webfile']['name']))
-				{
-					$validextensions = array("jpeg", "jpg", "png", "gif", "ani", "bmp", "cal", "fax", "img", "jbg", "jpe", "tiff", "mac", "pbm", "pcd", "pct", "pgm", "ppm");
-					$ext = explode('.', basename($filesdata['webfile']['name']));
-					$file_extension = end($ext);
-					$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
-					$file_target_path = APP_ROOT."uploads/photos/real/" . $filename;  
-					$file_target_path3 = APP_ROOT."uploads/photos/watermark/" . $filename; 
-					$file_target_path4 = APP_ROOT."uploads/photos/bigwatermark/" . $filename; 
-
-					if(in_array($file_extension, $validextensions)) 
-					{
-
- 						if (move_uploaded_file($_FILES['webfile']['tmp_name'], $file_target_path)) 
-						{ 
-
-							$this->watermark_image($file_target_path, $file_target_path3);
-							$this->watermark_image2($file_target_path, $file_target_path4);
-
-		
-							if(!empty($filesdata['printfile']['name']))
-							{
-								$ext1 = explode('.', basename($filesdata['printfile']['name']));
-								$file_extension1 = end($ext1);
-								$filename1 = md5(uniqid()) . "." . $ext1[count($ext1) - 1];
-								$file_target_path1 = APP_ROOT."uploads/photos/real/" . $filename1;  
-								
-								if(in_array($file_extension1, $validextensions)) 
-								{
-									if (move_uploaded_file($_FILES['printfile']['tmp_name'], $file_target_path1)) 
-									{
-										$entered = @date('Y-m-d H:i:s');
-										$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',printfile ='".$filename1."',webfileprice ='".$webfileprice."',printfileprice ='".$printfileprice."',date ='".$entered."'";
-										if(mysqli_query($this->_con, $query))
-										{
-											parent::add('s', 'Photo Info has been added successfully.');	
-											return true;
-										}
-									}
-								}
-								else
-								{
-									parent::add('e', 'Something went wrong. Please try again');	
-									return false;
-								}
-							}
-							else
-							{
-								parent::add('e', 'Please upload valid file extension and size.1');	
-								return false;
-							}
-						}
-						else
-						{
-echo 222; exit;
-							parent::add('e', 'Something went wrong. Please try again');	
-							return false;
-						}
-					}
-					else
-					{
-						parent::add('e', 'Please upload valid file extension and size.2');	
-						return false;
-					}
-				}
-				else
-				{
-					parent::add('e', '(*)All Fields are required.');	
-					return false;
-				}
-			}
-			else
-			{
-				parent::add('e', '(*)All Fields are required.');	
-				return false;
-			}	
-		} 
-		else
-		{
-			parent::add('e', '(*)All Fields are required.');	
+			parent::add('e', '(*)All Fields are required.');
 			return false;
 		}
-	}
 
-
-
-	public function addphoto1( $data, $filesdata,  $filesdate)
-	{
-		if(!empty( $data ) )
-		{
-			$trimmed_data = $data;
-			$webfile = $filesdata;
-			$printfile = $filesdate;
-			$name = mysqli_real_escape_string( $this->_con, $trimmed_data['name'] );
-			$category = mysqli_real_escape_string( $this->_con, $trimmed_data['category'] );
-			$gallery = mysqli_real_escape_string( $this->_con, $trimmed_data['gallery'] );
-			$webfileprice = mysqli_real_escape_string( $this->_con, $trimmed_data['webfileprice'] );
-			$printfileprice = mysqli_real_escape_string( $this->_con, $trimmed_data['printfileprice'] );
-			$printfilepricea3 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea3'] );
-			$printfilepricea4 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea4'] );
-			$printfilepricea5 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea5'] );
-			if(!empty($name) && !empty($category) && !empty($gallery))   
-			{
-				if(!empty($webfile['name']))
-				{
-					$validextensions = array("jpeg", "jpg", "png", "gif");
-					$ext = explode('.', basename($webfile['name']));
-					$file_extension = end($ext);
-					$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
-					$file_target_path = APP_ROOT."uploads/photos/real/" . $filename;  
-					$file_target_path3 = APP_ROOT."uploads/photos/watermark/" . $filename; 
-					$file_target_path4 = APP_ROOT."uploads/photos/bigwatermark/" . $filename; 
-
-					if(in_array($file_extension, $validextensions)) 
-					{
-
- 						if (move_uploaded_file($webfile['tmp_name'], $file_target_path)) 
-						{ 
-							if($file_extension == 'jpeg')
-							{
-								$this->watermark_image($file_target_path, $file_target_path3);
-								$this->watermark_image2($file_target_path, $file_target_path4);
-							}
-							if($file_extension == 'jpg')
-							{
-								$this->watermark_image($file_target_path, $file_target_path3);
-								$this->watermark_image2($file_target_path, $file_target_path4);
-							}
-							if($file_extension == 'png')
-							{
-								$this->watermark_image3($file_target_path, $file_target_path3);
-								$this->watermark_image4($file_target_path, $file_target_path4);
-							}
-							if($file_extension == 'gif')
-							{
-								$this->watermark_image5($file_target_path, $file_target_path3);
-								$this->watermark_image6($file_target_path, $file_target_path4);
-							}
-
-		
-							if(!empty($printfile['name']))
-							{
-								$ext1 = explode('.', basename($printfile['name']));
-								$file_extension1 = end($ext1);
-								$filename1 = md5(uniqid()) . "." . $ext1[count($ext1) - 1];
-								$file_target_path1 = APP_ROOT."uploads/photos/real/" . $filename1;  
-								
-								if(in_array($file_extension, $validextensions)) 
-								{
-									if (move_uploaded_file($printfile['tmp_name'], $file_target_path1)) 
-									{
-										$entered = @date('Y-m-d H:i:s');
-										$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',printfile ='".$filename1."',webfileprice ='".$webfileprice."',printfileprice ='".$printfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."',date ='".$entered."'";
-										mysqli_query($this->_con, $query);
-									}
-								}
-								else
-								{
-									parent::add('e', 'Something went wrong. Please try again');	
-									return false;
-								}
-							}
-							else
-							{
-								parent::add('e', 'Please upload valid file extension and size.2');	
-								return false;
-							}
-						}
-						else
-						{
-							parent::add('e', 'Something went wrong. Please try again');	
-							return false;
-						}
-					}
-					else
-					{
-						parent::add('e', 'Please upload valid file extension and size.');	
-						return false;
-					}
-				}
-				else
-				{
-					parent::add('e', '(*)All Fields are required2.');	
-					return false;
-				}
-			}
-			else
-			{
-				parent::add('e', '(*)All Fields are required3.');	
-				return false;
-			}	
-		} 
-		else
-		{
-			parent::add('e', '(*)All Fields are required4.');	
+		if(empty($filesdata['name'])){
+			parent::add('e', 'Please upload valid file.');
 			return false;
 		}
-	}
 
+		$validextensions = array("jpeg", "jpg", "png", "gif");
+		$ext = explode('.', basename($filesdata['name']));
+		$file_extension = strtolower(end($ext));
+		$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
+		$file_target_path = APP_ROOT."uploads/photos/real/" . $filename;
+		$file_target_path3 = APP_ROOT."uploads/photos/watermark/" . $filename;
+		$file_target_path4 = APP_ROOT."uploads/photos/bigwatermark/" . $filename;
+
+		if(!in_array($file_extension, $validextensions)) {
+			parent::add('e', 'Something went wrong. Please try again');
+			return false;
+		}
+
+		if (!move_uploaded_file($filesdata['tmp_name'], $file_target_path)) {
+			parent::add('e', 'Something went wrong with fileupload. Please try again');
+			return false;
+		}
+
+		if($file_extension == 'jpeg' || $file_extension == 'jpg') {
+			$this->watermark_image($file_target_path, $file_target_path3);
+			$this->watermark_image2($file_target_path, $file_target_path4);
+		} else if($file_extension == 'png') {
+			$this->watermark_image3($file_target_path, $file_target_path3);
+			$this->watermark_image4($file_target_path, $file_target_path4);
+		} else if($file_extension == 'gif') {
+			$this->watermark_image5($file_target_path, $file_target_path3);
+			$this->watermark_image6($file_target_path, $file_target_path4);
+		}
+
+		$entered = @date('Y-m-d H:i:s');
+		$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."',date ='".$entered."'";
+		mysqli_query($this->_con, $query);
+	}
 	
-
-
-	public function addphoto5( $data, $filesdata,  $filesdate)
-	{
-		if(!empty( $data ) )
-		{
-			$trimmed_data = $data;
-			$webfile = $filesdata;
-			$printfile = $filesdate;
-			$name = mysqli_real_escape_string( $this->_con, $trimmed_data['name'] );
-			$category = mysqli_real_escape_string( $this->_con, $trimmed_data['category'] );
-			$gallery = mysqli_real_escape_string( $this->_con, $trimmed_data['gallery'] );
-			$webfileprice = mysqli_real_escape_string( $this->_con, $trimmed_data['webfileprice'] );
-			$printfileprice = mysqli_real_escape_string( $this->_con, $trimmed_data['printfileprice'] );
-			$printfilepricea3 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea3'] );
-			$printfilepricea4 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea4'] );
-			$printfilepricea5 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea5'] );
-			if(!empty($name) && !empty($category) && !empty($gallery))   
-			{
-				if(!empty($webfile['name']))
-				{
-					$validextensions = array("jpeg", "jpg", "png", "gif");
-					$ext = explode('.', basename($webfile['name']));
-					$file_extension = end($ext);
-					$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
-					$file_target_path = APP_ROOT."uploads/photos/real/" . $filename;  
-					$file_target_path3 = APP_ROOT."uploads/photos/watermark/" . $filename; 
-					$file_target_path4 = APP_ROOT."uploads/photos/bigwatermark/" . $filename; 
-
-					if(in_array($file_extension, $validextensions)) 
-					{
-
- 						if (move_uploaded_file($webfile['tmp_name'], $file_target_path)) 
-						{ 
-							if($file_extension == 'jpeg')
-							{
-								$this->watermark_image($file_target_path, $file_target_path3);
-								$this->watermark_image2($file_target_path, $file_target_path4);
-							}
-							if($file_extension == 'jpg')
-							{
-								$this->watermark_image($file_target_path, $file_target_path3);
-								$this->watermark_image2($file_target_path, $file_target_path4);
-							}
-							if($file_extension == 'png')
-							{
-								$this->watermark_image3($file_target_path, $file_target_path3);
-								$this->watermark_image4($file_target_path, $file_target_path4);
-							}
-							if($file_extension == 'gif')
-							{
-								$this->watermark_image5($file_target_path, $file_target_path3);
-								$this->watermark_image6($file_target_path, $file_target_path4);
-							}
-
-		
-							if(!empty($printfile['name']))
-							{
-								$ext1 = explode('.', basename($printfile['name']));
-								$file_extension1 = end($ext1);
-								$filename1 = md5(uniqid()) . "." . $ext1[count($ext1) - 1];
-								$file_target_path1 = APP_ROOT."uploads/photos/real/" . $filename1;  
-								
-								if(in_array($file_extension1, $validextensions)) 
-								{
-									if (move_uploaded_file($printfile['tmp_name'], $file_target_path1)) 
-									{
-										$entered = @date('Y-m-d H:i:s');
-										$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',printfile ='".$filename1."',webfileprice ='".$webfileprice."',printfileprice ='".$printfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."',date ='".$entered."'";
-										if(mysqli_query($this->_con, $query))
-										{
-											$lastid = mysqli_insert_id($this->_con);
-											return $lastid;
-										}
-									}
-								}
-								else
-								{
-									parent::add('e', 'Something went wrong. Please try again');	
-									return false;
-								}
-							}
-							else
-							{
-								parent::add('e', 'Please upload valid file extension and size.2');	
-								return false;
-							}
-						}
-						else
-						{
-							parent::add('e', 'Something went wrong. Please try again');	
-							return false;
-						}
-					}
-					else
-					{
-						parent::add('e', 'Please upload valid file extension and size.1');	
-						return false;
-					}
-				}
-				else
-				{
-					parent::add('e', '(*)All Fields are required2.');	
-					return false;
-				}
-			}
-			else
-			{
-				parent::add('e', '(*)All Fields are required3.');	
-				return false;
-			}	
-		} 
-		else
-		{
-			parent::add('e', '(*)All Fields are required4.');	
-			return false;
-		}
-	}
-
-
-
-
-
-
+	
+	
 	public function sentgallery($gallery, $email, $password)
 	{
 		$lastid = mysqli_insert_id($this->_con);

@@ -7,6 +7,8 @@ define( 'DB_USERNAME', 'anaadit');
 define( 'DB_PASSWORD', 'L@rryCP14');
 define( 'DB_NAME', 'db_photorunner');*/
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 define( 'DB_HOST', 'photorunner.mysql.domeneshop.no' );
 define( 'DB_USERNAME', 'photorunner');
@@ -35,4 +37,5 @@ require_once(APP_ROOT.'include/aws-autoloader.php');
 
 $msgs  = new Cl_Messages();
 $common  = new Cl_Common();
+
 ?>
