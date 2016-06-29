@@ -14,13 +14,14 @@
 				<span class="evlop"><i class="fa  fa-envelope"></i>
 				<?php echo html_entity_decode($home->email); ?><span>
 			</div>
+			<?php $cart = !empty($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>
 			<div class="col-md-6" class="mediaa_soc" style="padding-right:0px">
 				<ul class="media_socila">
 					<?php if(!empty($_SESSION['guast']['email'])) { ?>
 					<li style="font-weight:bold;font-size: 15px;font-weight: bold;"><a href="<?php echo APP_URL; ?>success.php" style="color:#333;text-decoration:none;">My Purchase List</a></li>
-					<li style="font-weight:bold;font-size: 15px;font-weight: bold;"><a href="<?php echo APP_URL; ?>guast-payment.php" style="color:#333;text-decoration:none;">Your Cart (<?php echo count($_SESSION['cart']);?>)</a></li>
+					<li style="font-weight:bold;font-size: 15px;font-weight: bold;"><a href="<?php echo APP_URL; ?>guast-payment.php" style="color:#333;text-decoration:none;">Your Cart (<?php echo $cart; ?>)</a></li>
 					<?php }else{ ?>
-					<li style="font-weight:bold;font-size: 15px;font-weight: bold;"><a href="<?php echo APP_URL; ?>payment.php" style="color:#333;text-decoration:none;">Your Cart (<?php echo count($_SESSION['cart']);?>)</a></li>
+					<li style="font-weight:bold;font-size: 15px;font-weight: bold;"><a href="<?php echo APP_URL; ?>payment.php" style="color:#333;text-decoration:none;">Your Cart (<?php echo $cart;?>)</a></li>
 					<?php } ?>
 				<?php				
 				$conditions =array('status'=>'1');						

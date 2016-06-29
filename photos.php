@@ -157,7 +157,7 @@ else
 
 
 
-													<h4 style="width:90%; margin:auto;"><a href="view-photo.php?view=<?php echo base64_encode($photo->id); ?>" style="color:#fff;"><?php echo $photo->name; ?></a></h4>
+														<h4 style="width:90%; margin:auto;"><a href="view-photo.php?view=<?php echo base64_encode($photo->id); ?>" style="color:#fff;"><?php echo $photo->name; ?></a></h4>
 													<a href="view-photo.php?view=<?php echo base64_encode($photo->id); ?>" ><h4 class="log_bg" style="color:#fff; width:50%; background-color:#ed4e6e; margin-left:auto; margin-right:auto; margin-top:15px; border-radius:0px;"><center>Click</center></h4></a>
 
 

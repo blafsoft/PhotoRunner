@@ -101,20 +101,12 @@ if(isset($_GET['id']) && !empty($_GET['id']))
 			<input type="file" name="webfile" id="file-7" class="inputfile inputfile-6" style="width:70%;" />
 			<label for="file-7" id="tabfile-7" style="float:left;"><span><?php ?></span> <strong><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> Choose a file&hellip;</strong></label> <?php if(isset($photo->webfile) && !empty($photo->webfile)) { ?><img src="<?php echo APP_URL; ?>uploads/photos/real/<?php echo $photo->webfile; ?>" style="float: left; height: 44px; margin-left: 10px;"><input type="hidden" name="oldwebfile" value="<?php echo $photo->webfile; ?>" /> <?php } ?>
 			<div style="clear:both">&nbsp;</div>
-			<label style="padding-left:8px;">Print File Photo</label><br/>
-			<input type="file" name="printfile" id="file-8" class="inputfile inputfile-6" style="width:70%;" />
-			<label for="file-8" id="tabfile-8" style="float:left;"><span></span> <strong><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> Choose a file&hellip;</strong></label> <?php if(isset($photo->printfile) && !empty($photo->printfile)) { ?><img src="<?php echo APP_URL; ?>uploads/photos/real/<?php echo $photo->printfile; ?>" style="float: left; height: 44px; margin-left: 10px;"><input type="hidden" name="oldprintfile" value="<?php echo $photo->printfile; ?>" /> <?php } ?>
-			<div style="clear:both">&nbsp;</div>
 			<h2>Set Price</h2>
 
 
 
 			<label style="padding-left:8px;">Web File Price in USD</label>
 			<input type="text" placeholder="Price Web File" name="webfileprice" value="<?php if(isset($photo->webfileprice) && !empty($photo->webfileprice)) { echo $photo->webfileprice; } ?>" style="width:70%;" class="number_only"/>
-
-				
-			<label style="padding-left:8px;">Print File Price in USD</label>
-			<input type="text" placeholder="Print File Price" name="printfileprice" value="<?php if(isset($photo->printfileprice) && !empty($photo->printfileprice)) { echo $photo->printfileprice; } ?>" style="width:70%;" class="number_only"/>
 
 			<label style="padding-left:8px;">A3 Print File Price in USD</label>
 			<input type="text" placeholder="Print File Price" name="printfilepricea3" value="<?php if(isset($photo->printfilepricea3) && !empty($photo->printfilepricea3)) { echo $photo->printfilepricea3; } ?>" style="width:70%;" class="number_only"/>

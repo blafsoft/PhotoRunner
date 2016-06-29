@@ -113,11 +113,11 @@ if(!empty($_GET['email']))
 					<div class="demo-3">
 						<ul class="grid cs-style-3" style="padding: 0px 0px 0px;">
 							<li style="padding: 0px; border-bottom:35px solid #fff; border-top:15px solid #fff; border-left:5px solid #fff; border-right:5px solid #fff;" class="full_width_image">
-								<?php if($_SESSION['gallery']['id'] == $gallery->id) { ?>
+								<?php if(!empty($_SESSION['gallery']) && $_SESSION['gallery']['id'] == $gallery->id) { ?>
 								<figure>
 									<div class="tj_wrapper">
 										<ul class="tj_gallery" style="margin-bottom: -5px;">
-											<li style="list-style:none; width:100%;"><a href="photos.php?gallery=<?php echo base64_encode($gallery->id); ?>&&lock=unlock"><img src="<?php echo APP_URL; ?>uploads/galleries/<?php echo $gallery->image; ?>" style="width:100%; min-height:200px; max-height:200px;" alt="img06"></a></li>
+											<li style="list-style:none; width:100%;"><a href="photos.php?gallery=<?php echo base64_encode($gallery->id); ?>&&lock=unlock"><img src="<?php echo WATERMARK_IMAGE . $gallery->image; ?>" style="width:100%; min-height:200px; max-height:200px;" alt="img06"></a></li>
 										</ul>
 									</div>
 									<figcaption>
@@ -130,9 +130,9 @@ if(!empty($_GET['email']))
 									<div class="tj_wrapper">
 										<ul class="tj_gallery" style="margin-bottom: -5px;">
 										<?php if(empty($gallery->password)) { ?>
-											<li style="list-style:none; width:100%;"><a href="photos.php?gallery=<?php echo base64_encode($gallery->id); ?>"><img src="<?php echo APP_URL; ?>uploads/galleries/<?php echo $gallery->image; ?>" style="width:100%; min-height:200px; max-height:200px;" alt="img06"></a></li>
+											<li style="list-style:none; width:100%;"><a href="photos.php?gallery=<?php echo base64_encode($gallery->id); ?>"><img src="<?php echo WATERMARK_IMAGE . $gallery->image; ?>" style="width:100%; min-height:200px; max-height:200px;" alt="img06"></a></li>
 										<?php }else{ ?>
-											<li style="list-style:none; width:100%;"><a class="fancybox" href="#inline<?php echo $gallery->id; ?>"><img src="<?php echo APP_URL; ?>uploads/galleries/<?php echo $gallery->image; ?>" style="width:100%; min-height:200px; max-height:200px;" alt="img06"></a></li>
+											<li style="list-style:none; width:100%;"><a class="fancybox" href="#inline<?php echo $gallery->id; ?>"><img src="<?php echo WATERMARK_IMAGE . 	$gallery->image; ?>" style="width:100%; min-height:200px; max-height:200px;" alt="img06"></a></li>
 												<div id="inline<?php echo $gallery->id; ?>" style="width:98%; display: none; margin:auto; padding-top:15px;">
 													<form action="galleries.php" method="get">
 														<div style="font-weight:bold; padding-bottom:5px;">To unlock gallery Enter secure password</div>

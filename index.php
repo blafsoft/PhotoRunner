@@ -6,7 +6,7 @@
 </head>
 <body>
 	<?php include('include/header.php'); ?>
-<div class="banner" style="background: url(../uploads/<?php echo $home->image2; ?>) no-repeat 0px 0px;background-size:cover;
+<div class="banner" style="background: url(<?php echo APP_URL?>images/forside_bakgrunn.jpg) no-repeat 0px 0px;background-size:cover;
 -webkit-background-size: cover;
 -o-background-size: cover;
 -ms-background-size: cover;
@@ -53,7 +53,7 @@ min-height: 475px;">
 		<h3 class="tittle">"<?php echo html_entity_decode($home->facilitiesheading); ?>"</h3> 	
 		<div class="col-md-8 no-pading">
 			<div class="view view-seventh" >
-				<a href="photos.php" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="uploads/<?php echo $home->image3; ?>" alt="" style="min-height:240px;max-height:240px;" >
+				<a href="photos.php" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="<?php echo DESIGN_IMAGE . $home->image3; ?>" alt="" style="min-height:240px;max-height:240px;" >
 					<div class="mask">
 						<h4>PHOTORUNNER</h4>
 						<p><?php echo html_entity_decode($home->firstdescription); ?></p>
@@ -61,7 +61,7 @@ min-height: 475px;">
 				</a>
 			</div>
 			<div class="view view-seventh">
-				<a href="photos.php" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="uploads/<?php echo $home->image4; ?>" alt="" style="min-height:240px;max-height:240px;">
+				<a href="photos.php" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="<?php echo DESIGN_IMAGE . $home->image4; ?>" alt="" style="min-height:240px;max-height:240px;">
 					<div class="mask">
 						<h4>PHOTORUNNER</h4>
 						<p><?php echo html_entity_decode($home->seconddescription); ?></p>
@@ -69,7 +69,7 @@ min-height: 475px;">
 				</a>
 			</div>
 			<div class="view view-seventh">
-				<a href="photos.php" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="uploads/<?php echo $home->image5; ?>" alt="" style="min-height:240px;max-height:240px;">
+				<a href="photos.php" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="<?php echo DESIGN_IMAGE . $home->image5; ?>" alt="" style="min-height:240px;max-height:240px;">
 					<div class="mask">
 						<h4>PHOTORUNNER</h4>
 						<p><?php echo html_entity_decode($home->thirddescription); ?></p>
@@ -77,7 +77,7 @@ min-height: 475px;">
 				</a>
 			</div>
 			<div class="view view-seventh">
-				<a href="photos.php" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="uploads/<?php echo $home->image6; ?>" alt="" style="min-height:240px;max-height:240px;">
+				<a href="photos.php" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="<?php echo DESIGN_IMAGE . $home->image6; ?>" alt="" style="min-height:240px;max-height:240px;">
 					<div class="mask">
 						<h4>PHOTORUNNER</h4>
 						<p><?php echo html_entity_decode($home->fourthdescription); ?></p>
@@ -87,7 +87,7 @@ min-height: 475px;">
 		</div>
 		<div class="col-md-4 no-pading">
 			<div class="view view-seventh" style="width:100%">
-				<a href="photos.php" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="uploads/<?php echo $home->image7; ?>" alt=""style="min-height:520px;max-height:520px;">
+				<a href="photos.php" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="<?php echo DESIGN_IMAGE . $home->image7; ?>" alt=""style="min-height:520px;max-height:520px;">
 					<div class="mask">
 						<h4>PHOTORUNNER</h4>
 						<p><?php echo html_entity_decode($home->fifthdescription); ?></p>                        
@@ -136,28 +136,28 @@ min-height: 475px;">
 	<div class="container">
 		<div class="col-md-6 no-pading">
 			<div class="view view-seventh">
-				<a href="" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="uploads/<?php echo $home->image12; ?>" alt="" style="min-height:150px;max-height:150px;">
+				<a href="" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="<?php echo DESIGN_IMAGE . $home->image12; ?>" alt="" style="min-height:150px;max-height:150px;">
 					<div class="mask">
 						<h4>PHOTORUNNER</h4>
 					</div>
 				</a>
 			</div>
 			<div class="view view-seventh">
-				<a href="" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="uploads/<?php echo $home->image13; ?>" alt="" style="min-height:150px;max-height:150px;" >
+				<a href="" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="<?php echo DESIGN_IMAGE . $home->image13; ?>" alt="" style="min-height:150px;max-height:150px;" >
 					<div class="mask">
 						<h4>PHOTORUNNER</h4>
 					</div>
 				</a>
 			</div>
 			<div class="view view-seventh">
-				<a href="" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="uploads/<?php echo $home->image14; ?>" alt="" style="min-height:150px;max-height:150px;">
+				<a href="" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="<?php echo DESIGN_IMAGE . $home->image14; ?>" alt="" style="min-height:150px;max-height:150px;">
 					<div class="mask">
 						<h4>PHOTORUNNER</h4>
 					</div>
 				</a>
 			</div>
 			<div class="view view-seventh">
-				<a href="" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="uploads/<?php echo $home->image15; ?>" alt="" style="min-height:150px;max-height:150px;">
+				<a href="" class="b-link-stripe b-animate-go  swipebox"  title="Image Title"><img src="<?php echo DESIGN_IMAGE . $home->image15; ?>" alt="" style="min-height:150px;max-height:150px;">
 					<div class="mask">
 						<h4>PHOTORUNNER</h4>
 					</div>

@@ -309,7 +309,7 @@ if(!empty($_GET['email']))
 	<div class="">
 		<div class="col-md-6 no-pading" style="padding-top:15px;">
 			<div class="row">
-				<img src="<?php echo APP_URL; ?>uploads/photos/bigwatermark/<?php echo $view->webfile; ?>"id="img" alt="Curious Bino" class="img-thumbnail"> </div>
+				<img src="<?php echo BIGWATERMARK_IMAGE . $view->webfile; ?>"id="img" alt="Curious Bino" class="img-thumbnail"> </div>
 			<div style="float:left; padding:5px; font-weight:bold;">Photo Id : <?php echo $view->id; ?>,</div>
 			<?php
 			$date1 = $view->date;
@@ -554,7 +554,7 @@ if(!empty($_GET['email']))
 				{
 					?>
 					<div style="padding-left:10px; padding-right:10px; width:33%; float:left">
-						<a href="view-photo.php?view=<?php echo base64_encode($list->id); ?>"><img src="uploads/photos/watermark/<?php echo $list->webfile; ?>" style="width:100%;"/></a>
+						<a href="view-photo.php?view=<?php echo base64_encode($list->id); ?>"><img src="<?php echo WATERMARK_IMAGE . $list->webfile; ?>" style="width:100%;"/></a>
 						<?php 
 						if($list->webfileprice == '0.00')
 						{

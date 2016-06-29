@@ -1114,7 +1114,7 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 	}
 
 
-	public function addphoto( $data, $filesdata)
+	public function addphoto( $data, $filesdata, $update = false)
 	{
 		$trimmed_data = $data;
 		$name = mysqli_real_escape_string( $this->_con, $trimmed_data['name'] );
@@ -1140,33 +1140,39 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 		$ext = explode('.', basename($filesdata['name']));
 		$file_extension = strtolower(end($ext));
 		$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
-		$file_target_path = APP_ROOT."uploads/photos/real/" . $filename;
-		$file_target_path3 = APP_ROOT."uploads/photos/watermark/" . $filename;
-		$file_target_path4 = APP_ROOT."uploads/photos/bigwatermark/" . $filename;
+		$real_path = REAL_IMAGE . $filename;
+		$watermark_path = WATERMARK_IMAGE . $filename;
+		$bigwatermark_path = BIG_WATERMARK . $filename;
 
 		if(!in_array($file_extension, $validextensions)) {
 			parent::add('e', 'Something went wrong. Please try again');
 			return false;
 		}
 
-		if (!move_uploaded_file($filesdata['tmp_name'], $file_target_path)) {
+		if (!move_uploaded_file($filesdata['tmp_name'], $real_path)) {
 			parent::add('e', 'Something went wrong with fileupload. Please try again');
 			return false;
 		}
 
 		if($file_extension == 'jpeg' || $file_extension == 'jpg') {
-			$this->watermark_image($file_target_path, $file_target_path3);
-			$this->watermark_image2($file_target_path, $file_target_path4);
+			$this->watermark_jpg($real_path, $watermark_path);
+			$this->big_watermark_jpg($real_path, $bigwatermark_path);
 		} else if($file_extension == 'png') {
-			$this->watermark_image3($file_target_path, $file_target_path3);
-			$this->watermark_image4($file_target_path, $file_target_path4);
+			$this->watermark_png($real_path, $watermark_path);
+			$this->big_watermark_png($real_path, $bigwatermark_path);
 		} else if($file_extension == 'gif') {
-			$this->watermark_image5($file_target_path, $file_target_path3);
-			$this->watermark_image6($file_target_path, $file_target_path4);
+			$this->watermark_gif($real_path, $watermark_path);
+			$this->big_watermark_gif($real_path, $bigwatermark_path);
 		}
 
 		$entered = @date('Y-m-d H:i:s');
-		$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."',date ='".$entered."'";
+		
+		if($update == true){
+			$query = "UPDATE pr_photos SET name = '".$name."', category='".$category."',gallery='".$gallery."', $files webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."' WHERE id = '".base64_decode($_GET['id'])."' AND seller = '".$_SESSION['seller']['id']."'";
+		} else {
+			$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."',date ='".$entered."'";
+		}
+			
 		mysqli_query($this->_con, $query);
 	}
 	
@@ -1218,7 +1224,7 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 
 
 
-	public function watermark_image($oldimage_name, $new_image_name)
+	public function watermark_jpg($oldimage_name, $new_image_name)
 	{
 		$image_path = APP_ROOT."images/logo.png";
 		list($owidth,$oheight) = getimagesize($oldimage_name);
@@ -1237,7 +1243,7 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 		return true;
 	}
 	
-	public function watermark_image2($oldimage_name, $new_image_name)
+	public function big_watermark_jpg($oldimage_name, $new_image_name)
 	{
 		$image_path = APP_ROOT."images/logo.png";
 		list($owidth,$oheight) = getimagesize($oldimage_name);
@@ -1256,7 +1262,7 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 		return true;
 	}
 
-	public function watermark_image3($oldimage_name, $new_image_name)
+	public function watermark_png($oldimage_name, $new_image_name)
 	{
 		$image_path = APP_ROOT."images/logo.png";
 		list($owidth,$oheight) = getimagesize($oldimage_name);
@@ -1275,7 +1281,7 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 		return true;
 	}
 	
-	public function watermark_image4($oldimage_name, $new_image_name)
+	public function big_watermark_png($oldimage_name, $new_image_name)
 	{
 		$image_path = APP_ROOT."images/logo.png";
 		list($owidth,$oheight) = getimagesize($oldimage_name);
@@ -1294,7 +1300,7 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 		return true;
 	}
 
-	public function watermark_image5($oldimage_name, $new_image_name)
+	public function watermark_gif($oldimage_name, $new_image_name)
 	{
 		$image_path = APP_ROOT."images/logo.png";
 		list($owidth,$oheight) = getimagesize($oldimage_name);
@@ -1313,7 +1319,7 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 		return true;
 	}
 	
-	public function watermark_image6($oldimage_name, $new_image_name)
+	public function big_watermark_gif($oldimage_name, $new_image_name)
 	{
 		$image_path = APP_ROOT."images/logo.png";
 		list($owidth,$oheight) = getimagesize($oldimage_name);
@@ -1354,9 +1360,9 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 					$ext = explode('.', basename($filesdata['webfile']['name']));
 					$file_extension = end($ext);
 					$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
-					$file_target_path = APP_ROOT."uploads/photos/real/" . $filename;  
-					$file_target_path3 = APP_ROOT."uploads/photos/watermark/" . $filename; 
-					$file_target_path4 = APP_ROOT."uploads/photos/bigwatermark/" . $filename;  
+					$file_target_path = REAL_IMAGE . $filename;  
+					$file_target_path3 = WATERMARK_IMAGE . $filename; 
+					$file_target_path4 = BIGWATERMARK_IMAGE . $filename;  
 					
 					if(in_array($file_extension, $validextensions)) 
 					{
@@ -1364,23 +1370,23 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 						{
 							if($file_extension == 'jpeg')
 							{
-								$this->watermark_image($file_target_path, $file_target_path3);
-								$this->watermark_image2($file_target_path, $file_target_path4);
+								$this->watermark_jpg($file_target_path, $file_target_path3);
+								$this->big_watermark_jpg($file_target_path, $file_target_path4);
 							}
 							if($file_extension == 'jpg')
 							{
-								$this->watermark_image($file_target_path, $file_target_path3);
-								$this->watermark_image2($file_target_path, $file_target_path4);
+								$this->watermark_jpg($file_target_path, $file_target_path3);
+								$this->big_watermark_jpg($file_target_path, $file_target_path4);
 							}
 							if($file_extension == 'png')
 							{
-								$this->watermark_image3($file_target_path, $file_target_path3);
-								$this->watermark_image4($file_target_path, $file_target_path4);
+								$this->watermark_png($file_target_path, $file_target_path3);
+								$this->big_watermark_png($file_target_path, $file_target_path4);
 							}
 							if($file_extension == 'gif')
 							{
-								$this->watermark_image5($file_target_path, $file_target_path3);
-								$this->watermark_image6($file_target_path, $file_target_path4);
+								$this->watermark_gif($file_target_path, $file_target_path3);
+								$this->big_watermark_gif($file_target_path, $file_target_path4);
 							}
 							@unlink(APP_ROOT."uploads/photos/real/" . $_POST['oldwebfile']);
 							@unlink(APP_ROOT."uploads/photos/watermark/" . $_POST['oldwebfile']);

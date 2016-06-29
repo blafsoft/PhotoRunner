@@ -5,15 +5,14 @@ include(APP_ROOT."include/check-login.php");
 if(isset($_POST['remove']))
 {
 	$photoconditions = array('id'=>$_POST['id']);
-	$photo = $common->getrecord('pr_photos','webfile,printfile',$photoconditions); 
+	$photo = $common->getrecord('pr_photos','webfile',$photoconditions); 
 	if(!empty($photo))
 	{
 
 		$common->deleterecords('pr_photos',$photoconditions);
-		@unlink("../uploads/photos/real/" . $photo->printfile);
-		@unlink("../uploads/photos/real/" . $photo->webfile);
-		@unlink("../uploads/photos/watermark/" . $photo->webfile);
-		@unlink("../uploads/photos/bigwatermark/" . $photo->webfile);
+		@unlink(REAL_IMAGE . $photo->webfile);
+		@unlink(WATERMARK_IMAGE . $photo->webfile);
+		@unlink(BIGWATERMARK_IMAGE . $photo->webfile);
 	}
 	$msgs->add('s', 'Photo has been removed successfully.');	
 	$common->redirect(APP_URL."photo.php");
