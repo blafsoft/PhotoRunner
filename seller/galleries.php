@@ -99,11 +99,11 @@ if(isset($_GET['act']) && $_GET['act'] == 'del')
 							<?php 
 							if(isset($gallery->image) && !empty($gallery->image))
 							{
-								?><img src="<?php echo APP_URL; ?>uploads/galleries/<?php echo $gallery->image; ?>" style="height:50px; width:90px;"><?php
+								?><img src="<?php echo GALLERY_IMAGE . $gallery->image; ?>" style="height:50px; width:90px;"><?php
 							}
 							else
 							{
-								?><img src="<?php echo APP_URL; ?>uploads/galleries/e9d82d70fd881fcc209395487d46b589.jpg" style="height:50px; width:90px;"><?php
+								?><img src="<?php echo GALLERY_IMAGER; ?>e9d82d70fd881fcc209395487d46b589.jpg" style="height:50px; width:90px;"><?php
 							}
 							?>
 							

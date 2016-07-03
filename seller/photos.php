@@ -79,7 +79,7 @@ if(isset($_GET['act']) && $_GET['act'] == 'del')
 							<?php 
 							if(isset($photos->webfile) && !empty($photos->webfile))
 							{
-								?><img src="<?php echo APP_URL; ?>uploads/photos/watermark/<?php echo $photos->webfile; ?>" style="height:50px;"><?php
+								?><img src="<?php echo WATERMARK_IMAGE . $photos->webfile; ?>" style="height:50px;"><?php
 							}
 							else
 							{

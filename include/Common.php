@@ -933,187 +933,46 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 		}
 	}
 
-	public function addgallery( $data, $filesdata )
+	public function addgallery( $data, $filesdata, $update = false)
 	{
-		if(!empty( $data ) )
-		{
-			$trimmed_data = $data;
-			$name = mysqli_real_escape_string( $this->_con, $trimmed_data['name'] );
-			$password = mysqli_real_escape_string( $this->_con, $trimmed_data['password'] );
-			if(!empty($filesdata['image']['name']))
-			{
-				$validextensions = array("jpeg", "jpg", "png", "gif");
-				$ext = explode('.', basename($filesdata['image']['name']));
-				$file_extension = end($ext);
-				$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
-				$file_target_path = APP_ROOT."uploads/galleries/" . $filename;  
-				
-				if(in_array($file_extension, $validextensions)) 
-				{
-					if (move_uploaded_file($_FILES['image']['tmp_name'], $file_target_path)) 
-					{
-						if($file_extension == 'jpeg')
-						{
-							$this->watermark_gallery1($file_target_path, $file_target_path);
-						}
-						if($file_extension == 'jpg')
-						{
-							$this->watermark_gallery1($file_target_path, $file_target_path);
-						}
-						if($file_extension == 'png')
-						{
-							$this->watermark_gallery2($file_target_path, $file_target_path);
-						}
-						if($file_extension == 'gif')
-						{
-							$this->watermark_gallery3($file_target_path, $file_target_path);
-						}
+		$trimmed_data = $data;
+		$name = mysqli_real_escape_string( $this->_con, $trimmed_data['name'] );
+		$password = mysqli_real_escape_string( $this->_con, $trimmed_data['password'] );
 
-						$entered = @date('Y-m-d H:i:s');
-						$query = "INSERT INTO pr_galleries SET name = '".$name."',password = '".$password."', seller='".$_SESSION['seller']['id']."',image ='".$filename."',date ='".$entered."'";
-						if(mysqli_query($this->_con, $query))
-						{
-							parent::add('s', 'Gallery has been added successfully.');	
-							return true;
-						}
-					}
-				}
-			}
-			else
-			{
-				parent::add('e', '(*)All Fields are required.');	
-				return false;
-			}
-				
-		} 
-		else
-		{
-			parent::add('e', '(*)All Fields are required.');	
+		if(empty($filesdata['image']['name'])){
+			parent::add('e', 'Please upload valid file.');
 			return false;
 		}
-	}
-	public function watermark_gallery1($oldimage_name, $new_image_name)
-	{
-		$image_path = APP_ROOT."images/logo45.png";
-		list($owidth,$oheight) = getimagesize($oldimage_name);
-		$width = 500;  
-		$height = 400;  
-		$im = imagecreatetruecolor($width, $height);
-		$img_src = imagecreatefromjpeg($oldimage_name);
-		imagecopyresampled($im, $img_src, 0, 0, 0, 0, $width, $height, $owidth, $oheight);
-		$watermark = imagecreatefrompng($image_path);
-		list($w_width, $w_height) = getimagesize($image_path);        
-		$pos_x = 460 - $w_width; 
-		$pos_y = 220 - $w_height;
-		imagecopy($im, $watermark, $pos_x, $pos_y, 0, 0, $w_width, $w_height);
-		imagejpeg($im, $new_image_name);
-		imagedestroy($im);
-		return true;
-	}
 
-	public function watermark_gallery2($oldimage_name, $new_image_name)
-	{
-		$image_path = APP_ROOT."images/logo45.png";
-		list($owidth,$oheight) = getimagesize($oldimage_name);
-		$width = 500;  
-		$height = 400;  
-		$im = imagecreatetruecolor($width, $height);
-		$img_src = imagecreatefrompng($oldimage_name);
-		imagecopyresampled($im, $img_src, 0, 0, 0, 0, $width, $height, $owidth, $oheight);
-		$watermark = imagecreatefrompng($image_path);
-		list($w_width, $w_height) = getimagesize($image_path);        
-		$pos_x = 460 - $w_width; 
-		$pos_y = 220 - $w_height;
-		imagecopy($im, $watermark, $pos_x, $pos_y, 0, 0, $w_width, $w_height);
-		imagepng($im, $new_image_name);
-		imagedestroy($im);
-		return true;
-	}
+		$filename = $this->createUniqueFilename($filesdata['image']['name']);
+		if(empty($data) || empty($name) || empty($filename)){
+			parent::add('e', 'Please upload valid file.');
+			return false;
+		}
 
-	public function watermark_gallery3($oldimage_name, $new_image_name)
-	{
-		$image_path = APP_ROOT."images/logo.png";
-		list($owidth,$oheight) = getimagesize($oldimage_name);
-		$width = 500;  
-		$height = 400;  
-		$im = imagecreatetruecolor($width, $height);
-		$img_src = imagecreatefromgif($oldimage_name);
-		imagecopyresampled($im, $img_src, 0, 0, 0, 0, $width, $height, $owidth, $oheight);
-		$watermark = imagecreatefrompng($image_path);
-		list($w_width, $w_height) = getimagesize($image_path);        
-		$pos_x = 460 - $w_width; 
-		$pos_y = 220 - $w_height;
-		imagecopy($im, $watermark, $pos_x, $pos_y, 0, 0, $w_width, $w_height);
-		imagegif($im, $new_image_name);
-		imagedestroy($im);
-		return true;
-	}
-	
-	
-	public function updategallery( $data, $filesdata )
-	{
+		$this->uploadPicture("add-gallery", $_FILES['image']['tmp_name'], $filename);
+
+		$entered = @date('Y-m-d H:i:s');
 		
-		if(!empty( $data ) )
+		if($update){
+			$query = "UPDATE pr_galleries SET name = '".$name."', password = '".$password."', image = '".$filename."' WHERE id = '".base64_decode($_GET['id'])."' AND seller = '".$_SESSION['seller']['id']."'";
+		} else {
+			$query = "INSERT INTO pr_galleries SET name = '".$name."',password = '".$password."', seller='".$_SESSION['seller']['id']."',image ='".$filename."',date ='".$entered."'";
+		}
+
+		if(mysqli_query($this->_con, $query))
 		{
-			$trimmed_data = $data;
-			$name = mysqli_real_escape_string( $this->_con, $trimmed_data['name'] );
-			$password = mysqli_real_escape_string( $this->_con, $trimmed_data['password'] );
-			if(!empty($name))   
-			{
-				if(!empty($filesdata['image']['name']))
-				{
-					$validextensions = array("jpeg", "jpg", "png", "gif");
-					$ext = explode('.', basename($filesdata['image']['name']));
-					$file_extension = end($ext);
-					$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
-					$file_target_path = "../uploads/galleries/" . $filename;  
-					
-					if(in_array($file_extension, $validextensions)) 
-					{
-						move_uploaded_file($_FILES['image']['tmp_name'], $file_target_path);
-						if($file_extension == 'jpeg')
-						{
-							$this->watermark_gallery1($file_target_path, $file_target_path);
-						}
-						if($file_extension == 'jpg')
-						{
-							$this->watermark_gallery1($file_target_path, $file_target_path);
-						}
-						if($file_extension == 'png')
-						{
-							$this->watermark_gallery2($file_target_path, $file_target_path);
-						}
-						if($file_extension == 'gif')
-						{
-							$this->watermark_gallery3($file_target_path, $file_target_path);
-						}
-						@unlink(APP_ROOT."uploads/galleries/" . $_POST['oldimage']);
-						$files .= " , image = '$filename'";
-					}
-				}	
-				$entered = @date('Y-m-d H:i:s');
-				$query = "UPDATE pr_galleries SET name = '".$name."', password = '".$password."' $files  WHERE id = '".base64_decode($_GET['id'])."' AND seller = '".$_SESSION['seller']['id']."'";
-				if(mysqli_query($this->_con, $query))
-				{
-					parent::add('s', 'Gallery has been updated successfully.');	
-					return true;
-				}					
-			}
-			else
-			{
-				parent::add('e', '(*)All Fields are required.');	
-				return false;
-			}
-				
-		} 
-		else
-		{
-			parent::add('e', '(*)All Fields are required.');	
-			return false;
+			parent::add('s', 'Gallery has been added successfully.');
+			return true;
 		}
 	}
 
 
+	private function uploadPicture($command, $file, $filename){
+		exec("/usr/bin/java -jar ".APP_ROOT."image-photorunner.jar ".$command." ".$file." ".$filename, $output);
+		return $output;
+	}
+	
 	public function addphoto( $data, $filesdata, $update = false)
 	{
 		$trimmed_data = $data;
@@ -1131,48 +990,20 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 			return false;
 		}
 
-		if(empty($filesdata['name'])){
+		$filename = $this->createUniqueFilename($filesdata['name']);
+		if(empty($data) || empty($name) || empty($filename)){
 			parent::add('e', 'Please upload valid file.');
 			return false;
 		}
 
-		$validextensions = array("jpeg", "jpg", "png", "gif");
-		$ext = explode('.', basename($filesdata['name']));
-		$file_extension = strtolower(end($ext));
-		$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
-		$real_path = REAL_IMAGE . $filename;
-		$watermark_path = WATERMARK_IMAGE . $filename;
-		$bigwatermark_path = BIG_WATERMARK . $filename;
-
-		if(!in_array($file_extension, $validextensions)) {
-			parent::add('e', 'Something went wrong. Please try again');
-			return false;
-		}
-
-		if (!move_uploaded_file($filesdata['tmp_name'], $real_path)) {
-			parent::add('e', 'Something went wrong with fileupload. Please try again');
-			return false;
-		}
-
-		if($file_extension == 'jpeg' || $file_extension == 'jpg') {
-			$this->watermark_jpg($real_path, $watermark_path);
-			$this->big_watermark_jpg($real_path, $bigwatermark_path);
-		} else if($file_extension == 'png') {
-			$this->watermark_png($real_path, $watermark_path);
-			$this->big_watermark_png($real_path, $bigwatermark_path);
-		} else if($file_extension == 'gif') {
-			$this->watermark_gif($real_path, $watermark_path);
-			$this->big_watermark_gif($real_path, $bigwatermark_path);
-		}
+		$this->uploadPicture("add-photo", $filesdata['tmp_name'], $filename);
 
 		$entered = @date('Y-m-d H:i:s');
-		
-		if($update == true){
-			$query = "UPDATE pr_photos SET name = '".$name."', category='".$category."',gallery='".$gallery."', $files webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."' WHERE id = '".base64_decode($_GET['id'])."' AND seller = '".$_SESSION['seller']['id']."'";
+		if($update){
+			$query = "UPDATE pr_photos SET name = '".$name."', category='".$category."',gallery='".$gallery."', webfile = '".$filename."', webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."' WHERE id = '".base64_decode($_GET['id'])."' AND seller = '".$_SESSION['seller']['id']."'";
 		} else {
 			$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."',date ='".$entered."'";
 		}
-			
 		mysqli_query($this->_con, $query);
 	}
 	
@@ -1222,215 +1053,6 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 
 	}	
 
-
-
-	public function watermark_jpg($oldimage_name, $new_image_name)
-	{
-		$image_path = APP_ROOT."images/logo.png";
-		list($owidth,$oheight) = getimagesize($oldimage_name);
-		$width = 500;  
-		$height = 400;  
-		$im = imagecreatetruecolor($width, $height);
-		$img_src = imagecreatefromjpeg($oldimage_name);
-		imagecopyresampled($im, $img_src, 0, 0, 0, 0, $width, $height, $owidth, $oheight);
-		$watermark = imagecreatefrompng($image_path);
-		list($w_width, $w_height) = getimagesize($image_path);        
-		$pos_x = 460 - $w_width; 
-		$pos_y = 220 - $w_height;
-		imagecopy($im, $watermark, $pos_x, $pos_y, 0, 0, $w_width, $w_height);
-		imagejpeg($im, $new_image_name);
-		imagedestroy($im);
-		return true;
-	}
-	
-	public function big_watermark_jpg($oldimage_name, $new_image_name)
-	{
-		$image_path = APP_ROOT."images/logo.png";
-		list($owidth,$oheight) = getimagesize($oldimage_name);
-		$width = 1100;  
-		$height = 800;  
-		$im = imagecreatetruecolor($width, $height);
-		$img_src = imagecreatefromjpeg($oldimage_name);
-		imagecopyresampled($im, $img_src, 0, 0, 0, 0, $width, $height, $owidth, $oheight);
-		$watermark = imagecreatefrompng($image_path);
-		list($w_width, $w_height) = getimagesize($image_path);        
-		$pos_x = 710 - $w_width; 
-		$pos_y = 440 - $w_height;
-		imagecopy($im, $watermark, $pos_x, $pos_y, 0, 0, $w_width, $w_height);
-		imagejpeg($im, $new_image_name);
-		imagedestroy($im);
-		return true;
-	}
-
-	public function watermark_png($oldimage_name, $new_image_name)
-	{
-		$image_path = APP_ROOT."images/logo.png";
-		list($owidth,$oheight) = getimagesize($oldimage_name);
-		$width = 500;  
-		$height = 400;  
-		$im = imagecreatetruecolor($width, $height);
-		$img_src = imagecreatefrompng($oldimage_name);
-		imagecopyresampled($im, $img_src, 0, 0, 0, 0, $width, $height, $owidth, $oheight);
-		$watermark = imagecreatefrompng($image_path);
-		list($w_width, $w_height) = getimagesize($image_path);        
-		$pos_x = 460 - $w_width; 
-		$pos_y = 220 - $w_height;
-		imagecopy($im, $watermark, $pos_x, $pos_y, 0, 0, $w_width, $w_height);
-		imagepng($im, $new_image_name);
-		imagedestroy($im);
-		return true;
-	}
-	
-	public function big_watermark_png($oldimage_name, $new_image_name)
-	{
-		$image_path = APP_ROOT."images/logo.png";
-		list($owidth,$oheight) = getimagesize($oldimage_name);
-		$width = 1100;  
-		$height = 800;  
-		$im = imagecreatetruecolor($width, $height);
-		$img_src = imagecreatefrompng($oldimage_name);
-		imagecopyresampled($im, $img_src, 0, 0, 0, 0, $width, $height, $owidth, $oheight);
-		$watermark = imagecreatefrompng($image_path);
-		list($w_width, $w_height) = getimagesize($image_path);        
-		$pos_x = 710 - $w_width; 
-		$pos_y = 440 - $w_height;
-		imagecopy($im, $watermark, $pos_x, $pos_y, 0, 0, $w_width, $w_height);
-		imagepng($im, $new_image_name);
-		imagedestroy($im);
-		return true;
-	}
-
-	public function watermark_gif($oldimage_name, $new_image_name)
-	{
-		$image_path = APP_ROOT."images/logo.png";
-		list($owidth,$oheight) = getimagesize($oldimage_name);
-		$width = 500;  
-		$height = 400;  
-		$im = imagecreatetruecolor($width, $height);
-		$img_src = imagecreatefromgif($oldimage_name);
-		imagecopyresampled($im, $img_src, 0, 0, 0, 0, $width, $height, $owidth, $oheight);
-		$watermark = imagecreatefrompng($image_path);
-		list($w_width, $w_height) = getimagesize($image_path);        
-		$pos_x = 460 - $w_width; 
-		$pos_y = 220 - $w_height;
-		imagecopy($im, $watermark, $pos_x, $pos_y, 0, 0, $w_width, $w_height);
-		imagegif($im, $new_image_name);
-		imagedestroy($im);
-		return true;
-	}
-	
-	public function big_watermark_gif($oldimage_name, $new_image_name)
-	{
-		$image_path = APP_ROOT."images/logo.png";
-		list($owidth,$oheight) = getimagesize($oldimage_name);
-		$width = 1100;  
-		$height = 800;  
-		$im = imagecreatetruecolor($width, $height);
-		$img_src = imagecreatefromgif($oldimage_name);
-		imagecopyresampled($im, $img_src, 0, 0, 0, 0, $width, $height, $owidth, $oheight);
-		$watermark = imagecreatefrompng($image_path);
-		list($w_width, $w_height) = getimagesize($image_path);        
-		$pos_x = 710 - $w_width; 
-		$pos_y = 440 - $w_height;
-		imagecopy($im, $watermark, $pos_x, $pos_y, 0, 0, $w_width, $w_height);
-		imagegif($im, $new_image_name);
-		imagedestroy($im);
-		return true;
-	}
-	
-	public function updatephoto( $data, $filesdata )
-	{
-		if(!empty( $data ) )
-		{
-			$trimmed_data = $data;
-			$name = mysqli_real_escape_string( $this->_con, $trimmed_data['name'] );
-			$category = mysqli_real_escape_string( $this->_con, $trimmed_data['category'] );
-			$gallery = mysqli_real_escape_string( $this->_con, $trimmed_data['gallery'] );
-			$webfileprice = mysqli_real_escape_string( $this->_con, $trimmed_data['webfileprice'] );
-			$printfileprice = mysqli_real_escape_string( $this->_con, $trimmed_data['printfileprice'] );
-			$printfilepricea3 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea3'] );
-			$printfilepricea4 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea4'] );
-			$printfilepricea5 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea5'] );
-			if(!empty($name) && !empty($category) && !empty($gallery) && !empty($webfileprice) && !empty($printfileprice))   
-			{
-				$files = '';
-				if(!empty($filesdata['webfile']['name']))
-				{
-					$validextensions = array("jpeg", "jpg", "png", "gif");
-					$ext = explode('.', basename($filesdata['webfile']['name']));
-					$file_extension = end($ext);
-					$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
-					$file_target_path = REAL_IMAGE . $filename;  
-					$file_target_path3 = WATERMARK_IMAGE . $filename; 
-					$file_target_path4 = BIGWATERMARK_IMAGE . $filename;  
-					
-					if(in_array($file_extension, $validextensions)) 
-					{
-						if(move_uploaded_file($_FILES['webfile']['tmp_name'], $file_target_path))
-						{
-							if($file_extension == 'jpeg')
-							{
-								$this->watermark_jpg($file_target_path, $file_target_path3);
-								$this->big_watermark_jpg($file_target_path, $file_target_path4);
-							}
-							if($file_extension == 'jpg')
-							{
-								$this->watermark_jpg($file_target_path, $file_target_path3);
-								$this->big_watermark_jpg($file_target_path, $file_target_path4);
-							}
-							if($file_extension == 'png')
-							{
-								$this->watermark_png($file_target_path, $file_target_path3);
-								$this->big_watermark_png($file_target_path, $file_target_path4);
-							}
-							if($file_extension == 'gif')
-							{
-								$this->watermark_gif($file_target_path, $file_target_path3);
-								$this->big_watermark_gif($file_target_path, $file_target_path4);
-							}
-							@unlink(APP_ROOT."uploads/photos/real/" . $_POST['oldwebfile']);
-							@unlink(APP_ROOT."uploads/photos/watermark/" . $_POST['oldwebfile']);
-							@unlink(APP_ROOT."uploads/photos/bigwatermark/" . $_POST['oldwebfile']);
-							$files .= "webfile = '$filename',";
-						}
-					}
-				}
-				
-				if(!empty($filesdata['printfile']['name']))
-				{
-					$ext1 = explode('.', basename($filesdata['printfile']['name']));
-					$file_extension1 = end($ext1);
-					$filename1 = md5(uniqid()) . "." . $ext1[count($ext1) - 1];
-					$file_target_path1 = APP_ROOT."uploads/photos/" . $filename1;  
-								
-					if(in_array($file_extension1, $validextensions)) 
-					{
-						move_uploaded_file($_FILES['printfile']['tmp_name'], $file_target_path1);
-						@unlink(APP_ROOT."uploads/photos/" . $_POST['oldprintfile']);
-						$files .= "printfile = '$filename1',";
-					}
-				}
-				
-				$query = "UPDATE pr_photos SET name = '".$name."', category='".$category."',gallery='".$gallery."', $files webfileprice ='".$webfileprice."',printfileprice ='".$printfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."' WHERE id = '".base64_decode($_GET['id'])."' AND seller = '".$_SESSION['seller']['id']."'";
-				if(mysqli_query($this->_con, $query))
-				{
-					parent::add('s', 'Photo Info has been updated successfully.');	
-					return true;
-				}
-						
-			}
-			else
-			{
-				parent::add('e', '(*)All Fields are required.');	
-				return false;
-			}	
-		} 
-		else
-		{
-			parent::add('e', '(*)All Fields are required.');	
-			return false;
-		}
-	}
 
 	public function verifyaccount( $verifykey )
 	{
@@ -2082,7 +1704,7 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 		}
 
 	}
-	
+
 	public function changeemail( array $data )
 	{
 		if( !empty( $data ) ){
@@ -2132,240 +1754,50 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 		}
 	}
 	
-	public function updateprofilepicture( $data )
+	public function updateprofilepicture($data)
 	{
-		if(!empty( $data ) )
-		{
-			if(!empty($data['profilepicture']['name']))
-			{
-				$validextensions = array("jpeg", "jpg", "png", "gif");
-				$ext = explode('.', basename($data['profilepicture']['name']));
-				$file_extension = end($ext);
-				$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
-				$file_target_path = APP_ROOT."uploads/buyer/" . $filename;  
+		$name = mysqli_real_escape_string( $this->_con, $data['profilepicture']['name']);
+		$filename = $this->createUniqueFilename($name);
 
-				if(in_array($file_extension, $validextensions)) 
-				{
-					if (move_uploaded_file($data['profilepicture']['tmp_name'], $file_target_path)) 
-					{
-						if($file_extension == 'jpeg')
-						{
-							$this->watermark_buyer1($file_target_path, $file_target_path);
-						}
-						if($file_extension == 'jpg')
-						{
-							$this->watermark_buyer1($file_target_path, $file_target_path);
-						}
-						if($file_extension == 'png')
-						{
-							$this->watermark_buyer2($file_target_path, $file_target_path);
-						}
-						if($file_extension == 'gif')
-						{
-							$this->watermark_buyer3($file_target_path, $file_target_path);
-						}
-						$query = "UPDATE pr_members SET profilepicture ='".$filename."' WHERE id ='".$_SESSION['account']['id']."'";
-						if(mysqli_query($this->_con, $query))
-						{
-							parent::add('s', 'Profile has been updated successfully.');	
-							return true;
-						}	
-					} 
-					else 
-					{
-						parent::add('e', 'Somthing went wrong. Please try again.');	
-						return false;
-					}
-				}
-				else
-				{
-					parent::add('e', 'Somthing went wrong. Please try again.');	
-					return false;
-				}
-			}
-		} 
-		else
-		{
-			parent::add('e', '(*)All Fields are required.');	
+		if(empty($data) || empty($name) || empty($filename)){
+			parent::add('e', 'Please upload valid file.');
 			return false;
 		}
+
+
+		$this->uploadPicture("add-profile", $data['profilepicture']['tmp_name'], $filename);
+		$query = "UPDATE pr_members SET profilepicture ='".$filename."' WHERE id ='".$_SESSION['account']['id']."'";
+		mysqli_query($this->_con, $query);
 	}
 
-	public function watermark_buyer1($oldimage_name, $new_image_name)
-	{
-		$image_path = APP_ROOT."images/logo45.png";
-		list($owidth,$oheight) = getimagesize($oldimage_name);
-		$width = 500;  
-		$height = 400;  
-		$im = imagecreatetruecolor($width, $height);
-		$img_src = imagecreatefromjpeg($oldimage_name);
-		imagecopyresampled($im, $img_src, 0, 0, 0, 0, $width, $height, $owidth, $oheight);
-		$watermark = imagecreatefrompng($image_path);
-		list($w_width, $w_height) = getimagesize($image_path);        
-		$pos_x = 460 - $w_width; 
-		$pos_y = 220 - $w_height;
-		imagecopy($im, $watermark, $pos_x, $pos_y, 0, 0, $w_width, $w_height);
-		imagejpeg($im, $new_image_name);
-		imagedestroy($im);
-		return true;
-	}
 
-	public function watermark_buyer2($oldimage_name, $new_image_name)
-	{
-		$image_path = APP_ROOT."images/logo45.png";
-		list($owidth,$oheight) = getimagesize($oldimage_name);
-		$width = 500;  
-		$height = 400;  
-		$im = imagecreatetruecolor($width, $height);
-		$img_src = imagecreatefrompng($oldimage_name);
-		imagecopyresampled($im, $img_src, 0, 0, 0, 0, $width, $height, $owidth, $oheight);
-		$watermark = imagecreatefrompng($image_path);
-		list($w_width, $w_height) = getimagesize($image_path);        
-		$pos_x = 460 - $w_width; 
-		$pos_y = 220 - $w_height;
-		imagecopy($im, $watermark, $pos_x, $pos_y, 0, 0, $w_width, $w_height);
-		imagepng($im, $new_image_name);
-		imagedestroy($im);
-		return true;
-	}
 
-	public function watermark_buyer3($oldimage_name, $new_image_name)
-	{
-		$image_path = APP_ROOT."images/logo.png";
-		list($owidth,$oheight) = getimagesize($oldimage_name);
-		$width = 500;  
-		$height = 400;  
-		$im = imagecreatetruecolor($width, $height);
-		$img_src = imagecreatefromgif($oldimage_name);
-		imagecopyresampled($im, $img_src, 0, 0, 0, 0, $width, $height, $owidth, $oheight);
-		$watermark = imagecreatefrompng($image_path);
-		list($w_width, $w_height) = getimagesize($image_path);        
-		$pos_x = 460 - $w_width; 
-		$pos_y = 220 - $w_height;
-		imagecopy($im, $watermark, $pos_x, $pos_y, 0, 0, $w_width, $w_height);
-		imagegif($im, $new_image_name);
-		imagedestroy($im);
-		return true;
-	}
-	
 	public function updateprofilepictureseller( $data )
 	{
-		if(!empty( $data ) )
-		{
-			if(!empty($data['profilepicture']['name']))
-			{
-				$validextensions = array("jpeg", "jpg", "png", "gif");
-				$ext = explode('.', basename($data['profilepicture']['name']));
-				$file_extension = end($ext);
-				$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
-				$file_target_path = APP_ROOT."uploads/seller/" . $filename;  
+		$name = mysqli_real_escape_string( $this->_con, $data['profilepicture']['name']);
+		$filename = $this->createUniqueFilename($name);
 
-				if(in_array($file_extension, $validextensions)) 
-				{
-					if (move_uploaded_file($data['profilepicture']['tmp_name'], $file_target_path)) 
-					{
-						if($file_extension == 'jpeg')
-						{
-							$this->watermark_seller1($file_target_path, $file_target_path);
-						}
-						if($file_extension == 'jpg')
-						{
-							$this->watermark_seller1($file_target_path, $file_target_path);
-						}
-						if($file_extension == 'png')
-						{
-							$this->watermark_seller2($file_target_path, $file_target_path);
-						}
-						if($file_extension == 'gif')
-						{
-							$this->watermark_seller3($file_target_path, $file_target_path);
-						}
-
-						$query = "UPDATE pr_seller SET profilepicture ='".$filename."' WHERE id ='".$_SESSION['seller']['id']."'";
-						if(mysqli_query($this->_con, $query))
-						{
-							parent::add('s', 'Profile has been updated successfully.');	
-							return true;
-						}	
-					} 
-					else 
-					{
-						parent::add('e', 'Somthing went wrong. Please try again.');	
-						return false;
-					}
-				}
-				else
-				{
-					parent::add('e', 'Somthing went wrong. Please try again.');	
-					return false;
-				}
-			}
-		} 
-		else
-		{
-			parent::add('e', '(*)All Fields are required.');	
+		if(empty($data) || empty($name) || empty($filename)){
+			parent::add('e', 'Please upload valid file.');
 			return false;
 		}
+		$this->uploadPicture("add-profile", $data['profilepicture']['tmp_name'], $filename);
+		$query = "UPDATE pr_seller SET profilepicture ='".$filename."' WHERE id ='".$_SESSION['seller']['id']."'";
+		mysqli_query($this->_con, $query);
 	}
 
-	public function watermark_seller1($oldimage_name, $new_image_name)
-	{
-		$image_path = APP_ROOT."images/logo45.png";
-		list($owidth,$oheight) = getimagesize($oldimage_name);
-		$width = 500;  
-		$height = 400;  
-		$im = imagecreatetruecolor($width, $height);
-		$img_src = imagecreatefromjpeg($oldimage_name);
-		imagecopyresampled($im, $img_src, 0, 0, 0, 0, $width, $height, $owidth, $oheight);
-		$watermark = imagecreatefrompng($image_path);
-		list($w_width, $w_height) = getimagesize($image_path);        
-		$pos_x = 460 - $w_width; 
-		$pos_y = 220 - $w_height;
-		imagecopy($im, $watermark, $pos_x, $pos_y, 0, 0, $w_width, $w_height);
-		imagejpeg($im, $new_image_name);
-		imagedestroy($im);
-		return true;
+	private function createUniqueFilename($name){
+		$validextensions = array("jpeg", "jpg", "png", "gif");
+		$ext = explode('.', $name);
+		$file_extension = strtolower(end($ext));
+		$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
+
+		if(!in_array($file_extension, $validextensions)) {
+			return "";
+		}
+		return $filename;
 	}
 
-	public function watermark_seller2($oldimage_name, $new_image_name)
-	{
-		$image_path = APP_ROOT."images/logo45.png";
-		list($owidth,$oheight) = getimagesize($oldimage_name);
-		$width = 500;  
-		$height = 400;  
-		$im = imagecreatetruecolor($width, $height);
-		$img_src = imagecreatefrompng($oldimage_name);
-		imagecopyresampled($im, $img_src, 0, 0, 0, 0, $width, $height, $owidth, $oheight);
-		$watermark = imagecreatefrompng($image_path);
-		list($w_width, $w_height) = getimagesize($image_path);        
-		$pos_x = 460 - $w_width; 
-		$pos_y = 220 - $w_height;
-		imagecopy($im, $watermark, $pos_x, $pos_y, 0, 0, $w_width, $w_height);
-		imagepng($im, $new_image_name);
-		imagedestroy($im);
-		return true;
-	}
-
-	public function watermark_seller3($oldimage_name, $new_image_name)
-	{
-		$image_path = APP_ROOT."images/logo.png";
-		list($owidth,$oheight) = getimagesize($oldimage_name);
-		$width = 500;  
-		$height = 400;  
-		$im = imagecreatetruecolor($width, $height);
-		$img_src = imagecreatefromgif($oldimage_name);
-		imagecopyresampled($im, $img_src, 0, 0, 0, 0, $width, $height, $owidth, $oheight);
-		$watermark = imagecreatefrompng($image_path);
-		list($w_width, $w_height) = getimagesize($image_path);        
-		$pos_x = 460 - $w_width; 
-		$pos_y = 220 - $w_height;
-		imagecopy($im, $watermark, $pos_x, $pos_y, 0, 0, $w_width, $w_height);
-		imagegif($im, $new_image_name);
-		imagedestroy($im);
-		return true;
-	}
-	
-	
 	public function delete($table,$conditions) 
 	{
 		$conditions = @array_map('trim', $conditions);

@@ -117,7 +117,8 @@ if(!empty($_GET['email']))
 								<figure>
 									<div class="tj_wrapper">
 										<ul class="tj_gallery" style="margin-bottom: -5px;">
-											<li style="list-style:none; width:100%;"><a href="photos.php?gallery=<?php echo base64_encode($gallery->id); ?>&&lock=unlock"><img src="<?php echo WATERMARK_IMAGE . $gallery->image; ?>" style="width:100%; min-height:200px; max-height:200px;" alt="img06"></a></li>
+
+											<li style="list-style:none; width:100%;"><a href="photos.php?gallery=<?php echo base64_encode($gallery->id); ?>&&lock=unlock"><img src="<?php echo GALLERY_IMAGE . $gallery->image; ?>" style="width:100%; min-height:200px; max-height:200px;" alt="img06"></a></li>
 										</ul>
 									</div>
 									<figcaption>
@@ -130,7 +131,7 @@ if(!empty($_GET['email']))
 									<div class="tj_wrapper">
 										<ul class="tj_gallery" style="margin-bottom: -5px;">
 										<?php if(empty($gallery->password)) { ?>
-											<li style="list-style:none; width:100%;"><a href="photos.php?gallery=<?php echo base64_encode($gallery->id); ?>"><img src="<?php echo WATERMARK_IMAGE . $gallery->image; ?>" style="width:100%; min-height:200px; max-height:200px;" alt="img06"></a></li>
+											<li style="list-style:none; width:100%;"><a href="photos.php?gallery=<?php echo base64_encode($gallery->id); ?>"><img src="<?php echo GALLERY_IMAGE . $gallery->image; ?>" style="width:100%; min-height:200px; max-height:200px;" alt="img06"></a></li>
 										<?php }else{ ?>
 											<li style="list-style:none; width:100%;"><a class="fancybox" href="#inline<?php echo $gallery->id; ?>"><img src="<?php echo WATERMARK_IMAGE . 	$gallery->image; ?>" style="width:100%; min-height:200px; max-height:200px;" alt="img06"></a></li>
 												<div id="inline<?php echo $gallery->id; ?>" style="width:98%; display: none; margin:auto; padding-top:15px;">

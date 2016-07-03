@@ -33,7 +33,7 @@ if(!empty($seller->profilepicture))
 {
 	?>
 	<div style="margin:15px;">
-		<img src="<?php echo APP_URL; ?>uploads/seller/<?php echo $seller->profilepicture; ?>" style="width:100%; min-height:200px; max-height:200px;"/>
+		<img src="<?php echo PROFILE_IMAGE . $seller->profilepicture; ?>" style="width:100%; min-height:200px; max-height:200px;"/>
 	</div>
 	<?php
 }else{

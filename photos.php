@@ -126,7 +126,7 @@ else
 								<div class="bottom-grids" style="margin-top:0px;">
 									<div class="demo-3" style="margin-top:12px;">
 										<div class="freshdesignweb"> 
-											<article class="border c-two" style="background-image:url(uploads/photos/watermark/<?php echo $photo->webfile; ?>); background-size: 100% 260px; background-repeat: no-repeat; padding: 0px;">
+											<article class="border c-two" style="background-image:url(<?php echo BIGWATERMARK_IMAGE . $photo->webfile; ?>); background-size: 100% 260px; background-repeat: no-repeat; padding: 0px;">
 												<div style="opacity: 0;" class="fdw-background">
 													<?php if(!empty($_SESSION['account']['id'])) {
 
@@ -208,7 +208,7 @@ else
 								<div class="bottom-grids" style="margin-top:0px;">
 									<div class="demo-3" style="margin-top:12px;">
 										<div class="freshdesignweb"> 
-											<article class="border c-two" style="background-image:url(uploads/photos/watermark/<?php echo $photo1->webfile; ?>); background-size: 100% 260px; background-repeat: no-repeat; padding: 0px;">
+											<article class="border c-two" style="background-image:url(<?php echo BIGWATERMARK_IMAGE . $photo1->webfile; ?>); background-size: 100% 260px; background-repeat: no-repeat; padding: 0px;">
 												<div style="opacity: 0;" class="fdw-background">
 													<?php if(!empty($_SESSION['account']['id'])) {
 

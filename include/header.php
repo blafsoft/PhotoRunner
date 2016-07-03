@@ -28,6 +28,7 @@
 				$social = $common->getrecords('pr_social','*',$conditions);
 				if(!empty($social))
 				{
+					$startpoint=empty($startpoint) ? 0 : $startpoint;
 					$k=$startpoint+1;
 					foreach($social as $social)
 					{
