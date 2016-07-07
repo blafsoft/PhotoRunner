@@ -8,7 +8,7 @@ function authorizeFromEnv()
 {
   $apiKey = getenv('STRIPE_API_KEY');
   if (!$apiKey)
-    $apiKey = "tGN0bIwXnHdwOa85VABjPdSn8nWY7G7I";
+    $apiKey = "pk_test_aPEmcSGdAZrf0EssMbHa1QRy";
   Stripe::setApiKey($apiKey);
 }
 

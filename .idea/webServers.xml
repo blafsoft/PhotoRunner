@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="194a3538-8ad7-4200-8bc0-cb1fbe993f73" name="PHOTORUNNER" url="http://192.168.1.112">
+        <fileTransfer host="192.168.1.112" port="22" rootFolder="/var/www/html" accessType="SFTP" password="dff5dff9dfcbdfc6dfdedfd3df98df93" username="frode">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
