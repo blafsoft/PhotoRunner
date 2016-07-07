@@ -11,7 +11,7 @@ class Cl_Common extends Cl_Messages
 
 	public function __construct()
 	{
-		$db = new Cl_DBclass();
+		$db = new Cl_DBclass();login
 		$this->_con = $db->con;
 		$this->_con = $db->con;
 	}
@@ -129,7 +129,7 @@ class Cl_Common extends Cl_Messages
 	}
 
 
-	public function sellerregistration( $postdata )
+	public function sellerregistration( $postdata, $filesdata )
 	{
 		if(!empty( $postdata ))
 		{
@@ -154,70 +154,148 @@ class Cl_Common extends Cl_Messages
 			$state = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['state'], ENT_QUOTES ));
 			$city = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['city'], ENT_QUOTES ));
 			$zip_code = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['zip_code'], ENT_QUOTES ));
-			/*
+
+			$about = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['about'], ENT_QUOTES ));
+			$area = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['area'], ENT_QUOTES ));
+			$price = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['price'], ENT_QUOTES ));
+
+			$priceeuro = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['priceeuro'], ENT_QUOTES ));
+
+			$pricetext = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['pricetext'], ENT_QUOTES ));
+
 			if(empty($_SESSION['6_letters_code'] ) || strcasecmp($_SESSION['6_letters_code'], $_POST['6_letters_code']) != 0)
 			{
 				parent::add('e', 'Code Not Matched');	
 				return false;
 			}
-			*/
-
-if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstname)) || (empty($lastname)) || (empty($business_name)) || (empty($phone_number)) || (empty($country)) || (empty($state)) || (empty($city)) || (empty($zip_code)) || (empty($bankname)) || (empty($owner_name)) || (empty($banknumber))) 
+if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area))  || (empty($price))  || (empty($priceeuro)) || (empty($password)) || (empty($firstname)) || (empty($lastname)) || (empty($business_name)) || (empty($phone_number)) || (empty($country)) || (empty($state)) || (empty($city)) || (empty($zip_code)) || (empty($bankname)) || (empty($owner_name)) || (empty($banknumber)) || (empty($pricetext))) 
 			{	
 				parent::add('e', '(*) Fields are required.');	
 				return false;
 			}
-			$conditions = array('email'=>$email,'type'=>$type);
+			$conditions = array('email'=>$email);
 			if(!$this->checkrecord('pr_seller','*',$conditions) )
 			{
-				$conditions = array('username'=>$username,'type'=>$type);
+				$conditions = array('username'=>$username);
 				if(!$this->checkrecord('pr_seller','*',$conditions) )
 				{
-					$code = md5($_POST['email'].rand().rand());
-					$entered = date('Y-m-d h:i:s');
-					$query = "INSERT into pr_seller SET email ='".$email."', 
-					username ='".$username."',
-					password ='".$password."',
-					firstname ='".$firstname."', 
-					lastname ='".$lastname."',
-					business_name ='".$business_name."',
-					phone_number ='".$phone_number."',
-					country ='".$country."',
-					state ='".$state."',
-					zip_code ='".$zip_code."',
-					code ='".$code."',
-
-					bankname ='".$bankname."',
-					owner_name ='".$owner_name."',
-					banknumber ='".$banknumber."',
-
-					date ='".$entered."',
-					city ='".$city."'";
-					if(mysqli_query($this->_con, $query))
+					if(!empty($filesdata['banner1']))
 					{
-						$subject = "PhotoRunner-Account verification ";
-						$message ="<html><body>
-						<div style='100%; border:0px solid #00A2B5; font-family:arial; font-family:arial; font-size:18px; border-radius:10px;'><div style='background-color:#F2F2F2; padding:20px; font-size:22px;'>Confirm your with Account ".APP_NAME."</div>
-						<div style='color:#00A2B5; font-size:46px; font-weight:bold; margin:20px;'>PhotoRunner</div>".
 
-						"<div style='color:#00A2B5; font-size:18px; font-family:arial; font-weight:bold; margin:20px;'>Hi ".$_POST['firstname']." </div>".
-						"<div style='color:#00A2B5; font-size:18px; font-family:arial; font-weight:bold; margin:20px;'>Thanks for registration with us.</div>".			
+						$validextensions = array("jpeg", "jpg", "png", "gif", "JPEG", "JPG", "PNG", "GIF");
+						$ext = explode('.', basename($filesdata['banner1']['name']));
+						$file_extension = end($ext);
+						$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
+						$file_target_path = APP_ROOT."uploads/seller/" . $filename;  
 
-						"<div style='color:#6B555A; border:1px solid #ccc; margin-top:30px; width:80%; margin-top:20px; margin-left:auto; margin-right:auto; padding:10px; padding-top:30px; font-size:16px; font-family:arial; background-color:#F2F2F2; text-align:center'>To complete the registration process. Please verify your email id by click on given below Verify Account button.<br/><br/>".
-
-
-						"<div style='margin-top:15px; margin-bottom:15px; font-family:arial;'> <a href='".APP_URL."log-in.php/?verifykeyy=".$code."'' style='color:#fff; text-decoration:none; font-size:20px; font-weight:bold; margin:20px; font-family:arial; padding:15px; width:230px; margin-left:auto; margin-right:auto; background-color:#00A2B5; border-radius:3px;'>Verify Account</a></div><div></div></div style='height:10px; clear:both'><br/><br/>".
-						"<div style='font-size:16px; text-align:center; font-family:arial; color:#00A2B5;'>Your login detail are given below:</div><br/>".
-						"<div style='font-size:16px; text-align:center; font-family:arial;'><b>Username:</b> ".$trimmed_data['username']."</div><br/>".
-						"<div style='font-size:16px; text-align:center; font-family:arial;'><b>Password:</b> ".$trimmed_data['passwordd']."</div><br/><br/>".
-						"<div style='font-size:16px; text-align:center; font-family:arial; color:#00A2B5;'>If you need any help, Please contact us at post@photorunner.no</div><br/>".
-
-						"<div style='font-size:14px; text-align:left; font-family:arial;'>Team<br/>Photo Runner</div>".
-						"</div></body></html>";
-						if($this->sendemail($email,$subject,$message))
+						if(in_array($file_extension, $validextensions)) 
 						{
-							parent::add('s', 'Registration has been completed successfully. Please activate your accout from your email address.');
-							return true;
+							if (move_uploaded_file($filesdata['banner1']['tmp_name'], $file_target_path)) 
+							{ 
+
+								if(!empty($filesdata['banner2']))
+								{
+									$ext1 = explode('.', basename($filesdata['banner2']['name']));
+									$file_extension1 = end($ext1);
+									$filename1 = md5(uniqid()) . "." . $ext1[count($ext1) - 1];
+									$file_target_path1 = APP_ROOT."uploads/seller/" . $filename1;  
+				
+									if(in_array($file_extension, $validextensions)) 
+									{
+										if (move_uploaded_file($filesdata['banner2']['tmp_name'], $file_target_path1)) 
+										{
+											$code = md5($_POST['email'].rand().rand());
+											$entered = date('Y-m-d h:i:s');
+											$query = "INSERT into pr_seller SET email ='".$email."', 
+											username ='".$username."',
+											password ='".$password."',
+											firstname ='".$firstname."', 
+											lastname ='".$lastname."',
+											business_name ='".$business_name."',
+											phone_number ='".$phone_number."',
+											country ='".$country."',
+											state ='".$state."',
+											zip_code ='".$zip_code."',
+											code ='".$code."',
+
+											bankname ='".$bankname."',
+											owner_name ='".$owner_name."',
+											banknumber ='".$banknumber."',
+
+											about ='".$about."',
+											area ='".$area."',
+											price ='".$price."',
+
+											priceeuro ='".$priceeuro."',
+
+											banner1 ='".$filename."',
+											banner2 ='".$filename1."',
+
+											pricetext ='".$pricetext."',
+
+											date ='".$entered."',
+											city ='".$city."'";
+											if(mysqli_query($this->_con, $query))
+											{
+												$subject = "PhotoRunner-Account verification ";
+												$message ="<html><body>
+												<div style='100%; border:0px solid #00A2B5; font-family:arial; font-family:arial; font-size:18px; border-radius:10px;'><div style='background-color:#F2F2F2; padding:20px; font-size:22px;'>Confirm your with Account ".APP_NAME."</div>
+												<div style='color:#00A2B5; font-size:46px; font-weight:bold; margin:20px;'>PhotoRunner</div>".
+
+												"<div style='color:#00A2B5; font-size:18px; font-family:arial; font-weight:bold; margin:20px;'>Hi ".$_POST['firstname']." </div>".
+												"<div style='color:#00A2B5; font-size:18px; font-family:arial; font-weight:bold; margin:20px;'>Thanks for registration with us.</div>".			
+
+												"<div style='color:#6B555A; border:1px solid #ccc; margin-top:30px; width:80%; margin-top:20px; margin-left:auto; margin-right:auto; padding:10px; padding-top:30px; font-size:16px; font-family:arial; background-color:#F2F2F2; text-align:center'>To complete the registration process. Please verify your email id by click on given below Verify Account button.<br/><br/>".
+
+
+												"<div style='margin-top:15px; margin-bottom:15px; font-family:arial;'> <a href='".APP_URL."log-in.php/?verifykeyy=".$code."'' style='color:#fff; text-decoration:none; font-size:20px; font-weight:bold; margin:20px; font-family:arial; padding:15px; width:230px; margin-left:auto; margin-right:auto; background-color:#00A2B5; border-radius:3px;'>Verify Account</a></div><div></div></div style='height:10px; clear:both'><br/><br/>".
+												"<div style='font-size:16px; text-align:center; font-family:arial; color:#00A2B5;'>Your login detail are given below:</div><br/>".
+												"<div style='font-size:16px; text-align:center; font-family:arial;'><b>Username:</b> ".$trimmed_data['username']."</div><br/>".
+												"<div style='font-size:16px; text-align:center; font-family:arial;'><b>Password:</b> ".$trimmed_data['passwordd']."</div><br/><br/>".
+												"<div style='font-size:16px; text-align:center; font-family:arial; color:#00A2B5;'>If you need any help, Please contact us at post@photorunner.no</div><br/>".
+
+												"<div style='font-size:14px; text-align:left; font-family:arial;'>Team<br/>Photo Runner</div>".
+												"</div></body></html>";
+												if($this->sendemail($email,$subject,$message))
+												{
+													parent::add('s', 'Registration has been completed successfully. Please activate your accout from your email address.');
+													return true;
+												}
+												else
+												{
+													parent::add('e', 'Somthing went wrong. Please try again.');	
+													return false;
+												}
+											}
+											else
+											{
+												parent::add('e', 'Somthing went wrong. Please try again5.');	
+												return false;
+											}
+										}
+										else
+										{
+											parent::add('e', 'Somthing went wrong. Please try again4.');	
+											return false;
+										}
+									}
+									else
+									{
+										parent::add('e', 'Somthing went wrong. Please try again3.');	
+										return false;
+									}
+								}
+								else
+								{
+									parent::add('e', 'Somthing went wrong. Please try again2.');	
+									return false;
+								}
+							}
+							else
+							{
+								parent::add('e', 'Somthing went wrong. Please try again1.');	
+								return false;
+							}
 						}
 						else
 						{
@@ -249,7 +327,6 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 			return false;
 		}
 	}
-	
 	
 	public function login( array $data )
 	{
@@ -850,7 +927,7 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 		}
 	}
 	
-	public function updateseller( $postdata )
+	public function updateseller( $postdata, $filesdata )
 	{
 		if(!empty( $postdata ))
 		{
@@ -866,14 +943,59 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 			$state = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['state'], ENT_QUOTES ));
 			$city = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['city'], ENT_QUOTES ));
 			$id = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['id'], ENT_QUOTES ));
-			if((empty($category)) || (empty($firstname)) || (empty($lastname)) || (empty($zip_code)) || 
-			(empty($business_name)) || (empty($phone_number)) || (empty($country)) || (empty($state)) || (empty($city)) || (empty($id))) 
+
+			$about = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['about'], ENT_QUOTES ));
+			$area = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['area'], ENT_QUOTES ));
+			$price = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['price'], ENT_QUOTES ));
+
+			$priceeuro = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['priceeuro'], ENT_QUOTES ));
+
+			$pricetext = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['pricetext'], ENT_QUOTES ));
+
+
+			if((empty($category)) || (empty($firstname)) || (empty($about)) || (empty($area)) || (empty($price)) || (empty($priceeuro)) || (empty($lastname)) || (empty($zip_code)) || (empty($business_name)) || (empty($phone_number))  || (empty($pricetext)) || (empty($country)) || (empty($state)) || (empty($city)) || (empty($id))) 
 			{	
 				parent::add('e', '(*) Fields are required.');	
 				return false;
 			}
 			else
 			{
+				if(!empty($filesdata['banner1']))
+				{
+
+					$validextensions = array("jpeg", "jpg", "png", "gif", "JPEG", "JPG", "PNG", "GIF");
+					$ext = explode('.', basename($filesdata['banner1']['name']));
+					$file_extension = end($ext);
+					$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
+					$file_target_path = APP_ROOT."uploads/seller/" . $filename;  
+
+					if(in_array($file_extension, $validextensions)) 
+					{
+						if (move_uploaded_file($filesdata['banner1']['tmp_name'], $file_target_path)) 
+						{ 
+							$query1 = "UPDATE pr_seller SET banner1 ='".$filename."' where id = '".$id."'";
+							mysqli_query($this->_con, $query1);
+						}
+					}
+				}
+				if(!empty($filesdata['banner2']))
+				{
+
+					$validextensions = array("jpeg", "jpg", "png", "gif");
+					$ext = explode('.', basename($filesdata['banner2']['name']));
+					$file_extension = end($ext);
+					$filename1 = md5(uniqid()) . "." . $ext[count($ext) - 1];
+					$file_target_path1 = APP_ROOT."uploads/seller/" . $filename1;  
+
+					if(in_array($file_extension, $validextensions)) 
+					{
+						if (move_uploaded_file($filesdata['banner2']['tmp_name'], $file_target_path1)) 
+						{ 
+							$query2 = "UPDATE pr_seller SET banner2 ='".$filename1."' where id = '".$id."'";
+							mysqli_query($this->_con, $query2);
+						}
+					}
+				}
 				$query = "UPDATE pr_seller SET category ='".$category."', 
 				firstname ='".$firstname."', 
 				lastname ='".$lastname."',
@@ -882,6 +1004,14 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 				phone_number ='".$phone_number."',
 				country ='".$country."',
 				state ='".$state."',
+				about ='".$about."',
+				area ='".$area."',
+				price ='".$price."',
+
+				priceeuro ='".$priceeuro."',
+
+				pricetext ='".$pricetext."',
+
 				city ='".$city."' where id = '".$id."'";
 				if(mysqli_query($this->_con, $query))
 				{
@@ -983,6 +1113,10 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 		$printfilepricea3 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea3'] );
 		$printfilepricea4 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea4'] );
 		$printfilepricea5 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea5'] );
+		
+		$othertitle = mysqli_real_escape_string( $this->_con, $trimmed_data['othertitle'] );
+		$otherprice = mysqli_real_escape_string( $this->_con, $trimmed_data['otherprice'] );
+		$massage = mysqli_real_escape_string( $this->_con, $trimmed_data['massage'] );
 
 		if(empty( $data ) || empty($name) || empty($category) || empty($gallery))
 		{
@@ -1002,7 +1136,7 @@ if((empty($email)) || (empty($username)) || (empty($password)) || (empty($firstn
 		if($update){
 			$query = "UPDATE pr_photos SET name = '".$name."', category='".$category."',gallery='".$gallery."', webfile = '".$filename."', webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."' WHERE id = '".base64_decode($_GET['id'])."' AND seller = '".$_SESSION['seller']['id']."'";
 		} else {
-			$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."',date ='".$entered."'";
+			$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."',date ='".$entered."',othertitle ='".$othertitle."',otherprice ='".$otherprice."',massage ='".$massage."';
 		}
 		mysqli_query($this->_con, $query);
 	}

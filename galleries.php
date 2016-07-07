@@ -4,8 +4,17 @@
 if(isset($_GET['galleryy']))
 {
 	$id = $_GET['gallery'];	
-	$conditions = array('id'=>$id, 'password'=>$_GET['password']);
-	$check = $common->getrecord('pr_galleries','*',$conditions);
+	//$conditions = array('id'=>$id, 'password'=>$_GET['password']);
+	//$check = $common->getrecord('pr_galleries','*',$conditions);
+
+	$page = (int) (!isset($_GET["page"]) ? 1 : $_GET["page"]);
+	$limit = 16;
+	$startpoint = ($page * $limit) - $limit;					
+	$conditions = " WHERE id = '".$id."' and password = '".$_GET['password']."'";						
+	$statement = "pr_galleries" . $conditions;						
+	$conditions .= " LIMIT {$startpoint} , {$limit}";	
+	$check = $common->getpagirecords('pr_galleries','*',$conditions);
+
 
 	$id2 = base64_encode($id);
 	if(!empty($check))	
@@ -23,14 +32,32 @@ if(isset($_GET['galleryy']))
 
 elseif(isset($_GET['search']))
 {
-	$conditions = array('name'=>$_GET['searchinput'], 'status'=>'1');
-	$galleries = $common->getsearch('pr_galleries','*',$conditions) ;
+	//$conditions = array('name'=>$_GET['searchinput'], 'status'=>'1');
+	//$galleries = $common->getsearch('pr_galleries','*',$conditions) ;
+
+	$page = (int) (!isset($_GET["page"]) ? 1 : $_GET["page"]);
+	$limit = 16;
+	$startpoint = ($page * $limit) - $limit;					
+	$conditions = " WHERE status = '1' and name = '".$_GET['searchinput']."' and password = ''";						
+	$statement = "pr_galleries" . $conditions;						
+	$conditions .= " LIMIT {$startpoint} , {$limit}";	
+	$galleries = $common->getpagirecords('pr_galleries','*',$conditions);
+
 }
 else
 {
-	$conditions = array('status'=>'1');
-	$galleries = $common->getrecords('pr_galleries','*',$conditions) ;
+	//$conditions = array('status'=>'1');
+	//$galleries = $common->getrecords('pr_galleries','*',$conditions) ;
+
+	$page = (int) (!isset($_GET["page"]) ? 1 : $_GET["page"]);
+	$limit = 16;
+	$startpoint = ($page * $limit) - $limit;					
+	$conditions = " WHERE status = '1' and password = ''";						
+	$statement = "pr_galleries" . $conditions;						
+	$conditions .= " LIMIT {$startpoint} , {$limit}";	
+	$galleries = $common->getpagirecords('pr_galleries','*',$conditions);
 }
+
 if(!empty($_GET['email']))
 {
 	$_SESSION['guast']['email'] = $_GET['email'];
@@ -80,12 +107,13 @@ if(!empty($_GET['email']))
 			<div id="custom-search-input">
 				<form  action=""  method="get" style="width:100%">
 					<div class="input-group col-md-12" style="padding:0px;">
-						<input type="text" class="search-query form-control " placeholder="Find the perfect Photos,vector and more...." style="color:#333; border-radius:0px; height:60px;" required="required" name="searchinput"/>
+						<?php /*<input type="text" class="search-query form-control " placeholder="Find the perfect Photos,vector and more...." style="color:#333; border-radius:0px; height:60px;" required="required" name="searchinput"/>
 						<span class="input-group-btn">
 							<button class="btn btn-danger" type="submit" style="padding: 19px 22px !important; border-radius:0px;" name="search">
 								<span class=" glyphicon glyphicon-search"></span>
 							</button>
-						</span>
+						</span>*/ ?>
+						<div style="50px;"></div>
 					</div>
 				</form>
 			</div>
@@ -177,10 +205,8 @@ if(!empty($_GET['email']))
 		?>
 		</div></div</div>
 		<div style="clear:both"></div>
-		<div style="text-align:center; margin-top:30px;">
-			<div class="blog-pagimation">
-				<div class="holder"></div>
-			</div>
+		<div style="float:right">
+			<?php echo $common->pagination($statement,$limit,$page); ?>
 		</div>
 		</div>
 		</div>

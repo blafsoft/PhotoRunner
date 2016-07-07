@@ -539,12 +539,43 @@ if(!empty($_GET['email']))
 						</div>
 					</div>
 				<?php } ?>
+				<div style="clear:both; height:1px;"></div>
+				<?php if($view->otherprice != '0.00') { ?>
+					<div style="margin:10px;">
+						<div style="float:left; width:50%;">
+							<h5 style="padding-left:10px;padding-bottom:5px; font-weight:bold;"><?php echo $view->othertitle; ?></h5>
+							<h6 style="padding-left:10px;padding-bottom:5px; color:red;">Price : $<?php echo $view->otherprice; ?> USD</h6>
+						</div>
+						<div>
+							<?php if(!empty($_SESSION['account']['id'])) { ?>
+							<form action=""  method="post">
+								<input type="hidden" name="type" value="printfileprice" >
+								<input type="hidden" name="photo" value="<?php echo $view->id; ?>" >
+								<input type="hidden" name="gallery" value="<?php echo $view->gallery; ?>" >
+								<input type="hidden" name="size" value="othertitle" >
+								<button type="submit" name="addtocart" style="padding:10px 40px 10px 40px; background-color:#43ace5; color:#fff; font-weight:bold; border:0px; border-radius:3px; font-size:16px;"/>Buy Now</button>
+							</form>
+							<?php }elseif(!empty($_SESSION['guast']['email'])) { ?>
+							<form action=""  method="post">
+								<input type="hidden" name="type" value="printfileprice" >
+								<input type="hidden" name="photo" value="<?php echo $view->id; ?>" >
+								<input type="hidden" name="gallery" value="<?php echo $view->gallery; ?>" >
+								<input type="hidden" name="size" value="othertitle" >
+								<button type="submit" name="addtocart" style="padding:10px 40px 10px 40px; background-color:#43ace5; color:#fff; font-weight:bold; border:0px; border-radius:3px; font-size:16px;"/>Buy Now</button>
+							</form>
+							<?php }else{ ?>
+								<div style="height:10px;"></div>
+									<a href="<?php echo APP_URL; ?>log-in.php?redirecturl=view-photo.php?view=<?php echo base64_encode($view->id); ?>" style="padding:10px 20px 10px 20px; background-color:#43ace5; color:#fff; font-weight:bold; border:0px; border-radius:3px; font-size:16px;" >Buy Now</a>
+							<?php } ?>
+						</div>
+					</div>
+				<?php } ?>
 				<?php
 			}
 			?>
 			
 		</div>
-		<div class="col-md-6 features-right" style="padding-top: 15px;">
+		<div class="col-md-6 features-right" style="overflow-y: auto; height: 800px; white-space: nowrap; display: block; margin-top:20px; padding-top:0px;">
 			<?php
 			$conditions = array('gallery'=>$view->gallery);
 			$list = $common->getrecords('pr_photos','*',$conditions) ;

@@ -4,7 +4,7 @@
 $page = (int) (!isset($_GET["page"]) ? 1 : $_GET["page"]);
 $limit = 10;
 $startpoint = ($page * $limit) - $limit;					
-$conditions = " WHERE member = '".$_SESSION['account']['id']."' ";						
+$conditions = " WHERE member = '".$_SESSION['account']['id']."' ORDER by id DESC ";			
 $statement = "pr_favourite" . $conditions;						
 $conditions .= " LIMIT {$startpoint} , {$limit}";	
 $favourite = $common->getpagirecords('pr_favourite','*',$conditions);

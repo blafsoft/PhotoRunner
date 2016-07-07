@@ -296,7 +296,32 @@ if(isset($_POST['submit']))
 				<input type="" placeholder="A5 Print File Price in $" name="printfilepricea5" value="" style="width:70%;" id="printfilepricea5" class="number_only"/>
 			</div>
 			<div style="clear:both;"></div>
-
+			<label style="padding-left:8px;">Make a new print option.</label>
+			<div style="clear:both;"></div>
+			<div style="float:left">
+				<div>
+				    <input id="radio-6" class="radio-custom" name="newoption" type="radio" checked>
+				    <label for="radio-6" class="radio-custom-label">Yes</label>
+				</div>
+			</div>
+			<div>
+				<div>
+				    <input id="radio-5" class="radio-custom" name="newoption" type="radio">
+				    <label for="radio-5" class="radio-custom-label">No</label>
+				</div>
+			</div>
+			<div id="div1">
+				<div style="clear:both;"></div>
+				<label style="padding-left:8px;">Set the size</label>
+				<input type="text" placeholder="Set the size" name="othertitle" value="" style="width:70%;" id="othertitle"/>
+				<label style="padding-left:8px;">Set the price</label>
+				<input type="text" placeholder="Set the Price" name="otherprice" value="" style="width:70%;" id="otherprice" class="number_only"/>
+			</div>
+			<div style="clear:both;"></div>
+				<label style="padding-left:8px;">Write a massage for customer</label>
+				<div style="clear:both;"></div>
+				<textarea type="text" placeholder="Write a massage for customer" name="massage" style="width:70%; border-radius:0px; padding:8px; border:1px solid #d9d9d9;" id="massage" ></textarea>
+			<div style="clear:both;"></div>
 			<div style="float:left">
 				<div>
 				    <input id="radio-3" class="radio-custom" name="emailsend" type="radio" value="gallery" checked>
@@ -437,7 +462,24 @@ $(document).ready(function(){
 			$("#printfilepricea5").val('');
 			
 		}
-	});	
+	});
+	
+	$("#radio-5").click(function(){
+		if($("#radio-5").is(':checked')==true){
+			
+			$("#div1").hide();
+			$("#othertitle").val('0.00');
+			$("#otherprice").val('0.00');
+		}
+	});
+	$("#radio-6").click(function(){
+		if($("#radio-6").is(':checked')==true){
+			
+			$("#div1").show();
+			$("#othertitle").val('');
+			$("#otherprice").val('');
+		}
+	});
 	
 	$(".allownumericwithdecimal").on("keypress keyup blur",function (event) {
             //this.value = this.value.replace(/[^0-9\.]/g,'');

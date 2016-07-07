@@ -37,7 +37,7 @@ if(isset($_POST['delete_review']))
 $page = (int) (!isset($_GET["page"]) ? 1 : $_GET["page"]);
 $limit = 10;
 $startpoint = ($page * $limit) - $limit;					
-$conditions = "WHERE buyer = '".$_SESSION['account']['id']."'";						
+$conditions = " WHERE buyer = '".$_SESSION['account']['id']."' ORDER by id DESC ";			
 $statement = "pr_payments" . $conditions;						
 $conditions .= " LIMIT {$startpoint} , {$limit}";	
 $purchase = $common->getpagirecords('pr_payments','*',$conditions);

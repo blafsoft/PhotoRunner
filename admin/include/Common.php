@@ -332,6 +332,44 @@ class Cl_Common extends Cl_Messages
 			return false;
 		}
 	}
+
+	public function deactivateartist( $data )
+	{		
+		if(!empty( $data ) )
+		{
+			$id = $_POST['id'];
+			$query = "UPDATE pr_artist SET status ='0' WHERE id = '".$id."'";
+			if(mysqli_query($this->_con, $query))
+			{
+				parent::add('s', 'Record has been Deactivated successfully.');	
+				return true;
+			}	
+		} 
+		else
+		{
+			parent::add('e', '(*)All Fields are required.');	
+			return false;
+		}
+	}
+	
+	public function activateartist( $data )
+	{	
+		if(!empty( $data ) )
+		{
+			$id = $_POST['id'];
+			$query = "UPDATE pr_artist SET status ='1' WHERE id = '".$id."'";
+			if(mysqli_query($this->_con, $query))
+			{
+				parent::add('s', 'Record has been Activated successfully.');	
+				return true;
+			}	
+		} 
+		else
+		{
+			parent::add('e', '(*)All Fields are required.');	
+			return false;
+		}
+	}
 	
 	public function subcategory( array $data )
 	{
@@ -1478,35 +1516,35 @@ class Cl_Common extends Cl_Messages
 			return false;
 		}
 	}
-	
-	
-	public function orientationimage( $postdata, $filesdata )
+
+
+	public function addatirst( $postdata, $filesdata )
 	{
 		if(!empty( $postdata ) &&  !empty( $filesdata ))
 		{	
 			$trimmed_data = $postdata;
-			$title = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['title'], ENT_QUOTES ));
-			$description = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['description'], ENT_QUOTES ));
-			$id = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['id'], ENT_QUOTES ));
-			if((empty($title)) || (empty($description)) || (empty($id))) 
+			$seller = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['seller'], ENT_QUOTES ));
+			$heading = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['heading'], ENT_QUOTES ));
+			$subheadning = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['subheadning'], ENT_QUOTES ));
+			$story = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['story'], ENT_QUOTES ));
+			if((empty($seller)) || (empty($heading)) || (empty($subheadning)) || (empty($story))) 
 			{	
 				parent::add('e', '(*) Fields are required.');	
 				return false;
 			}
-			
-			if(!empty($filesdata['image']['name']))
+			if(!empty($filesdata['banner']['name']))
 			{
 				$validextensions = array("jpeg", "jpg", "png");
-				$ext = explode('.', basename($filesdata['image']['name']));
+				$ext = explode('.', basename($filesdata['banner']['name']));
 				$file_extension = end($ext);
 				$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
-				$file_target_path = "../uploads/" . $filename;  
+				$file_target_path = "../uploads/artist/" . $filename;  
 				
-				if(($_FILES["image"]["size"] < 1000000) && in_array($file_extension, $validextensions)) 
+				if(($_FILES["banner"]["size"] < 100000000) && in_array($file_extension, $validextensions)) 
 				{
-					if (move_uploaded_file($_FILES['image']['tmp_name'], $file_target_path)) 
+					if (move_uploaded_file($_FILES['banner']['tmp_name'], $file_target_path)) 
 					{
-						$query = "UPDATE bw_orientation SET title ='".$title."', description ='".$description."', image ='".$filename."' WHERE id = '".$id."'";
+						$query = "insert into pr_artist SET seller ='".$seller."' , heading ='".$heading."' , subheadning ='".$subheadning."' , story ='".$story."' , banner ='".$filename."' , status ='1'";
 						if(mysqli_query($this->_con, $query))
 						{
 							parent::add('s', 'Record has been updated successfully.');	
@@ -1533,6 +1571,69 @@ class Cl_Common extends Cl_Messages
 		}
 	}
 
+	public function updateatirst( $postdata, $filesdata )
+	{
+		if(!empty( $postdata ) &&  !empty( $filesdata ))
+		{	
+			$trimmed_data = $postdata;
+			$seller = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['seller'], ENT_QUOTES ));
+			$heading = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['heading'], ENT_QUOTES ));
+			$subheadning = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['subheadning'], ENT_QUOTES ));
+			$story = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['story'], ENT_QUOTES ));
+			$id = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['id'], ENT_QUOTES ));
+			if((empty($seller)) || (empty($heading)) || (empty($subheadning)) || (empty($story)) || (empty($id))) 
+			{	
+				parent::add('e', '(*) Fields are required.');	
+				return false;
+			}
+			if(!empty($filesdata['banner']['name']))
+			{
+				$validextensions = array("jpeg", "jpg", "png");
+				$ext = explode('.', basename($filesdata['banner']['name']));
+				$file_extension = end($ext);
+				$filename = md5(uniqid()) . "." . $ext[count($ext) - 1];
+				$file_target_path = "../uploads/artist/" . $filename;  
+				
+				if(($_FILES["banner"]["size"] < 100000000) && in_array($file_extension, $validextensions)) 
+				{
+					if (move_uploaded_file($_FILES['banner']['tmp_name'], $file_target_path)) 
+					{
+						$query = "UPDATE pr_artist SET seller ='".$seller."' , heading ='".$heading."' , subheadning ='".$subheadning."' , story ='".$story."' , banner ='".$filename."' WHERE id = '".$id."'";
+						if(mysqli_query($this->_con, $query))
+						{
+							parent::add('s', 'Record has been updated successfully.');	
+							return true;
+						}	
+					} 
+					else 
+					{
+						$common->add('e', 'Somthing went wrong. Please try again.');	
+						$common->redirect(APP_FULL_URL);
+					}
+				}
+				else
+				{
+					$common->add('e', 'Somthing went wrong. Please try again.');	
+					$common->redirect(APP_FULL_URL);
+				}
+			}
+			else
+			{
+				$query = "UPDATE pr_artist SET seller ='".$seller."' , heading ='".$heading."' , subheadning ='".$subheadning."' , story ='".$story."' WHERE id = '".$id."'";
+				if(mysqli_query($this->_con, $query))
+				{
+					parent::add('s', 'Record has been updated successfully.');	
+					return true;
+				}
+
+			}
+		} 
+		else
+		{
+			parent::add('e', '(*)All Fields are required.');	
+			return false;
+		}
+	}
 
 	public function homepage( $postdata, $filesdata )
 	{
@@ -1552,6 +1653,23 @@ class Cl_Common extends Cl_Messages
 			$companydescription = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['companydescription'], ENT_QUOTES ));
 			$copyright = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['copyright'], ENT_QUOTES ));
 
+			$logotext = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['logotext'], ENT_QUOTES ));
+
+			$firstimagetitle = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['firstimagetitle'], ENT_QUOTES ));
+			$firstimagesubtitle = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['firstimagesubtitle'], ENT_QUOTES ));
+
+			$secondimagetitle = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['secondimagetitle'], ENT_QUOTES ));
+			$secondimagesubtitle = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['secondimagesubtitle'], ENT_QUOTES ));
+
+			$thirdimagetitle = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['thirdimagetitle'], ENT_QUOTES ));
+			$thirdimagesubtitle = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['thirdimagesubtitle'], ENT_QUOTES ));
+
+			$fourtimagetitle = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['fourtimagetitle'], ENT_QUOTES ));
+			$fourtimagesubtitle = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['fourtimagesubtitle'], ENT_QUOTES ));
+
+			$fifthimagetitle = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['fifthimagetitle'], ENT_QUOTES ));
+			$fifthimagesubtitle = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['fifthimagesubtitle'], ENT_QUOTES ));
+
 
 			if((empty($number)) || 
 			(empty($email)) || 
@@ -1560,6 +1678,19 @@ class Cl_Common extends Cl_Messages
 			(empty($thirddescription)) || 
 			(empty($fourthdescription)) || 
 			(empty($fifthdescription)) || 
+			(empty($logotext)) || 
+
+			(empty($firstimagetitle)) || 
+			(empty($firstimagesubtitle)) || 
+			(empty($secondimagetitle)) || 
+			(empty($secondimagesubtitle)) || 
+			(empty($thirdimagetitle)) || 
+			(empty($thirdimagesubtitle)) || 
+			(empty($fourtimagetitle)) || 
+			(empty($fourtimagesubtitle)) || 
+			(empty($fifthimagetitle)) || 
+			(empty($fifthimagesubtitle)) || 
+
 			(empty($companydescription)) || (empty($copyright))) 
 			{
 				parent::add('e', '(*) Fields are required.');	
@@ -1961,6 +2092,20 @@ class Cl_Common extends Cl_Messages
 			fourthdescription ='".$fourthdescription."', 
 			fifthdescription ='".$fifthdescription."', 
 			copyright ='".$copyright."', 
+			logotext ='".$logotext."', 
+
+			firstimagetitle ='".$firstimagetitle."', 
+			firstimagesubtitle ='".$firstimagesubtitle."', 
+			secondimagetitle ='".$secondimagetitle."', 
+			secondimagesubtitle ='".$secondimagesubtitle."', 
+			thirdimagetitle ='".$thirdimagetitle."', 
+			thirdimagesubtitle ='".$thirdimagesubtitle."', 
+			fourtimagetitle ='".$fourtimagetitle."', 
+			fourtimagesubtitle ='".$fourtimagesubtitle."', 
+			fifthimagetitle ='".$fifthimagetitle."', 
+			fifthimagesubtitle ='".$fifthimagesubtitle."', 
+
+
 			companydescription ='".$companydescription."'";
 			if(mysqli_query($this->_con, $query))
 			{
@@ -5144,7 +5289,7 @@ class Cl_Common extends Cl_Messages
 	
 	public function sendemail( $eng_email, $subject, $message )
 	{
-	if( !empty( $eng_email ) && !empty( $subject ) && !empty( $message ) ) 
+		if( !empty( $eng_email ) && !empty( $subject ) && !empty( $message ) )
 		{
 
 			if ($this->is_email( $eng_email)) 
@@ -5156,48 +5301,14 @@ class Cl_Common extends Cl_Messages
 				parent::add('e', 'Please enter a valid email address!');
 				return false;
 			}
+			
+			$headers  = 'MIME-Version: 1.0' . "\r\n";
+			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
 
-			$client = SesClient::factory(array(
-				'credentials' => [
-					'key'    => 'AKIAJSP57LI6NF4NDFFQ',
-					'secret' => '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'
-				],
-				'region' => 'eu-west-1',
-				'version' => 'latest'
-			));
-
-			$result = $client->sendEmail(array(
-				// Source is required
-				'Source' => 'post@photorunner.no',
-				// Destination is required
-				'Destination' => array(
-					'ToAddresses' => array($eng_email),
-				),
-				// Message is required
-				'Message' => array(
-					// Subject is required
-					'Subject' => array(
-						// Data is required
-						'Data' => $subject,
-						'Charset' => 'UTF-8',
-					),
-					// Body is required
-					'Body' => array(
-						'Text' => array(
-							// Data is required
-							'Data' => $message,
-							'Charset' => 'UTF-8',
-						),
-						'Html' => array(
-							// Data is required
-							'Data' => $message,
-							'Charset' => 'UTF-8',
-						),
-					),
-				),
-				'SourceArn' => 'arn:aws:ses:eu-west-1:567219455324:identity/post@photorunner.no'
-			));
+			$headers .= 'From: '.APP_NAME.' <'.ADMIN_EMAIL.'>' . "\r\n";
+			mail($eng_email, $subject, $message, $headers);
 			return true;
+			
 		} 
 		else
 		{

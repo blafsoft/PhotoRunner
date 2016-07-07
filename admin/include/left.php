@@ -81,6 +81,16 @@
 					<i class="fa fa-file"></i><span>Manage Social Networks</span>
 				</a>
 			</li>
+			<li class="treeview">
+				<a href="#">
+					<i class="fa fa-file"></i><span>Manage Signature Story</span>
+					<i class="fa fa-angle-left pull-right"></i>
+				</a>
+				<ul class="treeview-menu">
+					<li><a href="add-artist.php"><i class="fa fa-circle-o"></i>Add Signature Artist Story</a></li>
+					<li><a href="manage-artist.php"><i class="fa fa-circle-o"></i>Manage Signature Artist Story</a></li>
+				</ul>
+			</li>
 		</ul>
 	</section>
 </aside>

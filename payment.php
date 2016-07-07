@@ -224,8 +224,12 @@ if(isset($_POST['paypal']))
 										<div style="font-size:15px; font-weight:bold; padding:5px;">$ <?php echo $view->printfilepricea5; ?> USD</div>
 										<div style="font-size:15px; font-weight:bold; padding:5px;">Printfile</div>
 									<?php } ?>
+									<?php if($value['size'] == 'othertitle') { $stripe  = $view->printfilepricea5; ?>
+										<div style="font-size:15px; font-weight:bold; padding:5px;">$ <?php echo $view->otherprice; ?> USD</div>
+										<div style="font-size:15px; font-weight:bold; padding:5px;"><?php echo $view->othertitle; ?></div>
+									<?php } ?>
 								<?php } ?>
-								<div style="font-size:15px; font-weight:bold; padding:5px;"><?php if($value['size'] == 'nosize') { ?>Normal Size<?php } ?><?php if($value['size'] == 'A3') { ?>A3 Size<?php } ?><?php if($value['size'] == 'A4') { ?>A4 Size<?php } ?><?php if($value['size'] == 'A5') { ?>A5 Size<?php } ?></div>
+								<div style="font-size:15px; font-weight:bold; padding:5px;"><?php if($value['size'] == 'nosize') { ?>Normal Size<?php } ?><?php if($value['size'] == 'A3') { ?>A3 Size<?php } ?><?php if($value['size'] == 'A4') { ?>A4 Size<?php } ?><?php if($value['size'] == 'A5') { ?>A5 Size<?php } ?><?php if($value['size'] == 'othertitle') { ?><?php echo $view->othertitle; ?><?php } ?></div>
 							</div>
 							<div class="col-md-3" style="padding:10px;">
 								<div style="font-size:16px; padding-top:10px; color:#66AEDC; float:right"><a href="<?php echo APP_URL; ?>payment.php?delete=<?php echo $key; ?>" style="text-decoration:none"><img src="images/file_delete.png" height="24px" />&nbsp;&nbsp;Remove</a></div>
