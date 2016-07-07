@@ -328,7 +328,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 		}
 	}
 	
-	
+	---
 	public function login( array $data )
 	{
 		if( !empty( $data ) ){
