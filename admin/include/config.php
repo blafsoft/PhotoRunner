@@ -20,8 +20,8 @@ if (!defined("ADMIN_EMAIL")) define("ADMIN_EMAIL", "info@photorunner.no");
 
 if (!defined("APP_FOLDER")) define("APP_FOLDER", "admin/");
 if (!defined("APP_ROOT")) define("APP_ROOT", $_SERVER["DOCUMENT_ROOT"]."/".APP_FOLDER);
-if (!defined("APP_URL")) define("APP_URL", "http://".$_SERVER["HTTP_HOST"]."/".APP_FOLDER);
-if (!defined("APP_FULL_URL")) define("APP_FULL_URL", "http://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI']);
+if (!defined("APP_URL")) define("APP_URL", "https://".$_SERVER["HTTP_HOST"]."/".APP_FOLDER);
+if (!defined("APP_FULL_URL")) define("APP_FULL_URL", "https://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI']);
 
 
 define('GALLERY_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.gallery/");
