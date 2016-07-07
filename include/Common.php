@@ -1114,6 +1114,10 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 		$printfilepricea3 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea3'] );
 		$printfilepricea4 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea4'] );
 		$printfilepricea5 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea5'] );
+		
+		$othertitle = mysqli_real_escape_string( $this->_con, $trimmed_data['othertitle'] );
+		$otherprice = mysqli_real_escape_string( $this->_con, $trimmed_data['otherprice'] );
+		$massage = mysqli_real_escape_string( $this->_con, $trimmed_data['massage'] );
 
 		if(empty( $data ) || empty($name) || empty($category) || empty($gallery))
 		{
@@ -1133,7 +1137,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 		if($update){
 			$query = "UPDATE pr_photos SET name = '".$name."', category='".$category."',gallery='".$gallery."', webfile = '".$filename."', webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."' WHERE id = '".base64_decode($_GET['id'])."' AND seller = '".$_SESSION['seller']['id']."'";
 		} else {
-			$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."',date ='".$entered."'";
+			$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."',date ='".$entered."',othertitle ='".$othertitle."',otherprice ='".$otherprice."',massage ='".$massage."';
 		}
 		mysqli_query($this->_con, $query);
 	}
