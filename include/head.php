@@ -26,6 +26,13 @@
 			});
 		});
 	</script>
+	<style>
+	.abcd {
+	    background-image: url("images/logo.png");
+	    background-size:100%;
+	    width:100%;
+	}
+	</style>
 	<!-- start-smoth-scrolling -->
 	<script>
 		$(window).on("scroll", function() {
