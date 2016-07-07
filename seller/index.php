@@ -189,6 +189,36 @@ if(isset($_POST['submit']))
 						</select>
 					</div>*/ ?>
 				</div>
+				<div class="col-md-12">
+					<lable style="padding:5px;">About Us</lable>
+					<textarea name="about" id="about" type="text" style="width:100%; border-radius:0px;border: 1px solid #d9d9d9; padding:10px 15px;"><?php echo $seller->about; ?></textarea>
+				</div>
+				<div style="height:10px; clear:both"></div>
+				<div class="col-md-12">
+					<lable style="padding:5px;">Geographical Area</lable>
+					<textarea name="area" id="area" type="text" style="width:100%; border-radius:0px;border: 1px solid #d9d9d9; padding:10px 15px;"><?php echo $seller->area; ?></textarea>
+				</div>
+				<div style="height:10px; clear:both"></div>
+				<div class="col-md-6">
+					<lable style="padding:5px;">Collection</lable>
+					<input type="file" name="banner1" id="banner1" style="border:0px;"/>
+					<img src="<?php echo APP_URL; ?>uploads/seller/<?php echo $seller->banner1; ?>" style="max-width:100px;min-width:100px;max-height:70px;min-height:70px; padding-left:15px; padding-bottom:10px;">
+					<div style="clear:both"></div>
+				</div>
+				<div class="col-md-6">
+					<lable style="padding:5px;">Collection</lable>
+					<input type="file" name="banner2" id="banner2" style="border:0px;"/>
+					<img src="<?php echo APP_URL; ?>uploads/seller/<?php echo $seller->banner2; ?>" style="max-width:100px;min-width:100px;max-height:70px;min-height:70px; padding-left:15px; padding-bottom:10px;">
+					<div style="clear:both"></div>
+				</div>
+				<div style="height:10px; clear:both"></div>
+				<div class="col-md-12">
+					<div><lable style="padding:5px;">Set your price in USD and EURO</lable></div>
+					<div style="width:15%; float:left"><input type="text" placeholder="$ USD"  id="price" name="price" class="numeric" value="<?php echo $seller->price; ?>"/></div>
+
+					<div style="width:15%; float:left"><input type="text" placeholder="&#8364; EURO"  id="priceeuro" name="priceeuro" class="numeric" value="<?php echo $seller->priceeuro; ?>"/></div>
+					<div style="width:70%;"><input type="text" placeholder="Enter text your price is per hour or per day"  id="pricetext" name="pricetext" value="<?php echo $seller->pricetext; ?>"/></div>
+				</div>
 				<noscript><input name="js_enabled" type="hidden" value="1"></noscript>
 				<input type="hidden" name="id" value="<?php echo $_SESSION['seller']['id']; ?>" >
 				<button type="submit" name="submit" id="btnSubmit"/>Update Profile</button>
@@ -217,6 +247,20 @@ $(document).ready(function() {
             else {
                 $(this).css({
 					"border": "1px solid #3cb371",
+                });
+            }
+        });
+        
+        $('#photo-form textarea[type="text"]').each(function() {
+            if ($.trim($(this).val()) == '') {
+                isValid = false;
+                $(this).css({
+                    "border": "1px solid red",
+                });
+            }
+            else {
+                $(this).css({
+			"border": "",
                 });
             }
         });
