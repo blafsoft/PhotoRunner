@@ -125,7 +125,7 @@ if(isset($_POST['register']))
 						<div class="form"></div>
 						<div class="form">
 							<h2 style="text-align:center">Registration with PhotoRunner</h2>
-							<form  action=""  method="post" id="photo-form"> 
+							<form  action=""  method="post" id="photo-form" enctype='multipart/form-data'> 
 								<input type="email" placeholder="Email Address" name="email" id="email"/>
 								<input type="text" placeholder="User Name" name="username" id="username"/>
 								<div style="float:left; width:47%;"><input type="password" placeholder="Password" name="passwordd" id="passwordd"/></div><div style="width:4%; float:left">&nbsp;</div><div style="width:47%; float:right"><input type="password" placeholder="Confirm Password" name="cpassword" id="cpassword"/></div>
@@ -137,79 +137,34 @@ if(isset($_POST['register']))
 
 
 								<input type="text" placeholder="Bank name"  id="bankname" name="bankname" />
-								<input type="text" placeholder="Account owner's name"  id="owner_name" name="owner_name" />
-								<input type="text" placeholder="Bank Account Number"  id="banknumber" name="banknumber" class="numeric"/>
+								<div style="float:left; width:47%;"><input type="text" placeholder="Account owner's name"  id="owner_name" name="owner_name" /></div>
+								<div style="float:right; width:47%;"><input type="text" placeholder="Bank Account Number"  id="banknumber" name="banknumber" class="numeric"/></div>
+								<div style="clear:both;"></div>
+								<div style="float:left; width:47%;"><input type="text" placeholder="Country"  id="country" name="country"/></div>
+								<div style="float:right; width:47%;"><input type="text" placeholder="State"  id="state" name="state"/></div>
+								<div style="clear:both;"></div>
+								<div style="float:left; width:47%;"><input type="text" placeholder="City"  id="city" name="city"/></div>
+								<div style="float:right; width:47%;"><input type="text" placeholder="Zip Code"  id="zip_code" name="zip_code"/></div>
+								<div style="clear:both;"></div>
+								<textarea name="about" id="about" type="text" style="width:100%; border-radius:0px;border: 1px solid #d9d9d9; padding:10px 15px;"  placeholder="Write about your self"></textarea>
+								<div style="clear:both; height:10px;"></div>
+								<div style="font-weight:bold; margin-bottom:10px;">Brows your best collation</div>
+								<div style="float:left; width:47%;"><input type="file" id="banner1" name="banner1"/></div>
+								<div style="float:right; width:47%;"><input type="file" id="banner2" name="banner2"/></div>
+								<div style="clear:both;"></div>
+								<textarea name="area" id="area" type="text" style="width:100%; border-radius:0px;border: 1px solid #d9d9d9; padding:10px 15px;"  placeholder="Geographical area for work"></textarea>
+								<div style="clear:both; height:10px;"></div>
 
-								<input type="text" placeholder="Country"  id="country" name="country"/>
-								<input type="text" placeholder="State"  id="state" name="state"/>
-								<input type="text" placeholder="City"  id="city" name="city"/>
-
-								<?php /*<select class="form-control" style="border-radius:0px; margin: 0 0 20px;" name="country" id="country" required="required" onchange="getstate(this.value);">
-									<option value="">Select Country</option>
-									<?php
-									$conditions = array();
-									$country = $common->getrecords('pr_country','*',$conditions);
-									if(!empty($country))
-									{
-										$k=1;
-										foreach($country as $country)
-										{
-											?>
-											<option value="<?php echo $country->id; ?>"<?php if($country->state == $country->id) { echo"selected='selected'"; }  ?>><?php echo $country->country; ?></option>
-											<?php
-										}
-									}
-									?>
-								</select>
-								<div id="show_state">
-									<select class="form-control" style="border-radius:0px; margin: 0 0 20px;" name="state" id="state" required="required">
-										<option value="">Select State</option>
-										<?php
-										$rim = $cityy->country;
-										$conditions = array(country => $rim);
-										$state = $common->getrecords('pr_state','*',$conditions);
-										if(!empty($state))
-										{
-											$k=1;
-											foreach($state as $state)
-											{
-												?>
-												<option value="<?php echo $state->id; ?>"<?php if($cityy->state == $state->id) { echo"selected='selected'"; }  ?>><?php echo $state->state; ?></option>
-												<?php
-											}
-										}
-										?>
-									</select>
-								</div>
-								<div id="show_city">
-									<select class="form-control" style="border-radius:0px; margin: 0 0 20px;"  name="city" id="city" required="required">
-										<option value="">Select City</option>
-										<?php
-										$rim = $cityy->country;
-										$conditions = array(country => $rim);
-										$state = $common->getrecords('pr_city','*',$conditions);
-										if(!empty($state))
-										{
-											$k=1;
-											foreach($state as $state)
-											{
-												?>
-												<option value="<?php echo $state->id; ?>"<?php if($cityy->state == $state->id) { echo"selected='selected'"; }  ?>><?php echo $state->state; ?></option>
-												<?php
-											}
-										}
-										?>
-									</select>
-								</div>*/ ?>
-								<input type="text" placeholder="Zip Code"  id="zip_code" name="zip_code"/>
-								<!--
+								<div style="font-weight:bold; margin-bottom:10px;">Set your price in USD and EURO</div>
+								<div style="width:15%; float:left"><input type="text" placeholder="$ USD"  id="price" name="price" class="numeric"/></div>
+								<div style="width:15%; float:left"><input type="text" placeholder="&#8364; EURO"  id="priceeuro" name="priceeuro" class="numeric"/></div>
+								<div style="width:70%;"><input type="text" placeholder="Enter text your price is per hour or per day"  id="pricetext" name="pricetext"/></div>
 								<div class="form_riwidth" style="float:left">
 									<img src="captcha_code_file.php?rand=<?php echo rand(); ?>" id='captchaimg' ><br></a>	
 									<span style="float:left; color:grey;">Can't read the image? click <a href='javascript: refreshCaptcha();' style="font-weight:bold; color:#00A2B5;">&nbsp;&nbsp;here&nbsp;&nbsp;</a>to refresh</span>
 									<input type="text" id="6_letters_code" name="6_letters_code" class="input_div_div" placeholder="Enter The Code Above here" required="required"/>
 									</br>
 								</div>
-								-->
 								<script language='JavaScript' type='text/javascript'>
 								function refreshCaptcha()
 								{
@@ -330,6 +285,34 @@ $(document).ready(function() {
     $('#register').click(function(e) {
         var isValid = true;
         $('#photo-form input[type="text"]').each(function() {
+            if ($.trim($(this).val()) == '') {
+                isValid = false;
+                $(this).css({
+                    "border": "1px solid red",
+                });
+            }
+            else {
+                $(this).css({
+			"border": "1px solid #3cb371",
+                });
+            }
+        });
+
+        $('#photo-form textarea[type="text"]').each(function() {
+            if ($.trim($(this).val()) == '') {
+                isValid = false;
+                $(this).css({
+                    "border": "1px solid red",
+                });
+            }
+            else {
+                $(this).css({
+			"border": "1px solid #3cb371",
+                });
+            }
+        });
+
+        $('#photo-form input[type="file"]').each(function() {
             if ($.trim($(this).val()) == '') {
                 isValid = false;
                 $(this).css({
