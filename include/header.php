@@ -100,5 +100,5 @@
 		</div>
 	</div>
 </div>
-<script src="<?php echo APP_URL; ?>search-input/classie.js"></script>
-<script src="<?php echo APP_URL; ?>search-input/search.js"></script>
+<script src="<?php echo APP_URL; ?>js/classie.js"></script>
+<script src="<?php echo APP_URL; ?>js/search.js"></script>
