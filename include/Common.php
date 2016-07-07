@@ -11,7 +11,7 @@ class Cl_Common extends Cl_Messages
 
 	public function __construct()
 	{
-		$db = new Cl_DBclass();
+		$db = new Cl_DBclass();login
 		$this->_con = $db->con;
 		$this->_con = $db->con;
 	}
@@ -328,7 +328,6 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 		}
 	}
 	
-	---
 	public function login( array $data )
 	{
 		if( !empty( $data ) ){
