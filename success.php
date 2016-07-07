@@ -3,10 +3,11 @@
 $page = (int) (!isset($_GET["page"]) ? 1 : $_GET["page"]);
 $limit = 10;
 $startpoint = ($page * $limit) - $limit;					
-$conditions = "WHERE buyer = '".$_SESSION['guast']['email']."'";						
+$conditions = " WHERE buyer = '".$_SESSION['guast']['email']."' ORDER by id DESC ";			
 $statement = "pr_payments" . $conditions;						
 $conditions .= " LIMIT {$startpoint} , {$limit}";	
 $purchase = $common->getpagirecords('pr_payments','*',$conditions);
+
 
 ?>
 <!DOCTYPE html>
@@ -85,6 +86,19 @@ if(isset($_POST['printfile']))
 				},2000);
 		</script>
 	<?php } ?>
+	<?php if($_POST['size'] == 'othertitle') { ?>
+		<script type="text/javascript">     
+				var divToPrint = document.getElementById('divToPrint');
+				var popupWin = window.open('', '_blank', 'width=1400,height=800');
+				popupWin.document.open();
+				popupWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</html>');
+				popupWin.document.close();
+			
+				setInterval(function(){
+					location.href = "<?php echo APP_URL; ?>success.php";
+				},2000);
+		</script>
+	<?php } ?>
 	<?php	
 }
 ?>
@@ -119,27 +133,32 @@ if(isset($_POST['printfile']))
 					$conditionsseller = array('id'=>$purchase->photographer);
 					$seller = $common->getrecord('pr_seller','*',$conditionsseller);
 					?>
-					<div class="col-md-12" style="border:2px solid #33b5e5; float:left">
+					<div style="border:2px solid #33b5e5; width:100%; float:left">
 						<div>
 							<div class="col-md-3" style="padding:10px;"><img src="<?php echo APP_URL; ?>uploads/photos/watermark/<?php echo $photo->webfile; ?>" style="width:100%; height:180px;" /></div>
-							<div class="col-md-2" style="padding:10px;">
-								<div style="font-size:15px; font-weight:bold; padding:5px;">Product Name</div>
-								<div style="font-size:15px; font-weight:bold; padding:5px;">TXN Id</div>
-								<div style="font-size:15px; font-weight:bold; padding:5px;">Payment Status</div>
-								<div style="font-size:15px; font-weight:bold; padding:5px;">Type</div>
-								<div style="font-size:15px; font-weight:bold; padding:5px;">File Size</div>
-								<div style="font-size:15px; font-weight:bold; padding:5px;">Price</div>
-								<div style="font-size:15px; font-weight:bold; padding:5px;">Photographer</div>
-							</div>
-							<div class="col-md-5" style="padding:10px;">
+							<div class="col-md-7" style="padding:10px;">
+								<div style="font-size:15px; font-weight:bold; padding:5px;" class="buyerbuyer">Product Name</div>
 								<div style="font-size:15px; padding:5px;">: <?php echo $photo->name; ?></div>
+
+								<div style="font-size:15px; font-weight:bold; padding:5px;" class="buyerbuyer">TXN Id</div>
 								<div style="font-size:15px; padding:5px;">: <?php echo $purchase->txnid; ?></div>
+								<div style="font-size:15px; font-weight:bold; padding:5px;" class="buyerbuyer">Payment Status</div>
 								<div style="font-size:15px; padding:5px;">: <?php echo $purchase->payment; ?></div>
+								<div style="font-size:15px; font-weight:bold; padding:5px;" class="buyerbuyer">Type</div>
 								<div style="font-size:15px; padding:5px;">: <?php echo $purchase->type; ?></div>
-								<div style="font-size:15px; padding:5px;">: 
-<?php if($purchase->size == 'nosize') { ?>Real Size<?php } ?><?php if($purchase->size == 'A3') { ?>A3<?php } ?><?php if($purchase->size == 'A4') { ?>A4<?php } ?><?php if($purchase->size == 'A5') { ?>A5<?php } ?></div>
+								<div style="font-size:15px; font-weight:bold; padding:5px;" class="buyerbuyer">File Size</div>
+								<div style="font-size:15px; padding:5px;">: <?php if($purchase->size =='othertitle') { ?><?php echo $photo->othertitle; }else{ ?><?php echo $purchase->size; } ?></div>
+								<div style="font-size:15px; font-weight:bold; padding:5px;" class="buyerbuyer">Price</div>
 								<div style="font-size:15px; padding:5px;">: $ <?php echo $purchase->amount; ?> USD</div>
+								<div style="font-size:15px; font-weight:bold; padding:5px;" class="buyerbuyer">Photographer</div>
 								<div style="font-size:13px; padding:5px;">: <?php echo $seller->username; ?></div>
+<div style="clear:both"></div>
+<?php
+$str = $purchase->date;
+$date = explode(" ",$str);
+?>
+								<div style="font-size:15px; font-weight:bold; padding:5px;"class="buyerbuyer">Date</div>
+								<div style="font-size:13px; padding:5px;">: <?php echo $date['0']; ?></div>
 							</div>
 							<div class="col-md-2" style="padding:10px;">
 							<?php if($purchase->type == 'webfile') { ?>
