@@ -2,9 +2,8 @@
 
 $page = (int) (!isset($_GET["page"]) ? 1 : $_GET["page"]);
 $limit = 10;
-$startpoint = ($page * $limit) - $limit;
-$conditions = "WHERE photographer = '".$_SESSION['seller']['id']."'";						
-//$conditions = " WHERE photographer = '28' ";						
+$startpoint = ($page * $limit) - $limit;					
+$conditions = " WHERE photographer = '".$_SESSION['seller']['id']."' ORDER by id DESC ";			
 $statement = "pr_payments" . $conditions;						
 $conditions .= " LIMIT {$startpoint} , {$limit}";	
 $purchase = $common->getpagirecords('pr_payments','*',$conditions);
