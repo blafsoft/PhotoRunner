@@ -399,7 +399,21 @@ $(document).ready(function() {
 			"border": "",
 		});
 	    }
-	});	
+	});
+	$('#photo-form input[type="textarea"]').each(function() {
+	    if ($.trim($(this).val()) == '') {
+		isValid = false;
+		$(this).css({
+		    "border": "1px solid red",
+		
+		});
+	    }
+	    else {
+		$(this).css({
+			"border": "",
+		});
+	    }
+	});
 	$('#photo-form input[type="file"]').each(function() {
 	    if ($.trim($(this).val()) == '') {
 		isValid = false;
