@@ -93,14 +93,14 @@ else
 			<div class="banner-info space_for_photo">
 				<div id="custom-search-input">
 					<form  action=""  method="get" style="width:100%">
-						<div class="input-group col-md-12" style="padding:0px;">
+						<?php /*<div class="input-group col-md-12" style="padding:0px;">
 							<input type="text" class="search-query form-control " placeholder="Find the perfect Photos,vector and more...." style="color:#333; border-radius:0px; height:60px; " required="required" name="searchinput"/>
 							<span class="input-group-btn">
 								<button class="btn btn-danger" type="submit" style="padding: 19px 22px !important; border-radius:0px;" name="search">
 									<span class=" glyphicon glyphicon-search"></span>
 								</button>
 							</span>
-						</div>
+						</div>*/ ?>
 					</form>
 				</div>
 			</div>
