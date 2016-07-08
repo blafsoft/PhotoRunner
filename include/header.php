@@ -20,7 +20,7 @@
 					<?php if(!empty($_SESSION['guast']['email'])) { ?>
 					<li style="font-weight:bold;font-size: 15px;font-weight: bold;"><a href="<?php echo APP_URL; ?>success.php" style="color:#333;text-decoration:none;">My Purchase List</a></li>
 
-					<li style=""><a href="<?php echo APP_URL; ?>guast-payment.php" style="color:#333;text-decoration:none;font-weight:bold;font-size: 16px;font-weight: bold; background-color:#4bc1f0; padding-left:20px; padding-right:20px; padding-top:8px; padding-bottom:8px; margin-right:10px; border-radius:3px;"><img src="<?php echo APP_URL; ?>images/2772.png" style="max-width:20px"><img src="images/2772.png" style="max-width:100%"> ( <?php echo $cart;?> )</a></li>
+					<li style=""><a href="<?php echo APP_URL; ?>guast-payment.php" style="color:#333;text-decoration:none;font-weight:bold;font-size: 16px;font-weight: bold; background-color:#4bc1f0; padding-left:20px; padding-right:20px; padding-top:8px; padding-bottom:8px; margin-right:10px; border-radius:3px;"><img src="<?php echo APP_URL; ?>images/2772.png" style="max-width:20px"> ( <?php echo $cart;?> )</a></li>
 					<?php }else{ ?>
 					<li style=""><a href="<?php echo APP_URL; ?>payment.php" style="color:#333;text-decoration:none;font-weight:bold;font-size: 16px;font-weight: bold; background-color:#4bc1f0; padding-left:20px; padding-right:20px; padding-top:8px; padding-bottom:8px; margin-right:10px; border-radius:3px;"><img src="<?php echo APP_URL; ?>images/2772.png" style="max-width:20px"> ( <?php echo $cart;?> )</a></li>
 					<?php } ?>
