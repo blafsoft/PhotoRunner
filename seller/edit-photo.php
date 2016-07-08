@@ -9,7 +9,7 @@ if(isset($_POST['update']))
 	}
 	else
 	{
-		if($common->updatephoto($_POST, $_FILES))
+		if($common->addphoto($_POST, $_FILES, true))
 		{
 			$common->redirect(APP_URL."seller/photos.php");
 		}
