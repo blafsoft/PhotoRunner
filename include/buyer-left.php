@@ -8,7 +8,7 @@ $members = $common->getrecord('pr_members','*',$conditions) ;
 	{
 		?>
 		<div style="margin:15px;">
-			<img src="<?php echo APP_URL; ?>uploads/buyer/<?php echo $members->profilepicture; ?>" style="width:100%; min-height:200px; max-height:200px;"/>
+			<img src="<?php echo PROFILE_IMAGE . $members->profilepicture; ?>" style="width:100%; min-height:200px; max-height:200px;"/>
 		</div>
 		<?php
 	}else{
