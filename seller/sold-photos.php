@@ -38,7 +38,7 @@ $purchase = $common->getpagirecords('pr_payments','*',$conditions);
 					?>
 					<div class="" style="border:2px solid #33b5e5; float:left; width:100%;">
 						<div>
-							<div class="col-md-4" style="padding:10px;"><img src="<?php echo APP_URL; ?>uploads/photos/watermark/<?php echo $photo->webfile; ?>" style="width:100%; height:180px;" /></div>
+							<div class="col-md-4" style="padding:10px;"><img src="<?php echo WATERMARK_IMAGE . $photo->webfile; ?>" style="width:100%; height:180px;" /></div>
 							<div class="col-md-8" style="padding:10px;">
 								<div style="font-size:15px; font-weight:bold; padding:5px;"class="buyerbuyer">Photo Name</div>
 								<div style="font-size:15px; padding:5px;">: <?php echo $photo->name; ?></div>
