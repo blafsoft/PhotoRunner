@@ -23,7 +23,7 @@
     display: block;
     width: 25px;
     height: 25px;
-    background: url("../search-input/123456.png") 0 0;
+    background: url("../js/123456.png") 0 0;
     background-size:25px 25px;
     font-size: 0;
     color: rgba(0, 0, 0, 0);
@@ -34,11 +34,11 @@
 }
 
 #label label:hover {
-    background: url("../search-input/123456.png") 0 0;
+    background: url("../js/123456.png") 0 0;
     background-size:25px 25px;
 }
 #label.active label {
-    background: url("../search-input/cross.png") 0 0;
+    background: url("../js/cross.png") 0 0;
     background-size:30px 30px;
 }
 

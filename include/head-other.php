@@ -14,10 +14,17 @@
 
 	<script src="<?php echo APP_URL; ?>js/jquery-1.11.1.min.js"></script>
 	<script src="<?php echo APP_URL; ?>js/modernizr.custom.js"></script>
-	<link rel="stylesheet" href="http://fontawesome.io/assets/font-awesome/css/font-awesome.css">
+	<link rel="stylesheet" href="<?php echo APP_URL; ?>/css/font-awesome.css">
 	<!-- start-smoth-scrolling -->
 	<script type="text/javascript" src="<?php echo APP_URL; ?>js/move-top.js"></script>
 	<script type="text/javascript" src="<?php echo APP_URL; ?>js/easing.js"></script>
+	
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
+
+
+	<link rel="stylesheet" href="<?php echo APP_URL; ?>js/base.css" />
+	<link rel="stylesheet" href="<?php echo APP_URL; ?>js/style.css" />
 	<script type="text/javascript">
 		jQuery(document).ready(function($) {
 			$(".scroll").click(function(event){		
@@ -50,4 +57,11 @@
 	$("[data-toggle=tooltip]").tooltip();
 	});
 </script>
+	<style>
+	.abcd {
+	    background-image: url("images/logo.png");
+	    background-size:100%;
+	    width:100%;
+	}
+	</style>
 
