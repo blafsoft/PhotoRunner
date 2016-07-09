@@ -314,7 +314,7 @@ if(isset($_POST['paypal']))
 						<input type="hidden" name="amount" value="<?php echo $stripe1; ?>"/>
 						<script
 							src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-							data-key="pk_live_obp9GmiNdWLl0DWA5wYW6rCv"
+							data-key="pk_test_aPEmcSGdAZrf0EssMbHa1QRy"
 							data-image="http://www.photorunner.no/images/stripelogo.png"
 							data-amount="<?php echo $stripe1; ?>">
 						</script>
@@ -328,7 +328,6 @@ if(isset($_POST['paypal']))
 				</div>
 			</div>
 		</div>
-		<div class="col-md-12"><div style="width:30%; float:left;"><img src="<?php echo APP_URL; ?>images/paypal11.jpg" style="padding-top:50px; width:100%; " ></div></div>
 	</div>
 	<div style="clear:both; height:20px; float:left">&nbsp;</div>
 </div>

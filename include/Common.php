@@ -548,6 +548,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 			}
 			else
 			{
+				date_default_timezone_set("Europe/Oslo");
 				$date = date('Y-m-d h:i:s');
 				if(!empty($_SESSION['account']['id']))
 				{
