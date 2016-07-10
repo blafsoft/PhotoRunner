@@ -1084,7 +1084,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 		$this->uploadPicture("add-gallery", $_FILES['image']['tmp_name'], $filename);
 
 		$entered = @date('Y-m-d H:i:s');
-		
+
 		if($update){
 			$query = "UPDATE pr_galleries SET name = '".$name."', password = '".$password."', image = '".$filename."' WHERE id = '".base64_decode($_GET['id'])."' AND seller = '".$_SESSION['seller']['id']."'";
 		} else {
@@ -1100,8 +1100,19 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 
 
 	private function uploadPicture($command, $file, $filename){
-		exec("/usr/bin/java -jar ".APP_ROOT."image-photorunner.jar ".$command." ".$file." ".$filename, $output);
-		return $output;
+		//exec("/usr/bin/java -jar ".APP_ROOT."image-photorunner.jar ".$command." ".$file." ".$filename, $output);
+
+		$entered = @date('Y-m-d H:i:s');
+		$query = "insert into pr_imagejob (localfile, filename, command, created_date) values('".$file."', '".$filename."', '".$command."', '".$entered."')";
+
+		if(mysqli_query($this->_con, $query))
+		{
+			parent::add('s', 'Gallery has been added successfully.');
+			return true;
+		} else {
+			parent::add('e', '(*) Fields are required.');
+			return false;
+		}
 	}
 	
 	public function addphoto( $data, $filesdata, $update = false)

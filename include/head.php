@@ -20,8 +20,8 @@
 	<script type="text/javascript" src="<?php echo APP_URL; ?>js/easing.js"></script>
 	
 	
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,700italic,400,600,700' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Oswald:400,300' rel='stylesheet' type='text/css'>
 
 
 	<link rel="stylesheet" href="<?php echo APP_URL; ?>js/base.css" />

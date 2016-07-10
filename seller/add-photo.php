@@ -140,7 +140,7 @@ if(isset($_POST['submit']))
 		});
 	</script>
 	<style>
-	#loaderdiv { background: #fff url("http://www.photorunner.no/images/Preloader_2.gif") no-repeat scroll center center; }
+	#loaderdiv { background: #fff url("<?php echo APP_URL; ?>images/Preloader_2.gif") no-repeat scroll center center; }
 	.line1{margin:0px 0px 0px 15px; padding:10px; color:#00A2B5; border-bottom:1px solid #00A2B5;}
 	.line2{margin:0px 0px 0px 15px; padding:10px; color:#00A2B5;}
 	/* end only demo styles */

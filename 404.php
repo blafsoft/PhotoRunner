@@ -38,7 +38,7 @@
 			</div>
 		</div>
 		<div class="container">
-			<div style="text-align:center;"><img src="http://www.photorunner.no/images/Not-Found-404-Orange.png" /></div>	
+			<div style="text-align:center;"><img src="<?php echo APP_URL; ?>images/Not-Found-404-Orange.png" /></div>
 		</div>
 	</div>
 </div>

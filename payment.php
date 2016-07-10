@@ -315,7 +315,7 @@ if(isset($_POST['paypal']))
 						<script
 							src="https://checkout.stripe.com/checkout.js" class="stripe-button"
 							data-key="pk_test_aPEmcSGdAZrf0EssMbHa1QRy"
-							data-image="http://www.photorunner.no/images/stripelogo.png"
+							data-image="<?php echo APP_URL; ?>images/stripelogo.png"
 							data-amount="<?php echo $stripe1; ?>">
 						</script>
 						<?php /*<script
