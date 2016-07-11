@@ -1099,18 +1099,24 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 	}
 
 
+	private function uploadPictureImmidatly($command, $file, $filename){
+		exec("/usr/bin/java -jar ".APP_ROOT."image-photorunner.jar ".$command." ".$file." ".$filename, $output);
+	}
+
 	private function uploadPicture($command, $file, $filename){
-		//exec("/usr/bin/java -jar ".APP_ROOT."image-photorunner.jar ".$command." ".$file." ".$filename, $output);
+		$moved = move_uploaded_file($file, UPLOADED_IMAGE . $filename);
+
+		if(!$moved){
+			return false;
+		}
 
 		$entered = @date('Y-m-d H:i:s');
-		$query = "insert into pr_imagejob (localfile, filename, command, created_date) values('".$file."', '".$filename."', '".$command."', '".$entered."')";
+		$query = "insert into pr_imagejob (localfile, filename, command, created_date) values('".UPLOADED_IMAGE . $filename."', '".$filename."', '".$command."', '".$entered."')";
 
 		if(mysqli_query($this->_con, $query))
 		{
-			parent::add('s', 'Gallery has been added successfully.');
 			return true;
 		} else {
-			parent::add('e', '(*) Fields are required.');
 			return false;
 		}
 	}
@@ -1911,7 +1917,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 		}
 
 
-		$this->uploadPicture("add-profile", $data['profilepicture']['tmp_name'], $filename);
+		$this->uploadPictureImmidatly("add-profile", $data['profilepicture']['tmp_name'], $filename);
 		$query = "UPDATE pr_members SET profilepicture ='".$filename."' WHERE id ='".$_SESSION['account']['id']."'";
 		mysqli_query($this->_con, $query);
 	}
@@ -1927,7 +1933,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 			parent::add('e', 'Please upload valid file.');
 			return false;
 		}
-		$this->uploadPicture("add-profile", $data['profilepicture']['tmp_name'], $filename);
+		$this->uploadPictureImmidatly("add-profile", $data['profilepicture']['tmp_name'], $filename);
 		$query = "UPDATE pr_seller SET profilepicture ='".$filename."' WHERE id ='".$_SESSION['seller']['id']."'";
 		mysqli_query($this->_con, $query);
 	}

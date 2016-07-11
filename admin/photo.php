@@ -10,9 +10,6 @@ if(isset($_POST['remove']))
 	{
 
 		$common->deleterecords('pr_photos',$photoconditions);
-		@unlink(REAL_IMAGE . $photo->webfile);
-		@unlink(WATERMARK_IMAGE . $photo->webfile);
-		@unlink(BIGWATERMARK_IMAGE . $photo->webfile);
 	}
 	$msgs->add('s', 'Photo has been removed successfully.');	
 	$common->redirect(APP_URL."photo.php");
