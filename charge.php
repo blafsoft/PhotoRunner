@@ -8,7 +8,7 @@ if(!empty($_SESSION['account']['id']))
 
 	try {
 		require_once('Stripe/lib/Stripe.php');
-		Stripe::setApiKey("sk_test_YD7LxyFy5N4k2wThJACJJ3rh");
+		Stripe::setApiKey("sk_test_xitA2poC7TfjnP1IGD0FT6rp");
 		//Stripe::setApiKey("sk_live_f0Zb65LFbH3jQV4zGbzb1AMV");
 
 		 $charge = Stripe_Charge::create(array(
@@ -111,8 +111,8 @@ else
 
 	try {
 		require_once('Stripe/lib/Stripe.php');
-		//Stripe::setApiKey("sk_test_xitA2poC7TfjnP1IGD0FT6rp");
-		Stripe::setApiKey("sk_live_f0Zb65LFbH3jQV4zGbzb1AMV");
+		Stripe::setApiKey("sk_test_xitA2poC7TfjnP1IGD0FT6rp");
+		//Stripe::setApiKey("sk_live_f0Zb65LFbH3jQV4zGbzb1AMV");
 
 		 $charge = Stripe_Charge::create(array(
 		  "amount" => $stirpeamount,
