@@ -33,7 +33,7 @@ if (!defined("APP_FULL_URL")) define("APP_FULL_URL", $protocol."://".$_SERVER["H
 
 define('UPLOADED_IMAGE', "/tmp/");
 define('WATERMARK_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.thumb/");
-define('BIGWATERMARK_IMAGE', "http://photorunner.view.s3-website-eu-west-1.amazonaws.com/");
+define('BIGWATERMARK_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.view/");
 define('DESIGN_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.design/");
 define('GALLERY_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.gallery/");
 define('PROFILE_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.profile/");
