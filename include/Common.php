@@ -1104,6 +1104,8 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 	}
 
 	private function uploadPicture($command, $file, $filename){
+		exec("/usr/bin/java -jar ".APP_ROOT."image-photorunner.jar ".$command." ".$file." ".$filename, $output);
+		/*
 		$moved = move_uploaded_file($file, UPLOADED_IMAGE . $filename);
 
 		if(!$moved){
@@ -1119,6 +1121,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 		} else {
 			return false;
 		}
+		*/
 	}
 	
 	public function addphoto( $data, $filesdata, $update = false)
