@@ -1,5 +1,6 @@
 <?php
 
+//require("lib/aws/aws-autoloader.php");
 use Aws\Ses\SesClient;
 use Aws\Credentials\CredentialProvider;
 
@@ -1099,7 +1100,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 
 
 	private function uploadPictureImmidatly($command, $file, $filename){
-		exec("java -jar ".APP_ROOT."image-photorunner.jar ".$command." ".$file." ".$filename, $output);
+		exec("/usr/bin/java -jar ".APP_ROOT."image-photorunner.jar ".$command." ".$file." ".$filename, $output);
 	}
 
 	private function uploadPicture($command, $file, $filename){
