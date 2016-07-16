@@ -14,8 +14,9 @@
 
 	<script src="<?php echo APP_URL; ?>js/jquery-1.11.1.min.js"></script>
 	<script src="<?php echo APP_URL; ?>js/modernizr.custom.js"></script>
-	<link rel="stylesheet" href="<?php echo APP_URL; ?>/css/font-awesome.css">
-	<!-- start-smoth-scrolling -->
+	<link rel="stylesheet" href="<?php echo APP_URL; ?>font-awesome-4.6.3/css/font-awesome.min.css">
+
+<!-- start-smoth-scrolling -->
 	<script type="text/javascript" src="<?php echo APP_URL; ?>js/move-top.js"></script>
 	<script type="text/javascript" src="<?php echo APP_URL; ?>js/easing.js"></script>
 	
