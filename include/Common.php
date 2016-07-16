@@ -1300,8 +1300,8 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 				return false;
 			}
 			
-			$digits = 6;
-			$password = rand(pow(10, $digits-1), pow(10, $digits)-1);
+			
+			$password = $this->random_password();
 			$passwordHash = md5($password);
 		
 			$conditions = array('email'=>$email, 'type'=>'buyer');
@@ -1348,6 +1348,15 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 		}
 	}
 
+	private function random_password(){
+		$characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+		$string = '';
+		for ($i = 0; $i < 8; $i++) {
+			$string .= $characters[rand(0, strlen($characters) - 1)];
+		}
+		return $string;
+	}
+
 	public function forgotpasswordseller( $data )
 	{
 		if(!empty( $data ) )
@@ -1369,8 +1378,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 				return false;
 			}
 			
-			$digits = 6;
-			$password = rand(pow(10, $digits-1), pow(10, $digits)-1);
+			$password = $this->random_password();
 			$passwordHash = md5($password);
 		
 			$conditions = array('email'=>$email, 'type'=>'seller');
