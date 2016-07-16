@@ -1,6 +1,5 @@
 <?php
 
-//require("lib/aws/aws-autoloader.php");
 use Aws\Ses\SesClient;
 use Aws\Credentials\CredentialProvider;
 
@@ -1100,24 +1099,28 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 
 
 	private function uploadPictureImmidatly($command, $file, $filename){
-		exec("/usr/bin/java -jar ".APP_ROOT."image-photorunner.jar ".$command." ".$file." ".$filename, $output);
+		exec("java -jar ".APP_ROOT."image-photorunner.jar ".$command." ".$file." ".$filename, $output);
 	}
 
 	private function uploadPicture($command, $file, $filename){
-		$moved = move_uploaded_file($file, UPLOADED_IMAGE . $filename);
-
-		if(!$moved){
-			return false;
-		}
-
-		$entered = @date('Y-m-d H:i:s');
-		$query = "insert into pr_imagejob (localfile, filename, command, created_date) values('".UPLOADED_IMAGE . $filename."', '".$filename."', '".$command."', '".$entered."')";
-
-		if(mysqli_query($this->_con, $query))
-		{
-			return true;
+		if(MODE == 'dev'){
+			$this->uploadPictureImmidatly($command, $file, filename);
 		} else {
-			return false;
+			$moved = move_uploaded_file($file, UPLOADED_IMAGE . $filename);
+	
+			if(!$moved){
+				return false;
+			}
+	
+			$entered = @date('Y-m-d H:i:s');
+			$query = "insert into pr_imagejob (localfile, filename, command, created_date) values('".UPLOADED_IMAGE . $filename."', '".$filename."', '".$command."', '".$entered."')";
+	
+			if(mysqli_query($this->_con, $query))
+			{
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 	

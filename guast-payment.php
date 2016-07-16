@@ -306,16 +306,10 @@ if(isset($_POST['paypal']))
 					<form action="charge.php" method="post">
 						<?php $stripe1 = $subtotal*100; ?>
 						<input type="hidden" name="amount" value="<?php echo $stripe1; ?>"/>
-						<?php /*<script
-							src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-							data-key="pk_test_aPEmcSGdAZrf0EssMbHa1QRy"
-							data-image="<?php echo APP_URL; ?>images/stripelogo.png"
-							data-amount="<?php echo $stripe1; ?>">
-						</script>*/ ?>
 						<script
 							src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-							data-key="pk_test_inM99ehBADdrzRTf3wa3ggu2"
-							data-image="http://anaadit.net/photorunner/code/images/logo.png"
+							data-key="<?=PUBLISHABLE_KEY?>"
+							data-image="<?=APP_URL?>images/logo.png"
 							data-amount="<?php echo $stripe1; ?>">
 						</script>
 					</form>	

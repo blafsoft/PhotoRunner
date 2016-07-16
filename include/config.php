@@ -38,6 +38,18 @@ define('DESIGN_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.design/")
 define('GALLERY_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.gallery/");
 define('PROFILE_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.profile/");
 
+define('MODE', 'dev'); //mode can be test, prod or dev
+
+
+if(MODE == 'prod') {
+    define('SECRET_KEY', 'sk_live_f0Zb65LFbH3jQV4zGbzb1AMV');
+    define('PUBLISHABLE_KEY', 'pk_live_obp9GmiNdWLl0DWA5wYW6rCv');
+} else {
+    define('SECRET_KEY', 'sk_test_xitA2poC7TfjnP1IGD0FT6rp');
+    define('PUBLISHABLE_KEY', 'pk_test_inM99ehBADdrzRTf3wa3ggu2');
+}
+
+
 require_once(APP_ROOT.'include/aws-autoloader.php');
 
 
