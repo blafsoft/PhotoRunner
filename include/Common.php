@@ -1105,7 +1105,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 
 	private function uploadPicture($command, $file, $filename){
 		if(MODE == 'dev'){
-			$this->uploadPictureImmidatly($command, $file, filename);
+			$this->uploadPictureImmidatly($command, $file, $filename);
 		} else {
 			$moved = move_uploaded_file($file, UPLOADED_IMAGE . $filename);
 	
