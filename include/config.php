@@ -38,7 +38,11 @@ define('DESIGN_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.design/")
 define('GALLERY_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.gallery/");
 define('PROFILE_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.profile/");
 
-define('MODE', 'dev'); //mode can be test, prod or dev
+if(!empty($ENV['MODE'])){
+    define('MODE', $ENV['MODE']);
+} else {
+    define('MODE', 'dev'); //mode can be test, prod or dev
+}
 
 
 if(MODE == 'prod') {
