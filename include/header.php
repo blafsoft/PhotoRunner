@@ -12,7 +12,7 @@
 				</a>
 
 				<span class="evlop"><i class="fa  fa-envelope"></i>
-				<?php echo html_entity_decode($home->email); ?><span>
+				<a href="mailto:info@photorunner.no" style="color:#333"><?php echo html_entity_decode($home->email); ?><span></a>
 			</div>
 			<?php $cart = !empty($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>
 			<div class="col-md-6" class="mediaa_soc" style="padding-right:0px">
