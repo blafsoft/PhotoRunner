@@ -23,8 +23,8 @@
 				<h3>Need Help</h3>
 				<ul>
 					<li style="background:none;padding-left:0px;"><a href="#">Customer support: 0047 98844016</a></li>
-					<li style="background:none;padding-left:0px;"><a href="#" >E:info@photorunner.no</a></li>
-					<li style="background:none;padding-left:0px;"><a href="#" >E:post@photorunner.no</a></li>
+					<li style="background:none;padding-left:0px;"><a href="mailto:info@photorunner.no" >E:info@photorunner.no</a></li>
+					<li style="background:none;padding-left:0px;"><a href="mailto:post@photorunner.no" >E:post@photorunner.no</a></li>
 				</ul>
 			</div>
 			<div class="col-md-3 footer-grid">
