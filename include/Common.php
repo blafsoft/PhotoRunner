@@ -1531,7 +1531,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 			$condition = " WHERE ";	
 			$condition .= @implode(' AND ', $conditionvalues);
 		}
-		else
+		else 
 		{
 			$condition = "";
 		}
