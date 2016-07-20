@@ -322,6 +322,7 @@ if(isset($_POST['paypal']))
 				</div>
 			</div>
 		</div>
+		<div class="col-md-12"><div style="width:30%; float:left;"><img src="<?php echo APP_URL; ?>images/paypal11.jpg" style="padding-top:50px; width:100%; " ></div></div>
 	</div>
 	<div style="clear:both; height:20px; float:left">&nbsp;</div>
 </div>
