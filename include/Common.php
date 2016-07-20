@@ -1515,6 +1515,44 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 		}
 
 	}
+	
+	public function getrecordssss($table,$coloums,$conditions) 
+	{
+		
+		$conditions = @array_map('trim', $conditions);
+		
+		if(!empty($conditions))
+		{			
+			foreach($conditions as $key=>$value)
+			{
+				$conditionvalues[] = "$key = '".mysqli_real_escape_string( $this->_con, $value )."'";
+			}
+			
+			$condition = " WHERE ";	
+			$condition .= @implode(' AND ', $conditionvalues);
+		}
+		else
+		{
+			$condition = "";
+		}
+			
+		$query = "SELECT $coloums FROM $table $condition ORDER BY ID desc";
+		$result = mysqli_query($this->_con, $query);
+		if($result)
+		{
+			$data = array();
+			while($row = mysqli_fetch_object($result))
+			{
+				$data[] = $row;
+			}
+			return $data;
+		}
+		else
+		{
+			return false;
+		}
+
+	}
 
 	
 	
