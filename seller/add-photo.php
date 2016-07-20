@@ -300,14 +300,14 @@ if(isset($_POST['submit']))
 			<div style="clear:both;"></div>
 			<div style="float:left">
 				<div>
-				    <input id="radio-6" class="radio-custom" name="newoption" type="radio" checked>
-				    <label for="radio-6" class="radio-custom-label">Yes</label>
+				    <input id="radio-5" class="radio-custom" name="newoption" type="radio" checked>
+				    <label for="radio-5" class="radio-custom-label">No</label>
 				</div>
 			</div>
 			<div>
 				<div>
-				    <input id="radio-5" class="radio-custom" name="newoption" type="radio">
-				    <label for="radio-5" class="radio-custom-label">No</label>
+				    <input id="radio-6" class="radio-custom" name="newoption" type="radio">
+				    <label for="radio-6" class="radio-custom-label">Yes</label>
 				</div>
 			</div>
 			<div id="div1">
@@ -477,7 +477,7 @@ $(document).ready(function(){
 			
 		}
 	});
-	
+	$("#div1").hide();
 	$("#radio-5").click(function(){
 		if($("#radio-5").is(':checked')==true){
 			
