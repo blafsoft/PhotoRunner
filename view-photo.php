@@ -585,7 +585,7 @@ if(!empty($_GET['email']))
 				{
 					?>
 					<div style="padding-left:10px; padding-right:10px; width:33%; float:left">
-						<a href="view-photo.php?view=<?php echo base64_encode($list->id); ?>"><img src="<?php echo WATERMARK_IMAGE . $list->webfile; ?>" style="width:100%;"/></a>
+						<a href="view-photo.php?view=<?php echo base64_encode($list->id); ?>"><img src="<?php echo WATERMARK_IMAGE . $list->webfile; ?>" style="width:100%; height:100px;"/></a>
 						<?php 
 						if($list->webfileprice == '0.00')
 						{
