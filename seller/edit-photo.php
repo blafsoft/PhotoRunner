@@ -102,25 +102,45 @@ if(isset($_GET['id']) && !empty($_GET['id']))
 			<label for="file-7" id="tabfile-7" style="float:left;"><span><?php ?></span> <strong><svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"/></svg> Choose a file&hellip;</strong></label> <?php if(isset($photo->webfile) && !empty($photo->webfile)) { ?><img src="<?php echo WATERMARK_IMAGE . $photo->webfile; ?>" style="float: left; height: 44px; margin-left: 10px;"><input type="hidden" name="oldwebfile" value="<?php echo $photo->webfile; ?>" /> <?php } ?>
 			<div style="clear:both">&nbsp;</div>
 			<h2>Set Price</h2>
+			<label style="padding-left:8px;">Web File Price in USD and EURO</label>
+			<div style="clear:both"></div>
+			<div style="width:25%; float:left"><input type="text" placeholder="Price in $" name="webfileprice" value="<?php if(isset($photo->webfileprice) && !empty($photo->webfileprice)) { echo $photo->webfileprice; } ?>" style="width:100%;" class="number_only"/></div>
+			<div style="width:25%; float:left"><input type="text" placeholder="Price in &#8364;" name="webfilepriceeuro" value="<?php if(isset($photo->webfilepriceeuro) && !empty($photo->webfilepriceeuro)) { echo $photo->webfilepriceeuro; } ?>" style="width:100%;" class="number_only"/></div>
+			<div style="clear:both"></div>
+			<label style="padding-left:8px;">A3 Print File Price in USD and EURO</label>
+			<div style="clear:both"></div>
+			<div style="width:25%; float:left"><input type="text" placeholder="Price in $" name="printfilepricea3" value="<?php if(isset($photo->printfilepricea3) && !empty($photo->printfilepricea3)) { echo $photo->printfilepricea3; } ?>" style="width:100%;" class="number_only"/></div>
+			<div style="width:25%; float:left"><input type="text" placeholder="Price in &#8364;" name="printfilepricea3euro" value="<?php if(isset($photo->printfilepricea3euro) && !empty($photo->printfilepricea3euro)) { echo $photo->printfilepricea3euro; } ?>" style="width:100%;" class="number_only"/></div>
+			<div style="clear:both"></div>
+			<label style="padding-left:8px;">A4 Print File Price in USD and EURO</label>
+			<div style="clear:both"></div>
+			<div style="width:25%; float:left"><input type="text" placeholder="Price in $" name="printfilepricea4" value="<?php if(isset($photo->printfilepricea4) && !empty($photo->printfilepricea4)) { echo $photo->printfilepricea4; } ?>" style="width:100%;" class="number_only"/></div>
+			<div style="width:25%; float:left"><input type="text" placeholder="Price in &#8364;" name="printfilepricea4euro" value="<?php if(isset($photo->printfilepricea4euro) && !empty($photo->printfilepricea4euro)) { echo $photo->printfilepricea4euro; } ?>" style="width:100%;" class="number_only"/></div>
+			<div style="clear:both"></div>
+			<label style="padding-left:8px;" >A5 Print File Price in USD and EURO</label>
+			<div style="clear:both"></div>
+			<div style="width:25%; float:left"><input type="text" placeholder="Price in $" name="printfilepricea5" value="<?php if(isset($photo->printfilepricea5) && !empty($photo->printfilepricea5)) { echo $photo->printfilepricea5; } ?>" style="width:100%;" class="number_only"/></div>
+			<div style="width:25%; float:left"><input type="text" placeholder="Price in &#8364;" name="printfilepricea5euro" value="<?php if(isset($photo->printfilepricea5euro) && !empty($photo->printfilepricea5euro)) { echo $photo->printfilepricea5euro; } ?>" style="width:100%;" class="number_only"/></div>
 
-
-
-			<label style="padding-left:8px;">Web File Price in USD</label>
-			<input type="text" placeholder="Price Web File" name="webfileprice" value="<?php if(isset($photo->webfileprice) && !empty($photo->webfileprice)) { echo $photo->webfileprice; } ?>" style="width:70%;" class="number_only"/>
-
-			<label style="padding-left:8px;">A3 Print File Price in USD</label>
-			<input type="text" placeholder="Print File Price" name="printfilepricea3" value="<?php if(isset($photo->printfilepricea3) && !empty($photo->printfilepricea3)) { echo $photo->printfilepricea3; } ?>" style="width:70%;" class="number_only"/>
-
-			<label style="padding-left:8px;">A4 Print File Price in USD</label>
-			<input type="text" placeholder="Print File Price" name="printfilepricea4" value="<?php if(isset($photo->printfilepricea4) && !empty($photo->printfilepricea4)) { echo $photo->printfilepricea4; } ?>" style="width:70%;" class="number_only"/>
-
-			<label style="padding-left:8px;"A5 >Print File Price in USD</label>
-			<input type="text" placeholder="Print File Price" name="printfilepricea5" value="<?php if(isset($photo->printfilepricea5) && !empty($photo->printfilepricea5)) { echo $photo->printfilepricea5; } ?>" style="width:70%;" class="number_only"/>
-
-
-				<div style="clear:both; height:20px;"></div>
-				<noscript><input name="js_enabled" type="hidden" value="1"></noscript>
-				<button id="btnSubmit" style="width:30%;" name="update" type="submit">Upload Image</button>
+			<div style="clear:both;"></div>
+			<?php if(!empty($photo->othertitle) && !empty($photo->otherprice)) { ?>
+			<label style="padding-left:8px;">New print option.</label>
+			<div style="clear:both;"></div>
+			<div id="div1">
+				<div style="clear:both;"></div>
+				<label style="padding-left:8px;">Set the size</label>
+				<input type="text" placeholder="Set the size" name="othertitle" value="<?php if(isset($photo->othertitle) && !empty($photo->othertitle)) { echo $photo->othertitle; } ?>" style="width:50%;" id="othertitle"/>
+				<label style="padding-left:8px;">Set the price in USD and EURO</label>
+				<div style="clear:both"></div>
+				<div style="width:25%;float:left"><input type="text" placeholder="Price in $" name="otherprice" value="<?php if(isset($photo->otherprice) && !empty($photo->otherprice)) { echo $photo->otherprice; } ?>" style="width:100%;" id="otherprice" class="number_only"/></div>
+				<div style="width:25%;float:left"><input type="text" placeholder="Price in &#8364;" name="otherpriceeuro" value="<?php if(isset($photo->otherpriceeuro) && !empty($photo->otherpriceeuro)) { echo $photo->otherpriceeuro; } ?>" style="width:100%;" id="otherpriceeuro" class="number_only"/></div>
+				<div style="clear:both"></div>
+			</div>
+			<?php } ?>
+			<div style="clear:both"></div>
+			<div style="clear:both; height:20px;"></div>
+			<noscript><input name="js_enabled" type="hidden" value="1"></noscript>
+			<button id="btnSubmit" style="width:30%;" name="update" type="submit">Upload Image</button>
 			</form>
 			<div>&nbsp;</div>
 		</div>
