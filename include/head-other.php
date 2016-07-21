@@ -65,4 +65,14 @@
 	    width:100%;
 	}
 	</style>
+		<?php
+		if(isset($_POST['currency']))
+		{
+			$_SESSION['currency'] = $_POST['currency'];	
+		}
+		else
+		{
+			$_SESSION['currency'] = 'USD';	
+		}
+	?>
 
