@@ -17,6 +17,8 @@
 			<?php $cart = !empty($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>
 			<div class="col-md-6" class="mediaa_soc" style="padding-right:0px">
 				<ul class="media_socila">
+					<li><a href="a" style="font-weight:bold;"><img src="<?php echo APP_URL; ?>images/dollar-solid.png" width="20px" height="20px"/> USD</a></li>
+					<li><a href="b" style="font-weight:bold;"><img src="<?php echo APP_URL; ?>images/euro-xxl.png" width="20px" height="20px" style="padding-right:5px;"/> EURO</a></li>
 					<?php if(!empty($_SESSION['guast']['email'])) { ?>
 					<li style="font-weight:bold;font-size: 15px;font-weight: bold;"><a href="<?php echo APP_URL; ?>success.php" style="color:#333;text-decoration:none;">My Purchase List</a></li>
 
