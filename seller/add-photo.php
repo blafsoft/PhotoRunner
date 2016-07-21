@@ -286,14 +286,34 @@ if(isset($_POST['submit']))
 			</div>
 			<div style="clear:both"></div>
 			<div id="div">
-				<label style="padding-left:8px;">Web File Price in USD</label>
-				<input type="text" placeholder="Web File Price in $" name="webfileprice" value="" style="width:70%;" class="number_only" id="webfileprice" />				
-				<label style="padding-left:8px;">A3 Print File Price in USD</label>
-				<input type="" placeholder="A3 Print File Price in $" name="printfilepricea3" value="" style="width:70%;" id="printfilepricea3" class="number_only"/>
-				<label style="padding-left:8px;">A4 Print File Price in USD</label>
-				<input type="" placeholder="A4 Print File Price in $" name="printfilepricea4" value="" style="width:70%;" id="printfilepricea4" class="number_only"/>
-				<label style="padding-left:8px;">A5 Print File Price in USD</label>
-				<input type="" placeholder="A5 Print File Price in $" name="printfilepricea5" value="" style="width:70%;" id="printfilepricea5" class="number_only"/>
+				<label style="padding-left:8px;">Web File Price in USD and EURO</label>
+
+				<div style="clear:both"></div>
+				<div style="width:25%; float:left"><input type="text" placeholder="Price in $" name="webfileprice" value="" style="width:100%;" class="number_only" id="webfileprice" /></div>
+				<div style="width:25%;float:left"><input type="text" placeholder="Price in &#8364;" name="webfilepriceeuro" value="" style="width:100%;" class="number_only" id="webfilepriceeuro" /></div>
+				<div style="clear:both"></div>
+
+			
+				<label style="padding-left:8px;">A3 Print File Price in USD and EURO</label>
+				<div style="clear:both"></div>
+				<div style="width:25%; float:left"><input type="" placeholder="Price in $" name="printfilepricea3" value="" style="width:100%;" id="printfilepricea3" class="number_only"/></div>
+				<div style="width:25%;float:left"><input type="" placeholder="Price in &#8364;" name="printfilepricea3euro" value="" style="width:100%;" id="printfilepricea3euro" class="number_only"/></div>
+				<div style="clear:both"></div>
+
+
+
+				<label style="padding-left:8px;">A4 Print File Price in USD and EURO</label>
+				<div style="clear:both"></div>
+				<div style="width:25%; float:left"><input type="" placeholder="Price in $" name="printfilepricea4" value="" style="width:100%;" id="printfilepricea4" class="number_only"/></div>
+				<div style="width:25%;float:left"><input type="" placeholder="Price in &#8364;" name="printfilepricea4euro" value="" style="width:100%;" id="printfilepricea4euro" class="number_only"/></div>
+				<div style="clear:both"></div>
+
+				<label style="padding-left:8px;">A5 Print File Price in USD and EURO</label>
+				<div style="clear:both"></div>
+				<div style="width:25%;float:left"><input type="" placeholder="Price in $" name="printfilepricea5" value="" style="width:100%;" id="printfilepricea5" class="number_only"/></div>
+				<div style="width:25%;float:left"><input type="" placeholder="Price in &#8364;" name="printfilepricea5euro" value="" style="width:100%;" id="printfilepricea5euro" class="number_only"/></div>
+				<div style="clear:both"></div>
+
 			</div>
 			<div style="clear:both;"></div>
 			<label style="padding-left:8px;">Make a new print option.</label>
@@ -314,8 +334,11 @@ if(isset($_POST['submit']))
 				<div style="clear:both;"></div>
 				<label style="padding-left:8px;">Set the size</label>
 				<input type="text" placeholder="Set the size" name="othertitle" value="" style="width:70%;" id="othertitle"/>
-				<label style="padding-left:8px;">Set the price</label>
-				<input type="text" placeholder="Set the Price" name="otherprice" value="" style="width:70%;" id="otherprice" class="number_only"/>
+				<label style="padding-left:8px;">Set the price in USD and EURO</label>
+				<div style="clear:both"></div>
+				<div style="width:25%;float:left"><input type="text" placeholder="Price in $" name="otherprice" value="" style="width:100%;" id="otherprice" class="number_only"/></div>
+				<div style="width:25%;float:left"><input type="text" placeholder="Price in &#8364;" name="otherpriceeuro" value="" style="width:100%;" id="otherpriceeuro" class="number_only"/></div>
+				<div style="clear:both"></div>
 			</div>
 			<div style="clear:both;"></div>
 				<label style="padding-left:8px;">Write a massage for customer</label>
@@ -400,7 +423,7 @@ $(document).ready(function() {
 		});
 	    }
 	});
-	$('#photo-form input[type="textarea"]').each(function() {
+	$('#photo-form textarea[type="text"]').each(function() {
 	    if ($.trim($(this).val()) == '') {
 		isValid = false;
 		$(this).css({
@@ -463,6 +486,11 @@ $(document).ready(function(){
 			$("#printfilepricea3").val('0.00');
 			$("#printfilepricea4").val('0.00');
 			$("#printfilepricea5").val('0.00');
+			$("#webfilepriceeuro").val('0.00');
+			$("#printfilepricea3euro").val('0.00');
+			$("#printfilepricea4euro").val('0.00');
+			$("#printfilepricea5euro").val('0.00');
+
 			
 		}
 	});
@@ -474,16 +502,27 @@ $(document).ready(function(){
 			$("#printfilepricea3").val('');
 			$("#printfilepricea4").val('');
 			$("#printfilepricea5").val('');
+			$("#webfilepriceeuro").val('');
+			$("#printfilepricea3euro").val('');
+			$("#printfilepricea4euro").val('');
+			$("#printfilepricea5euro").val('');
 			
 		}
 	});
+	
 	$("#div1").hide();
+	$("#div1").hide();
+	$("#othertitle").val('0.00');
+	$("#otherprice").val('0.00');
+	$("#otherpriceeuro").val('0.00');
+
 	$("#radio-5").click(function(){
 		if($("#radio-5").is(':checked')==true){
 			
 			$("#div1").hide();
 			$("#othertitle").val('0.00');
 			$("#otherprice").val('0.00');
+			$("#otherpriceeuro").val('0.00');
 		}
 	});
 	$("#radio-6").click(function(){
@@ -492,8 +531,10 @@ $(document).ready(function(){
 			$("#div1").show();
 			$("#othertitle").val('');
 			$("#otherprice").val('');
+			$("#otherpriceeuro").val('');
 		}
 	});
+
 	
 	$(".allownumericwithdecimal").on("keypress keyup blur",function (event) {
             //this.value = this.value.replace(/[^0-9\.]/g,'');
