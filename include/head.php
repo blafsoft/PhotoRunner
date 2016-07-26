@@ -63,13 +63,49 @@
 		$("[data-toggle=tooltip]").tooltip();
 		});
 	</script>
-	<?php
-		if(isset($_POST['currency']))
-		{
-			$_SESSION['currency'] = $_POST['currency'];	
-		}
-		else
-		{
-			$_SESSION['currency'] = 'USD';	
-		}
-	?>
+<?php
+	if(isset($_POST['currency']))
+	{
+		$_SESSION['currency'] = $_POST['currency'];	
+	}
+	if(empty($_SESSION['currency']))
+	{
+		$_SESSION['currency'] = 'USD';
+	}
+?>
+<style>
+.dropbtn {
+    color: #000000;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    background-color:#fff;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content-button{
+	color: black;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+	border:0px;
+	background-color:#fff;
+	width:100%;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+</style>
