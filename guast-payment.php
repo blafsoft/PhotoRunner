@@ -1,6 +1,5 @@
 <?php 
 include('include/config.php');
-
 if(isset($_GET['delete']))
 {
 	$remove = $_GET['delete'];
@@ -197,29 +196,100 @@ if(isset($_POST['paypal']))
 							</div>
 							<div class="col-md-5" style="padding:10px;">
 								<div style="font-size:15px; font-weight:bold; padding:5px;"><?php echo $view->name; ?></div>
-								<?php if($value['type'] == 'webfileprice') { $stripe  = $view->webfileprice; ?>
-								<div style="font-size:15px; font-weight:bold; padding:5px;">$ <?php echo $view->webfileprice; ?> USD</div>
-								<div style="font-size:15px; font-weight:bold; padding:5px;">Webfile</div>
+<?php /*<?php if($value['type'] == 'webfileprice') { $stripe  = $view->webfileprice; ?>
+<div style="font-size:15px; font-weight:bold; padding:5px;">$ <?php echo $view->webfileprice; ?> USD</div>
+<div style="font-size:15px; font-weight:bold; padding:5px;">Webfile</div>
+<?php } ?>
+<?php if($value['type'] == 'printfileprice') { ?>
+	<?php if($value['size'] == 'nosize') { $stripe  = $view->printfileprice; ?>
+		<div style="font-size:15px; font-weight:bold; padding:5px;">$ <?php echo $view->printfileprice; ?> USD</div>
+		<div style="font-size:15px; font-weight:bold; padding:5px;">Printfile</div>
+	<?php } ?>
+	<?php if($value['size'] == 'A3') { $stripe  = $view->printfilepricea3; ?>
+		<div style="font-size:15px; font-weight:bold; padding:5px;">$ <?php echo $view->printfilepricea3; ?> USD</div>
+		<div style="font-size:15px; font-weight:bold; padding:5px;">Printfile</div>
+	<?php } ?>
+	<?php if($value['size'] == 'A4') { $stripe  = $view->printfilepricea4; ?>
+		<div style="font-size:15px; font-weight:bold; padding:5px;">$ <?php echo $view->printfilepricea4; ?> USD</div>
+		<div style="font-size:15px; font-weight:bold; padding:5px;">Printfile</div>
+	<?php } ?>
+	<?php if($value['size'] == 'A5') { $stripe  = $view->printfilepricea5; ?>
+		<div style="font-size:15px; font-weight:bold; padding:5px;">$ <?php echo $view->printfilepricea5; ?> USD</div>
+		<div style="font-size:15px; font-weight:bold; padding:5px;">Printfile</div>
+	<?php } ?>
+	<?php if($value['size'] == 'othertitle') { $stripe  = $view->printfilepricea5; ?>
+		<div style="font-size:15px; font-weight:bold; padding:5px;">$ <?php echo $view->otherprice; ?> USD</div>
+		<div style="font-size:15px; font-weight:bold; padding:5px;"><?php echo $view->othertitle; ?></div>
+	<?php } ?>
+<?php } ?>*/ ?>
+
+
+
+								<?php if($value['type'] == 'webfileprice') { ?>
+									<?php if($_SESSION['currency'] == 'USD') { ?>
+										<?php $stripe  = $view->webfileprice; ?>
+									<?php } ?>
+									<?php if($_SESSION['currency'] == 'EURO') { ?>
+										<?php $stripe  = $view->webfilepriceeuro; ?>
+									<?php } ?>
+									<div style="font-size:15px; font-weight:bold; padding:5px;"><?php if($_SESSION['currency'] == 'USD') { ?>$ <?php echo $view->webfileprice; ?> USD<?php } ?><?php if($_SESSION['currency'] == 'EURO') { ?>&euro; <?php echo $view->webfilepriceeuro; ?> EURO<?php } ?></div>
+									<div style="font-size:15px; font-weight:bold; padding:5px;">Webfile</div>
 								<?php } ?>
+
+
 								<?php if($value['type'] == 'printfileprice') { ?>
-									<?php if($value['size'] == 'nosize') { $stripe  = $view->printfileprice; ?>
+									<?php if($value['size'] == 'nosize') { ?>
+										<?php if($_SESSION['currency'] == 'USD') { ?>
+											<?php $stripe  = $view->printfileprice; ?>
+										<?php } ?>
+										<?php if($_SESSION['currency'] == 'EURO') { ?>
+											<?php $stripe  = $view->printfilepriceeuro; ?>
+										<?php } ?>
 										<div style="font-size:15px; font-weight:bold; padding:5px;">$ <?php echo $view->printfileprice; ?> USD</div>
 										<div style="font-size:15px; font-weight:bold; padding:5px;">Printfile</div>
 									<?php } ?>
-									<?php if($value['size'] == 'A3') { $stripe  = $view->printfilepricea3; ?>
-										<div style="font-size:15px; font-weight:bold; padding:5px;">$ <?php echo $view->printfilepricea3; ?> USD</div>
+
+
+									<?php if($value['size'] == 'A3') { ?>
+										<?php if($_SESSION['currency'] == 'USD') { ?>
+											<?php $stripe  = $view->printfilepricea3; ?>
+										<?php } ?>
+										<?php if($_SESSION['currency'] == 'EURO') { ?>
+											<?php $stripe  = $view->printfilepricea3euro; ?>
+										<?php } ?>
+										<div style="font-size:15px; font-weight:bold; padding:5px;"><?php if($_SESSION['currency'] == 'USD') { ?>$ <?php echo $view->printfilepricea3; ?> USD<?php } ?><?php if($_SESSION['currency'] == 'EURO') { ?>&euro; <?php echo $view->printfilepricea3euro; ?> EURO<?php } ?></div>
 										<div style="font-size:15px; font-weight:bold; padding:5px;">Printfile</div>
 									<?php } ?>
-									<?php if($value['size'] == 'A4') { $stripe  = $view->printfilepricea4; ?>
-										<div style="font-size:15px; font-weight:bold; padding:5px;">$ <?php echo $view->printfilepricea4; ?> USD</div>
+
+
+									<?php if($value['size'] == 'A4') { ?>
+										<?php if($_SESSION['currency'] == 'USD') { ?>
+											<?php $stripe  = $view->printfilepricea4; ?>
+										<?php } ?>
+										<?php if($_SESSION['currency'] == 'EURO') { ?>
+											<?php $stripe  = $view->printfilepricea4euro; ?>
+										<?php } ?>
+										<div style="font-size:15px; font-weight:bold; padding:5px;"><?php if($_SESSION['currency'] == 'USD') { ?>$ <?php echo $view->printfilepricea4; ?> USD<?php } ?><?php if($_SESSION['currency'] == 'EURO') { ?>&euro; <?php echo $view->printfilepricea4euro; ?> EURO<?php } ?></div>
 										<div style="font-size:15px; font-weight:bold; padding:5px;">Printfile</div>
 									<?php } ?>
-									<?php if($value['size'] == 'A5') { $stripe  = $view->printfilepricea5; ?>
-										<div style="font-size:15px; font-weight:bold; padding:5px;">$ <?php echo $view->printfilepricea5; ?> USD</div>
+									<?php if($value['size'] == 'A5') { ?>
+										<?php if($_SESSION['currency'] == 'USD') { ?>
+											<?php $stripe  = $view->printfilepricea5; ?>
+										<?php } ?>
+										<?php if($_SESSION['currency'] == 'EURO') { ?>
+											<?php $stripe  = $view->printfilepricea5euro; ?>
+										<?php } ?>
+										<div style="font-size:15px; font-weight:bold; padding:5px;"><?php if($_SESSION['currency'] == 'USD') { ?>$ <?php echo $view->printfilepricea5; ?> USD<?php } ?><?php if($_SESSION['currency'] == 'EURO') { ?>&euro; <?php echo $view->printfilepricea5euro; ?> EURO<?php } ?></div>
 										<div style="font-size:15px; font-weight:bold; padding:5px;">Printfile</div>
 									<?php } ?>
-									<?php if($value['size'] == 'othertitle') { $stripe  = $view->printfilepricea5; ?>
-										<div style="font-size:15px; font-weight:bold; padding:5px;">$ <?php echo $view->otherprice; ?> USD</div>
+									<?php if($value['size'] == 'othertitle') { ?>
+										<?php if($_SESSION['currency'] == 'USD') { ?>
+											<?php $stripe  = $view->otherprice; ?>
+										<?php } ?>
+										<?php if($_SESSION['currency'] == 'EURO') { ?>
+											<?php $stripe  = $view->otherpriceeuro; ?>
+										<?php } ?>
+										<div style="font-size:15px; font-weight:bold; padding:5px;"><?php if($_SESSION['currency'] == 'USD') { ?>$ <?php echo $view->otherprice; ?> USD<?php } ?><?php if($_SESSION['currency'] == 'EURO') { ?>&euro; <?php echo $view->otherpriceeuro; ?> EURO<?php } ?></div>
 										<div style="font-size:15px; font-weight:bold; padding:5px;"><?php echo $view->othertitle; ?></div>
 									<?php } ?>
 								<?php } ?>
@@ -237,7 +307,7 @@ if(isset($_POST['paypal']))
 			}
 			?>
 			<div style="clear:both; height:0px;">&nbsp;</div>
-			<div style="font-size:20px; padding:10px; text-align:right; color:#000000; margin-bottom:10px;">Total Amount : $ <?php echo number_format($subtotal,2); ?> USD</div>
+			<div style="font-size:20px; padding:10px; text-align:right; color:#000000; margin-bottom:10px;"><?php if($_SESSION['currency'] == 'USD') { ?>Total Amount : $ <?php echo number_format($subtotal,2); ?> USD<?php } ?><?php if($_SESSION['currency'] == 'EURO') { ?>Total Amount : &euro; <?php echo number_format($subtotal,2); ?> EURO<?php } ?></div>
 			<div class="col-md-12">
 				<?php /*<div style="color: #00a2b5;font-size: 31px;font-weight: bold; float:left">Pay with Paypal</div>
 <div style="margin:12px; float:left; width:150px;"><a class="fancybox" href="#inline" style="padding-top:8px;padding-bottom:8px;padding-left:25px;padding-right:30px; font-weight:bold; color:#fff; text-decoration:none; background-color:#00A2B5; border-radius:2px; ">Pay New</a></div>*/ ?>
@@ -306,12 +376,23 @@ if(isset($_POST['paypal']))
 					<form action="charge.php" method="post">
 						<?php $stripe1 = $subtotal*100; ?>
 						<input type="hidden" name="amount" value="<?php echo $stripe1; ?>"/>
+						<?php if($_SESSION['currency'] == 'EURO') { ?>
+						<script
+							src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+							data-key="<?=PUBLISHABLE_KEY?>"
+							data-image="<?=APP_URL?>images/logo.png"
+							data-amount="<?php echo $stripe1; ?>" data-currency="EUR">
+						</script>
+						<?php } ?>
+						<?php if($_SESSION['currency'] == 'USD') { ?>
 						<script
 							src="https://checkout.stripe.com/checkout.js" class="stripe-button"
 							data-key="<?=PUBLISHABLE_KEY?>"
 							data-image="<?=APP_URL?>images/logo.png"
 							data-amount="<?php echo $stripe1; ?>">
 						</script>
+						</script>
+						<?php } ?>
 					</form>	
 				</div>
 			</div>
