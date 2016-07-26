@@ -277,7 +277,11 @@ if(isset($_POST['printfile']))
 								<div style="font-size:15px; font-weight:bold; padding:5px;" class="buyerbuyer">File Size</div>
 								<div style="font-size:15px; padding:5px;">: <?php echo $purchase->size; ?></div>
 								<div style="font-size:15px; font-weight:bold; padding:5px;" class="buyerbuyer">Price</div>
-								<div style="font-size:15px; padding:5px;">: $ <?php echo $purchase->amount; ?> USD</div>
+								<?php if($purchase->currency == 'EURO') { ?>
+									<div style="font-size:15px; padding:5px;">: &euro; <?php echo $purchase->amount; ?> EURO</div>
+								<?php }else{ ?>
+									<div style="font-size:15px; padding:5px;">: $ <?php echo $purchase->amount; ?> USD</div>
+								<?php } ?>
 								<div style="font-size:15px; font-weight:bold; padding:5px;" class="buyerbuyer">Photographer</div>
 								<div style="font-size:13px; padding:5px;">: <?php echo $seller->username; ?></div>
 							</div>
