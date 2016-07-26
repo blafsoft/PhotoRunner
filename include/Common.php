@@ -558,7 +558,13 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 				{
 					$buyerreal = $_SESSION['guast']['email'];
 				}
-				$query = "INSERT INTO pr_payments SET buyer = '".$buyerreal."', photo = '".$photoid."', photographer = '".$photographer."', type = '".$phototype."', txnid = '".$txnid."', payment = '".$ack."', amount = '".$amount."', size = '".$size."', download = 'NotDownload', date = '".$date."'";
+				if($_SESSION['currency'] == 'USD') {
+					$currency123 = 'USD';
+				}
+				if($_SESSION['currency'] == 'EURO') {
+					$currency123 = 'EURO';
+				}
+				$query = "INSERT INTO pr_payments SET buyer = '".$buyerreal."', currency = '".$currency123."', photo = '".$photoid."', photographer = '".$photographer."', type = '".$phototype."', txnid = '".$txnid."', payment = '".$ack."', amount = '".$amount."', size = '".$size."', download = 'NotDownload', date = '".$date."'";
 				if(mysqli_query($this->_con, $query))
 				{
 					$conditions = array('id'=>$photographer);
@@ -664,8 +670,14 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 				{
 					$buyerreal = $_SESSION['guast']['email'];
 				}
+				if($_SESSION['currency'] == 'USD') {
+					$currency123 = 'USD';
+				}
+				if($_SESSION['currency'] == 'EURO') {
+					$currency123 = 'EURO';
+				}
 				$date = date('Y-m-d h:i:s');
-				$query = "INSERT INTO pr_payments SET buyer = '".$buyerreal."', photo = '".$photoid."', photographer = '".$photographer."', type = '".$phototype."', txnid = '".$txnid."', payment = '".$ack."', amount = '".$amount."', size = '".$size."', download = 'NotDownload', date = '".$date."'";
+				$query = "INSERT INTO pr_payments SET buyer = '".$buyerreal."', currency = '".$currency123."', photo = '".$photoid."', photographer = '".$photographer."', type = '".$phototype."', txnid = '".$txnid."', payment = '".$ack."', amount = '".$amount."', size = '".$size."', download = 'NotDownload', date = '".$date."'";
 				if(mysqli_query($this->_con, $query))
 				{
 					$conditions = array('id'=>$photographer);
