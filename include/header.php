@@ -17,8 +17,19 @@
 			<?php $cart = !empty($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>
 			<div class="col-md-6" class="mediaa_soc" style="padding-right:0px">
 				<ul class="media_socila">
-					<li><a href="a" style="font-weight:bold;"><img src="<?php echo APP_URL; ?>images/dollar-solid.png" width="20px" height="20px"/> USD</a></li>
-					<li><a href="b" style="font-weight:bold;"><img src="<?php echo APP_URL; ?>images/euro-xxl.png" width="20px" height="20px" style="padding-right:5px;"/> EURO</a></li>
+					<div class="dropdown"> 
+						<button class="dropbtn"><?php if($_SESSION['currency'] == 'USD') { ?><img src="<?php echo APP_URL; ?>images/dollar-solid.png" width="20px" height="18px"/> USD<?php } ?><?php if($_SESSION['currency'] == 'EURO') { ?><img src="<?php echo APP_URL; ?>images/euro-xxl.png" width="18px" height="18px"/> EURO<?php } ?> &#8675;&nbsp;&nbsp;&nbsp;</button>
+						<div class="dropdown-content">
+							<form  action=""  method="post">
+								<input type="hidden" name="currency" value="USD" >
+								<button name="currency1" type="submit" style="text-align:left;" class="dropdown-content-button"><img src="<?php echo APP_URL; ?>images/dollar-solid.png" width="20px" height="18px"/> USD</button>
+							</form>
+							<form  action=""  method="post">
+								<input type="hidden" name="currency" value="EURO" >
+								<button name="currency1" type="submit" style="text-align:left;" class="dropdown-content-button"><img src="<?php echo APP_URL; ?>images/euro-xxl.png" width="20px" height="18px" style="padding-right:5px;"/> EURO</button>
+							</form>
+						</div>
+					</div>
 					<?php if(!empty($_SESSION['guast']['email'])) { ?>
 					<li style="font-weight:bold;font-size: 15px;font-weight: bold;"><a href="<?php echo APP_URL; ?>success.php" style="color:#333;text-decoration:none;">My Purchase List</a></li>
 
@@ -36,7 +47,7 @@
 					foreach($social as $social)
 					{
 					?>
-				<li><a href="<?php echo $social->url ?>" data-toggle="tooltip" data-placement="bottom" data-original-title="<?php echo $social->name ?>"><i class="fa fa-<?php echo $social->icon ?>"></i></a></li>
+						<li><a href="<?php echo $social->url ?>" data-toggle="tooltip" data-placement="bottom" data-original-title="<?php echo $social->name ?>"><i class="fa fa-<?php echo $social->icon ?>"></i></a></li>
 					<?php
 					}
 				}
@@ -55,6 +66,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
+
 					</button>
 					<div style="padding-top:8px;"><img src="<?php echo APP_URL; ?>uploads/<?php echo $home->image1; ?>" style="max-width:100%"></div>
 <div class="width_logo_bottom"><?php echo substr("$home->logotext",0,100); ?></div>
