@@ -1,5 +1,6 @@
 <?php 
 include 'include/config.php'; 
+
 if(!empty($_SESSION['account']['id']))
 {
 	$amounttt = $_POST['amount']/100;
@@ -10,12 +11,23 @@ if(!empty($_SESSION['account']['id']))
 		require_once('Stripe/lib/Stripe.php');
 		Stripe::setApiKey(SECRET_KEY);
 
-		 $charge = Stripe_Charge::create(array(
-		  "amount" => $stirpeamount,
-		  "currency" => "usd",
-		  "card" => $_POST['stripeToken'],
-		  "description" =>$amount['id']
-		));
+		if($_SESSION['currency'] == 'USD') {
+			 $charge = Stripe_Charge::create(array(
+			  "amount" => $stirpeamount,
+			  "currency" => 'usd',
+			  "card" => $_POST['stripeToken'],
+			  "description" =>$amount['id']
+			));
+		}
+		if($_SESSION['currency'] == 'EURO') {
+			 $charge = Stripe_Charge::create(array(
+			  "amount" => $stirpeamount,
+			  "currency" => 'eur',
+			  "card" => $_POST['stripeToken'],
+			  "description" =>$amount['id']
+			));
+		}
+
 		if(!empty($_REQUEST['stripeToken']))
 		{
 			foreach($_SESSION['cart'] as $key=>$valuee)
@@ -32,9 +44,51 @@ if(!empty($_SESSION['account']['id']))
 				$email1 = $emaill->email;
 				if($valuee['type'] == 'webfileprice') 
 				{ 
-					$amount = urlencode($download->webfileprice);
-				}else{
-					$amount = urlencode($download->printfileprice);
+					if($_SESSION['currency'] == 'USD') {
+						$amount = urlencode($download->webfileprice);
+					}
+					if($_SESSION['currency'] == 'EURO') {
+						$amount = urlencode($download->webfilepriceeuro);
+					}
+				}
+				if($valuee['type'] == 'printfileprice') 
+				{
+					if($valuee['size'] == 'A3') 
+					{
+						if($_SESSION['currency'] == 'USD') {
+							$amount = urlencode($download->printfilepricea3);
+						}
+						if($_SESSION['currency'] == 'EURO') {
+							$amount = urlencode($download->printfilepricea3euro);
+						}
+					}
+					if($valuee['size'] == 'A4') 
+					{
+						if($_SESSION['currency'] == 'USD') {
+							$amount = urlencode($download->printfilepricea4);
+						}
+						if($_SESSION['currency'] == 'EURO') {
+							$amount = urlencode($download->printfilepricea4euro);
+						}
+					}
+					if($valuee['size'] == 'A5') 
+					{
+						if($_SESSION['currency'] == 'USD') {
+							$amount = urlencode($download->printfilepricea5);
+						}
+						if($_SESSION['currency'] == 'EURO') {
+							$amount = urlencode($download->printfilepricea5euro);
+						}
+					}
+					if($valuee['size'] == 'othertitle') 
+					{
+						if($_SESSION['currency'] == 'USD') {
+							$amount = urlencode($download->otherprice);
+						}
+						if($_SESSION['currency'] == 'EURO') {
+							$amount = urlencode($download->otherpriceeuro);
+						}
+					}
 				}
 				$currencyCode="USD";
 
@@ -112,12 +166,23 @@ else
 		require_once('Stripe/lib/Stripe.php');
 		Stripe::setApiKey(SECRET_KEY);
 
-		 $charge = Stripe_Charge::create(array(
-		  "amount" => $stirpeamount,
-		  "currency" => "usd",
-		  "card" => $_POST['stripeToken'],
-		  "description" =>$amount['id']
-		));
+		if($_SESSION['currency'] == 'USD') {
+			 $charge = Stripe_Charge::create(array(
+			  "amount" => $stirpeamount,
+			  "currency" => 'usd',
+			  "card" => $_POST['stripeToken'],
+			  "description" =>$amount['id']
+			));
+		}
+		if($_SESSION['currency'] == 'EURO') {
+			 $charge = Stripe_Charge::create(array(
+			  "amount" => $stirpeamount,
+			  "currency" => 'eur',
+			  "card" => $_POST['stripeToken'],
+			  "description" =>$amount['id']
+			));
+		}
+
 
 		if(!empty($_REQUEST['stripeToken']))
 		{
@@ -130,12 +195,60 @@ else
 
 				$currencyCode="USD";
 				$email1 = $_SESSION['guast']['email'];
-				if($_POST['phototype'] == 'webfileprice') 
+if($valuee['type'] == 'webfileprice') 
+				{ 
+					if($_SESSION['currency'] == 'USD') {
+						$amount = urlencode($download->webfileprice);
+					}
+					if($_SESSION['currency'] == 'EURO') {
+						$amount = urlencode($download->webfilepriceeuro);
+					}
+				}
+				if($valuee['type'] == 'printfileprice') 
+				{
+					if($valuee['size'] == 'A3') 
+					{
+						if($_SESSION['currency'] == 'USD') {
+							$amount = urlencode($download->printfilepricea3);
+						}
+						if($_SESSION['currency'] == 'EURO') {
+							$amount = urlencode($download->printfilepricea3euro);
+						}
+					}
+					if($valuee['size'] == 'A4') 
+					{
+						if($_SESSION['currency'] == 'USD') {
+							$amount = urlencode($download->printfilepricea4);
+						}
+						if($_SESSION['currency'] == 'EURO') {
+							$amount = urlencode($download->printfilepricea4euro);
+						}
+					}
+					if($valuee['size'] == 'A5') 
+					{
+						if($_SESSION['currency'] == 'USD') {
+							$amount = urlencode($download->printfilepricea5);
+						}
+						if($_SESSION['currency'] == 'EURO') {
+							$amount = urlencode($download->printfilepricea5euro);
+						}
+					}
+					if($valuee['size'] == 'othertitle') 
+					{
+						if($_SESSION['currency'] == 'USD') {
+							$amount = urlencode($download->otherprice);
+						}
+						if($_SESSION['currency'] == 'EURO') {
+							$amount = urlencode($download->otherpriceeuro);
+						}
+					}
+				}
+				/*if($_POST['phototype'] == 'webfileprice') 
 				{ 
 					$amount = urlencode($download->webfileprice);
 				}else{
 					$amount = urlencode($download->printfileprice);
-				}
+				}*/
 				$currencyCode="USD";
 
 				if($valuee['type'] == 'webfileprice')
