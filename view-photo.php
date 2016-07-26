@@ -392,7 +392,7 @@ if(!empty($_GET['email']))
 				<div style="margin:10px;">
 					<div style="float:left; width:50%;">
 						<h5 style="padding-left:10px;padding-bottom:5px; font-weight:bold;">Web File</h5>
-						<h6 style="padding-left:10px;padding-bottom:5px; color:red;">Price : $<?php echo $view->webfileprice; ?> USD</h6>
+						<h6 style="padding-left:10px;padding-bottom:5px; color:red;"><?php if($_SESSION['currency'] == 'USD') { ?>Price : $ <?php echo $view->webfileprice; ?> USD<?php } ?><?php if($_SESSION['currency'] == 'EURO') { ?>Price : &euro; <?php echo $view->webfilepriceeuro; ?> EURO<?php } ?></h6>
 					</div>
 					<div>
 						<?php if(!empty($_SESSION['account']['id'])) { ?>
@@ -451,7 +451,7 @@ if(!empty($_GET['email']))
 					<div style="margin:10px;">
 						<div style="float:left; width:50%;">
 							<h5 style="padding-left:10px;padding-bottom:5px; font-weight:bold;">A3 Size Print File</h5>
-							<h6 style="padding-left:10px;padding-bottom:5px; color:red;">Price : $<?php echo $view->printfilepricea3; ?> USD</h6>
+							<h6 style="padding-left:10px;padding-bottom:5px; color:red;"><?php if($_SESSION['currency'] == 'USD') { ?>Price : $ <?php echo $view->printfilepricea3; ?> USD<?php } ?><?php if($_SESSION['currency'] == 'EURO') { ?>Price : &euro; <?php echo $view->printfilepricea3euro; ?> EURO<?php } ?></h6>
 						</div>
 						<div>
 							<?php if(!empty($_SESSION['account']['id'])) { ?>
@@ -482,7 +482,7 @@ if(!empty($_GET['email']))
 					<div style="margin:10px;">
 						<div style="float:left; width:50%;">
 							<h5 style="padding-left:10px;padding-bottom:5px; font-weight:bold;">A4 Size Print File</h5>
-							<h6 style="padding-left:10px;padding-bottom:5px; color:red;">Price : $<?php echo $view->printfilepricea4; ?> USD</h6>
+							<h6 style="padding-left:10px;padding-bottom:5px; color:red;"><?php if($_SESSION['currency'] == 'USD') { ?>Price : $ <?php echo $view->printfilepricea4; ?> USD<?php } ?><?php if($_SESSION['currency'] == 'EURO') { ?>Price : &euro; <?php echo $view->printfilepricea4euro; ?> EURO<?php } ?></h6>
 						</div>
 						<div>
 							<?php if(!empty($_SESSION['account']['id'])) { ?>
@@ -513,7 +513,7 @@ if(!empty($_GET['email']))
 					<div style="margin:10px;">
 						<div style="float:left; width:50%;">
 							<h5 style="padding-left:10px;padding-bottom:5px; font-weight:bold;">A5 Size Print File</h5>
-							<h6 style="padding-left:10px;padding-bottom:5px; color:red;">Price : $<?php echo $view->printfilepricea5; ?> USD</h6>
+							<h6 style="padding-left:10px;padding-bottom:5px; color:red;"><?php if($_SESSION['currency'] == 'USD') { ?>Price : $<?php echo $view->printfilepricea5; ?> USD<?php } ?><?php if($_SESSION['currency'] == 'EURO') { ?>Price : &euro; <?php echo $view->printfilepricea5euro; ?> EURO<?php } ?></h6>
 						</div>
 						<div>
 							<?php if(!empty($_SESSION['account']['id'])) { ?>
@@ -544,7 +544,7 @@ if(!empty($_GET['email']))
 					<div style="margin:10px;">
 						<div style="float:left; width:50%;">
 							<h5 style="padding-left:10px;padding-bottom:5px; font-weight:bold;"><?php echo $view->othertitle; ?></h5>
-							<h6 style="padding-left:10px;padding-bottom:5px; color:red;">Price : $<?php echo $view->otherprice; ?> USD</h6>
+							<h6 style="padding-left:10px;padding-bottom:5px; color:red;"><?php if($_SESSION['currency'] == 'USD') { ?>Price : $ <?php echo $view->otherprice; ?> USD<?php } ?><?php if($_SESSION['currency'] == 'EURO') { ?>Price : &euro; <?php echo $view->otherpriceeuro; ?> EURO<?php } ?></h6>
 						</div>
 						<div>
 							<?php if(!empty($_SESSION['account']['id'])) { ?>
@@ -585,18 +585,18 @@ if(!empty($_GET['email']))
 				{
 					?>
 					<div style="padding-left:10px; padding-right:10px; width:33%; float:left">
-						<a href="view-photo.php?view=<?php echo base64_encode($list->id); ?>"><img src="<?php echo WATERMARK_IMAGE . $list->webfile; ?>" style="width:100%; height:100px;"/></a>
+						<a href="view-photo.php?view=<?php echo base64_encode($list->id); ?>"><img src="<?php echo WATERMARK_IMAGE . $list->webfile; ?>" style="min-width:160px; max-width:160px; min-height:120px; max-height:120px;"/></a>
 						<?php 
 						if($list->webfileprice == '0.00')
 						{
 							?>
-							<div style="font-size:13px; margin-left:7px; font-weight:bold; margin-top:px; margin-bottom:10px;">$0.00 USD</div>
+							<div style="font-size:13px; margin-left:7px; font-weight:bold; margin-top:px; margin-bottom:10px;"><?php if($_SESSION['currency'] == 'USD') { ?>$ 0.00 USD<?php } ?><?php if($_SESSION['currency'] == 'EURO') { ?>&euro; 0.00 EURO<?php } ?></div>
 							<?php
 						}
 						else
 						{
 							?>
-							<div style="font-size:13px; margin-left:7px; font-weight:bold; margin-top:px; margin-bottom:10px;">$<?php echo $list->webfileprice; ?> USD</div>
+							<div style="font-size:13px; margin-left:7px; font-weight:bold; margin-top:px; margin-bottom:10px;"><?php if($_SESSION['currency'] == 'USD') { ?>$ <?php echo $list->webfileprice; ?> USD<?php } ?><?php if($_SESSION['currency'] == 'EURO') { ?>&euro; <?php echo $list->webfilepriceeuro; ?> EURO<?php } ?></div>
 							<?php
 						}
 						?>
