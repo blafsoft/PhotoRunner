@@ -127,6 +127,44 @@ class Cl_Common extends Cl_Messages
 			return false;
 		}
 	}
+	
+		public function deactivatephoto( $data )
+	{		
+		if(!empty( $data ) )
+		{
+			$id = $_POST['id'];
+			$query = "UPDATE pr_photos SET status ='0' WHERE id = '".$id."'";
+			if(mysqli_query($this->_con, $query))
+			{
+				parent::add('s', 'Photo has been Deactivated successfully.');	
+				return true;
+			}	
+		} 
+		else
+		{
+			parent::add('e', '(*)All Fields are required.');	
+			return false;
+		}
+	}
+	
+	public function activatephoto( $data )
+	{	
+		if(!empty( $data ) )
+		{
+			$id = $_POST['id'];
+			$query = "UPDATE pr_photos SET status ='1' WHERE id = '".$id."'";
+			if(mysqli_query($this->_con, $query))
+			{
+				parent::add('s', 'Photo has been Activated successfully.');	
+				return true;
+			}	
+		} 
+		else
+		{
+			parent::add('e', '(*)All Fields are required.');	
+			return false;
+		}
+	}
 
 
 	public function sellerregistration( $postdata, $filesdata )
