@@ -399,6 +399,24 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 					return false;
 				}
 			}
+			elseif($this->checkrecord('pr_seller','*',$conditions1))
+			{
+				$data = $this->getrecord('pr_seller','*',$conditions1);
+				if($data->status == 1)
+				{
+					$_SESSION['seller']['id'] = $data->id;
+					$_SESSION['seller']['email'] = $data->email;
+					unset($_SESSION['account']);
+					unset($_SESSION['guast']);
+					parent::add('s', 'Welcome! You are successfully login in your account panel.');
+					return true;
+				}
+				else
+				{
+					parent::add('e', 'You have not verified your Account yet. Please check your Email Account.');	
+					return false;
+				}
+			}
 			else
 			{
 				parent::add('e', 'Username and Password not matched.');	
@@ -438,6 +456,24 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 					unset($_SESSION['account']);
 					unset($_SESSION['guast']);
 					parent::add('s', 'Welcome! You are successfully login in your account panel.');					
+					return true;
+				}
+				else
+				{
+					parent::add('e', 'You have not verified your Account yet. Please check your Email Account.');	
+					return false;
+				}
+			}
+			elseif($this->checkrecord('pr_seller','*',$conditions1))
+			{
+				$data = $this->getrecord('pr_seller','*',$conditions1);
+				if($data->status == 1)
+				{
+					$_SESSION['seller']['id'] = $data->id;
+					$_SESSION['seller']['email'] = $data->email;
+					unset($_SESSION['account']);
+					unset($_SESSION['guast']);
+					parent::add('s', 'Welcome! You are successfully login in your account panel.');
 					return true;
 				}
 				else
@@ -1226,7 +1262,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 		$message ="<html><body>
 		<div style='color:#00A2B5; font-size:46px; font-weight:bold; margin:20px; font-family:arial;'>PhotoRunner</div>".
 		"<div style='color:#6B555A; border:1px solid #ccc; margin-top:30px; width:50%; margin-top:20px; margin-left:auto; margin-right:auto; padding:10px; padding-top:30px; font-size:16px; background-color:#F2F2F2; text-align:center; font-family:arial;'>To get in touch with new exciting things, just click on the button below<br/><br/>".
-		"<a href='".APP_URL."photos.php?gallery=".$code."&&lock=unlock&&email=".$email."' style='color:#fff; font-family:arial; text-decoration:none; font-size:22px; font-weight:bold; margin-bottom:20px; padding-bottom:10px;'><div style='width:250px; margin-left:auto; margin-right:auto; background-color:#00A2B5; height:50px; font-family:arial; border-radius:5px; padding-top:15px; padding-bottom:15px; margin-bottom:30px;'> Click Me !</div></a></div><br/><br/>".
+		"<a href='".APP_URL."photos.php?gallery=".$code."&&lock=unlock&&email=".$email."&&password=".$password1."' style='color:#fff; font-family:arial; text-decoration:none; font-size:22px; font-weight:bold; margin-bottom:20px; padding-bottom:10px;'><div style='width:250px; margin-left:auto; margin-right:auto; background-color:#00A2B5; height:50px; font-family:arial; border-radius:5px; padding-top:15px; padding-bottom:15px; margin-bottom:30px;'> Click Me !</div></a></div><br/><br/>".
 		"<div style='font-size:16px; font-family:arial; text-align:center; color:#00A2B5;'>Passsword = ".$password1."</div><br/>".
 		"<div style='font-size:16px; font-family:arial; text-align:center; color:#00A2B5;'>If you need any help, Please contact us at post@photorunner.no</div><br/>".
 		"<div style='font-size:14px; text-align:left;'>Team<br/>Photo Runner</div>".
@@ -1248,7 +1284,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 		$message ="<html><body>
 		<div style='color:#00A2B5; font-size:46px; font-weight:bold; margin:20px; font-family:arial;'>PhotoRunner</div>".
 		"<div style='color:#6B555A; border:1px solid #ccc; margin-top:30px; width:50%; margin-top:20px; margin-left:auto; margin-right:auto; padding:10px; padding-top:30px; font-size:16px; background-color:#F2F2F2; text-align:center; font-family:arial;'>To get in touch with new exciting things, just click on the button below<br/><br/>".
-		"<a href='".APP_URL."photos.php?gallery=".$code."&&email=".$email."' style='color:#fff; font-family:arial; text-decoration:none; font-size:22px; font-weight:bold; margin-bottom:20px; padding-bottom:10px;'><div style='width:250px; margin-left:auto; margin-right:auto; background-color:#00A2B5; height:50px; font-family:arial; border-radius:5px; padding-top:15px; padding-bottom:15px; margin-bottom:30px;'> Click Me !</div></a></div><br/><br/>".
+		"<a href='".APP_URL."photos.php?gallery=".$code."&&email=".$email."&&password=".$password."' style='color:#fff; font-family:arial; text-decoration:none; font-size:22px; font-weight:bold; margin-bottom:20px; padding-bottom:10px;'><div style='width:250px; margin-left:auto; margin-right:auto; background-color:#00A2B5; height:50px; font-family:arial; border-radius:5px; padding-top:15px; padding-bottom:15px; margin-bottom:30px;'> Click Me !</div></a></div><br/><br/>".
 
 		"<div style='font-size:16px; font-family:arial; text-align:center; color:#00A2B5;'>If you need any help, Please contact us at post@photorunner.no</div><br/>".
 		"<div style='font-size:14px; text-align:left;'>Team<br/>Photo Runner</div>".
