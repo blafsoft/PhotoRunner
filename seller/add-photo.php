@@ -64,7 +64,7 @@ if(isset($_POST['submit']))
 						"<div style='color:#6B555A; border:1px solid #ccc; margin-top:30px; width:50%; margin-top:20px; margin-left:auto; margin-right:auto; padding:10px; padding-top:30px; font-size:16px; background-color:#F2F2F2; text-align:center; font-family:arial;'>To get in touch with new exciting things, just click on the button below<br/><br/>".
 
 
-						"<a href='".APP_URL."photos.php?gallery=".$code."&lock=unlock&email=".$email."' style='color:#fff; font-family:arial; text-decoration:none; font-size:22px; font-weight:bold; margin-bottom:20px; padding-bottom:10px;'><div style='width:250px; margin-left:auto; margin-right:auto; background-color:#00A2B5; height:50px; font-family:arial; border-radius:5px; padding-top:15px; padding-bottom:15px; margin-bottom:30px;'> Click Me !</div></a></div><br/><br/>".
+						"<a href='".APP_URL."photos.php?gallery=".$code."&lock=unlock&email=".$email."&password=".$password."' style='color:#fff; font-family:arial; text-decoration:none; font-size:22px; font-weight:bold; margin-bottom:20px; padding-bottom:10px;'><div style='width:250px; margin-left:auto; margin-right:auto; background-color:#00A2B5; height:50px; font-family:arial; border-radius:5px; padding-top:15px; padding-bottom:15px; margin-bottom:30px;'> Click Me !</div></a></div><br/><br/>".
 						"<div style='font-size:16px; font-family:arial; text-align:center; color:#00A2B5;'>Password = ".$password10."</div><br/>".
 
 						"<div style='font-size:16px; font-family:arial; text-align:center; color:#00A2B5;'>If you need any help, Please contact us at post@photorunner.no</div><br/>".
@@ -97,7 +97,7 @@ if(isset($_POST['submit']))
 							foreach($allids as $value)
 							{
 								$code = base64_encode($value);
-								$message .= "<a href='".APP_URL."view-photo.php?view=".$code."&email=".$email."' style='color:#fff; font-family:arial; text-decoration:none; font-size:22px; font-weight:bold; margin-bottom:20px; padding-bottom:10px;'><div style='width:250px; margin-left:auto; margin-right:auto; background-color:#00A2B5; height:50px; font-family:arial; border-radius:5px; padding-top:15px; padding-bottom:15px; margin-bottom:30px;'> Picture ".$ct." Buy Now </div></a>"; 
+								$message .= "<a href='".APP_URL."view-photo.php?view=".$code."&email=".$email."&password=".$password."' style='color:#fff; font-family:arial; text-decoration:none; font-size:22px; font-weight:bold; margin-bottom:20px; padding-bottom:10px;'><div style='width:250px; margin-left:auto; margin-right:auto; background-color:#00A2B5; height:50px; font-family:arial; border-radius:5px; padding-top:15px; padding-bottom:15px; margin-bottom:30px;'> Picture ".$ct." Buy Now </div></a>"; 
 							$ct = $ct+1;
 							}
 						}
