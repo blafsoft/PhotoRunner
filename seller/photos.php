@@ -24,6 +24,31 @@ if(isset($_GET['act']) && $_GET['act'] == 'del')
 		$common->redirect(APP_URL."seller/photos.php");
 	}
 }
+
+if(isset($_POST['activate']))
+{
+	$conditions = array('id'=>$_POST['id']);
+	if($common->activatephoto('pr_photos',$conditions))
+	{
+		$common->redirect(APP_FULL_URL);
+	}
+	else
+	{
+		$common->redirect(APP_FULL_URL);
+	}
+}
+if(isset($_POST['deactivate']))
+{
+	$conditions = array('id'=>$_POST['id']);
+	if($common->deactivatephoto('pr_photos',$conditions))
+	{
+		$common->redirect(APP_FULL_URL);
+	}
+	else
+	{
+		$common->redirect(APP_FULL_URL);
+	}
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -62,7 +87,7 @@ if(isset($_GET['act']) && $_GET['act'] == 'del')
 			$page = (int) (!isset($_GET["page"]) ? 1 : $_GET["page"]);
 			$limit = 10;
 			$startpoint = ($page * $limit) - $limit;					
-			$conditions = " WHERE seller = '".$_SESSION['seller']['id']."' ";						
+			$conditions = " WHERE seller = '".$_SESSION['seller']['id']."' ORDER by id DESC";		
 			$statement = "pr_photos" . $conditions;						
 			$conditions .= " LIMIT {$startpoint} , {$limit}";	
 			$photos = $common->getpagirecords('pr_photos','*',$conditions);
@@ -79,7 +104,7 @@ if(isset($_GET['act']) && $_GET['act'] == 'del')
 							<?php 
 							if(isset($photos->webfile) && !empty($photos->webfile))
 							{
-								?><img src="<?php echo WATERMARK_IMAGE . $photos->webfile; ?>" style="height:50px;"><?php
+								?><img src="<?php echo APP_URL; ?>uploads/photos/bigwatermark/<?php echo $photos->webfile; ?>" style="height:50px;"><?php
 							}
 							else
 							{
@@ -97,9 +122,22 @@ if(isset($_GET['act']) && $_GET['act'] == 'del')
 							</div>
 						</div>				
 					</div>
-					<div class="col-md-4" style="padding:0px;text-align:right;">
-						<a href="<?php echo APP_URL; ?>seller/edit-photo.php?id=<?php echo base64_encode($photos->id); ?>"><i class="fa fa-edit" style="font-size: 20px;"></i></a> 
-						<a href="<?php echo APP_URL; ?>seller/photos.php?id=<?php echo base64_encode($photos->id); ?>&act=del" onclick="return confirm('Are you sure to remove this Photo ?')"><i class="fa fa-remove" style="font-size: 20px;"></i></a>
+					<div class="col-md-2" style="padding:0px;text-align:right;">
+						<?php if($photos->status==1) {?>
+						<form role="form" action="" method="post">
+							<input type="hidden" name="id" value="<?php echo $photos->id; ?>"/>
+							<button type="submit" name="deactivate" class="btn btn-primary" style="width:100%">Activate</button>	
+						</form>
+						<?php } else{ ?>
+						<form role="form" action="" method="post">
+							<input type="hidden" name="id" value="<?php echo $photos->id; ?>"/>
+							<button type="submit" name="activate" class="btn btn-danger" style="width:100%">Deactivate</button>	
+						</form>
+						<?php } ?>
+					</div>
+					<div class="col-md-2" style="padding:0px;text-align:right;">
+						<a href="<?php echo APP_URL; ?>seller/edit-photo.php?id=<?php echo base64_encode($photos->id); ?>" style="width:90%" class="btn btn-primary">Edit</a>
+						<?php /*<a href="<?php echo APP_URL; ?>seller/photos.php?id=<?php echo base64_encode($photos->id); ?>&act=del" class="btn btn-primary" onclick="return confirm('Are you sure to remove this Photo ?')" style="width:100%">Delete</a>*/ ?>
 					</div>
 					<div style="clear: both; border-bottom: 1px solid rgb(204, 204, 204);">&nbsp;</div>
 					<div style="clear: both;">&nbsp;</div>
