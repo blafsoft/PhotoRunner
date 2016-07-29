@@ -13,6 +13,23 @@ if(!empty($_GET['email']))
 	$_SESSION['app']['url'] = APP_FULL_URL;
 }
 
+if(!empty($_GET['password']))
+{
+	$id = base64_decode($_GET['gallery']);	
+	$conditions = array('id'=>$id, 'password'=>$_GET['password']);
+	$check = $common->getrecord('pr_galleries','*',$conditions);
+
+	$id2 = base64_encode($id);
+	if(!empty($check))	
+	{
+		$_SESSION['gallery']['id'] = $id;
+	}
+	else
+	{
+		$common->add('e', 'Password not matched.');	
+		$common->redirect(APP_FULL_URL);
+	}
+}
 if(isset($_POST['open']))
 {
 	$id = $_POST['gallery1'];	
