@@ -174,7 +174,7 @@ if(isset($_POST['printfile']))
 	$print = $common->getrecord('pr_photos','*',$conditions);
 	?>
 	<div id="divToPrint" style="display:none;">
-		<img src="<?php echo APP_URL; ?>uploads/photos/real/<?php echo $print->printfile; ?>" style="width:100%; height:auto;" />  
+		<img src="<?php echo APP_URL; ?>uploads/photos/real/<?php echo $print->webfile; ?>" style="width:100%; height:auto;" />  
 	</div>
 	<?php if($_POST['size'] == 'normal') { ?>
 		<script type="text/javascript">     
