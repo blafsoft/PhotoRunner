@@ -8,7 +8,7 @@ define( 'DB_PASSWORD', 'L@rryCP14');
 define( 'DB_NAME', 'db_photorunner');*/
 
 
-define( 'DB_HOST', 'photorunner.mysql.domeneshop.no' );
+define( 'DB_HOST', 'test.photorunner.no' );
 define( 'DB_USERNAME', 'photorunner');
 define( 'DB_PASSWORD', 'p6Fu8nS6TEADgoW');
 define( 'DB_NAME', 'photorunner');
