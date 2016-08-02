@@ -338,14 +338,14 @@ if(!empty($_GET['email']))
 					<div style="float:left; width:50%;">
 						<h5 style="padding-left:10px;padding-bottom:5px; font-weight:bold;">Print File</h5>
 						<h6 style="padding-left:10px;padding-bottom:5px; color:red;">Free File For Print</h6>
-					</div>*/ ?>
+					</div>
 					<div>
 						<form action=""  method="post">
 							<input type="hidden" name="id" value="<?php echo $view->id; ?>" />
 							<input type="hidden" name="size" value="normal" />
 							<button type="submit" name="printfile" style="padding:10px 45px 10px 45px; background-color:#43ace5; color:#fff; font-weight:bold; border:0px; border-radius:3px; font-size:16px;" onclick="PrintDiv();"/>Print File</button>
 						</form>
-					</div>
+					</div>*/ ?>
 					<div style="height:15px;"></div>
 					<div style="float:left; width:50%;">
 						<h5 style="padding-left:10px;padding-bottom:5px; font-weight:bold;">A3 Size Print File</h5>
