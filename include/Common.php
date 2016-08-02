@@ -381,6 +381,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 			}	
 			
 			$conditions = array('username'=>$username,'password'=>$password,'type'=>$type);
+			$conditions1 = array('email'=>$username,'password'=>$password,'type'=>$type);
 			if($this->checkrecord('pr_members','*',$conditions))
 			{
 				$data = $this->getrecord('pr_members','*',$conditions);
@@ -399,14 +400,14 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 					return false;
 				}
 			}
-			elseif($this->checkrecord('pr_seller','*',$conditions1))
+			elseif($this->checkrecord('pr_members','*',$conditions1))
 			{
-				$data = $this->getrecord('pr_seller','*',$conditions1);
+				$data = $this->getrecord('pr_members','*',$conditions1);
 				if($data->status == 1)
 				{
-					$_SESSION['seller']['id'] = $data->id;
-					$_SESSION['seller']['email'] = $data->email;
-					unset($_SESSION['account']);
+					$_SESSION['account']['id'] = $data->id;
+					$_SESSION['account']['email'] = $data->email;
+					unset($_SESSION['seller']);
 					unset($_SESSION['guast']);
 					parent::add('s', 'Welcome! You are successfully login in your account panel.');
 					return true;
