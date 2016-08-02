@@ -69,7 +69,7 @@ if(isset($_POST['printfile']))
 	$print = $common->getrecord('pr_photos','*',$conditions);
 	?>
 	<div id="divToPrint" style="display:none;">
-		<img src="https://s3-eu-west-1.amazonaws.com/photorunner.download/<?php echo $print->webfile; ?>" style="width:100%; height:auto;" />  
+		<img src="http://www.photorunner.no/uploads/photos/real/<?php echo $print->webfile; ?>" style="width:100%; height:auto;" />  
 	</div>
 	<?php if($_POST['size'] == 'normal') { ?>
 		<script type="text/javascript">     
