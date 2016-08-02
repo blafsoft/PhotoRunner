@@ -6,7 +6,7 @@ if(isset($_POST['downloadwebfile']))
 	$downloadfile = $common->getrecord('pr_photos','*',$condition);
 
 	$downloadf = $downloadfile->webfile;
-	$file = APP_ROOT."uploads/photos/real/$downloadf";
+	$file = "https://s3-eu-west-1.amazonaws.com/photorunner.download/$downloadf";
 	if (file_exists($file)) {
 	    header('Content-Description: File Transfer');
 	    header('Content-Type: application/octet-stream');
