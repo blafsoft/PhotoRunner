@@ -135,7 +135,7 @@ if(isset($_POST['printfile']))
 					?>
 					<div style="border:2px solid #33b5e5; width:100%; float:left">
 						<div>
-							<div class="col-md-3" style="padding:10px;"><img src="<?php echo APP_URL; ?>uploads/photos/watermark/<?php echo $photo->webfile; ?>" style="width:100%; height:180px;" /></div>
+							<div class="col-md-3" style="padding:10px;"><img src="https://s3-eu-west-1.amazonaws.com/photorunner.view/<?php echo $photo->webfile; ?>" style="width:100%; height:180px;" /></div>
 							<div class="col-md-7" style="padding:10px;">
 								<div style="font-size:15px; font-weight:bold; padding:5px;" class="buyerbuyer">Product Name</div>
 								<div style="font-size:15px; padding:5px;">: <?php echo $photo->name; ?></div>
