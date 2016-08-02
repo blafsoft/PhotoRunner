@@ -194,7 +194,7 @@ if(isset($_POST['paypal']))
 					?>
 					<div class="col-md-12 payment_box_123" id="">
 						<div>
-							<div class="col-md-2" style="padding:10px;"><img src="<?php echo APP_URL; ?>uploads/photos/watermark/<?php echo $view->webfile; ?>" style="width:auto; height:110px;" /></div>
+							<div class="col-md-2" style="padding:10px;"><img src="https://s3-eu-west-1.amazonaws.com/photorunner.view/<?php echo $view->webfile; ?>" style="width:auto; height:110px;" /></div>
 							<div class="col-md-2" style="padding:10px;">
 								<div style="font-size:15px; font-weight:bold; padding:5px;">Product Name</div>
 								<div style="font-size:15px; font-weight:bold; padding:5px;">Price</div>
