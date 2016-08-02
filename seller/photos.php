@@ -104,7 +104,7 @@ if(isset($_POST['deactivate']))
 							<?php 
 							if(isset($photos->webfile) && !empty($photos->webfile))
 							{
-								?><img src="<?php echo APP_URL; ?>uploads/photos/bigwatermark/<?php echo $photos->webfile; ?>" style="height:50px;"><?php
+								?><img src="https://s3-eu-west-1.amazonaws.com/photorunner.view/<?php echo $photos->webfile; ?>" style="height:50px;"><?php
 							}
 							else
 							{
