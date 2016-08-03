@@ -74,7 +74,7 @@ if(isset($_GET['id']) && !empty($_GET['id']))
 		height: 100%;
 		z-index: 9999;
 		opacity: 0.5;
-		background: url(<?php echo APP_URL; ?>images/loading6.gif) center no-repeat #fff;
+		background: url(<?php echo APP_URL; ?>images/loading6156.gif) center no-repeat #fff;
 		background-size: 90px 90px;
 	}
 	</style>
