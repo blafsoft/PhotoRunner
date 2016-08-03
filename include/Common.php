@@ -1223,6 +1223,9 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 		$printfilepricea4 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea4'] );
 		$printfilepricea5 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea5'] );
 		
+		$imagewidth = mysqli_real_escape_string( $this->_con, $trimmed_data['imagewidth'] );
+		$imageheight = mysqli_real_escape_string( $this->_con, $trimmed_data['imageheight'] );
+		
 		$othertitle = mysqli_real_escape_string( $this->_con, $trimmed_data['othertitle'] );
 		$otherprice = mysqli_real_escape_string( $this->_con, $trimmed_data['otherprice'] );
 		$massage = mysqli_real_escape_string( $this->_con, $trimmed_data['massage'] );
@@ -1243,11 +1246,11 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 
 		$entered = @date('Y-m-d H:i:s');
 		if($update){
-			$query = "UPDATE pr_photos SET name = '".$name."', category='".$category."',gallery='".$gallery."', webfile = '".$filename."', webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."', webfilepriceeuro ='".$webfilepriceeuro."',printfilepricea3euro ='".$printfilepricea3euro."',printfilepricea4euro ='".$printfilepricea4euro."',printfilepricea5euro ='".$printfilepricea5euro."',otherpriceeuro ='".$otherpriceeuro."' WHERE id = '".base64_decode($_GET['id'])."' AND seller = '".$_SESSION['seller']['id']."'";
+			$query = "UPDATE pr_photos SET name = '".$name."', category='".$category."',gallery='".$gallery."', webfile = '".$filename."', webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."', webfilepriceeuro ='".$webfilepriceeuro."',printfilepricea3euro ='".$printfilepricea3euro."',printfilepricea4euro ='".$printfilepricea4euro."',printfilepricea5euro ='".$printfilepricea5euro."',otherpriceeuro ='".$otherpriceeuro."',imagewidth ='".$imagewidth."',imageheight ='".$imageheight."' WHERE id = '".base64_decode($_GET['id'])."' AND seller = '".$_SESSION['seller']['id']."'";
 		} else {
 
 
-			$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."',webfilepriceeuro ='".$webfilepriceeuro."',printfilepricea3euro ='".$printfilepricea3euro."',printfilepricea4euro ='".$printfilepricea4euro."',printfilepricea5euro ='".$printfilepricea5euro."',otherpriceeuro ='".$otherpriceeuro."',date ='".$entered."',othertitle ='".$othertitle."',otherprice ='".$otherprice."',massage ='".$massage."'";
+			$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."',webfilepriceeuro ='".$webfilepriceeuro."',printfilepricea3euro ='".$printfilepricea3euro."',printfilepricea4euro ='".$printfilepricea4euro."',printfilepricea5euro ='".$printfilepricea5euro."',otherpriceeuro ='".$otherpriceeuro."',date ='".$entered."',othertitle ='".$othertitle."',otherprice ='".$otherprice."',massage ='".$massage."',imagewidth ='".$imagewidth."',imageheight ='".$imageheight."'";
 		}
 		mysqli_query($this->_con, $query);
 	}
