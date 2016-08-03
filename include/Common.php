@@ -675,6 +675,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photo Width</div><div style='font-size:15px; width:420px;'> : ".$photodetail->imagewidth." px</div>".
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photo Height</div><div style='font-size:15px; width:420px;'> : ".$photodetail->imageheight." px</div><br/>".
 
+
 "<div style='font-size:15px; margin-left:20px;'><a href='".APP_URL."view-photo.php?view==".$photolink."' >Click here</a> to view purchase again</div><br/>".
 
 
