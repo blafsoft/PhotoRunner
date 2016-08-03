@@ -15,7 +15,11 @@ if(isset($_POST['submit']))
 			$file['tmp_name'] = $_FILES['webfile']['tmp_name'][$i];
 			$file['error'] = $_FILES['webfile']['error'][$i];
 			$file['size'] = $_FILES['webfile']['size'][$i];
-
+			
+			list($width, $height, $type, $attr) = getimagesize($_FILES['webfile']['tmp_name'][$i]); 
+			$_POST['imagewidth'] = $width;
+			$_POST['imageheight'] = $height;
+				
 			$lastid = $common->addphoto($_POST, $file);
 			$allids[] = $lastid;
 		}
