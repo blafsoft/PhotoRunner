@@ -316,6 +316,10 @@ if(!empty($_GET['email']))
 			$date = explode(" ",$date1);
 			?>
 			<div style="padding:5px; font-weight:bold; margin-left:10px;">Upload Date : <?php echo $date[0]; ?></div>
+			<div style="clear:both"></div>
+			<div style="padding:5px; font-weight:bold; margin-left:10px;">Massage : <span style="font-weight:200;"><?php if(!empty($view->massage)) { echo $view->massage; }else{ ?>Empty<?php } ?></span></div>
+			<div style="padding-left:5px; font-weight:bold; margin-left:10px;">Photo Size : <span style="font-weight:200;"><?php if(!empty($view->imagewidth)) { ?>( Width : <?php echo $view->imagewidth; ?>px, height : <?php echo $view->imageheight; ?>px )<?php }else{ ?>( Width : ..., Height : ... )<?php } ?></span></div>
+			<div style="clear:both"></div>
 			<div style="margin:12px;">
 				<h4 style="font-weight:bold;"><?php echo $view->name; ?></h4>
 			</div>
