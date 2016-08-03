@@ -645,6 +645,13 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 					$conditions = array('id'=>$photographer);
 					$records = $this->getrecord('pr_seller','*',$conditions);
 					$pemail = $records->email;
+					
+					$conditions = array('id'=>$photoid);
+					$photodetail = $this->getrecord('pr_photos','*',$conditions);
+
+					$image123465 = APP_ROOT.'uploads/photos/real/';
+
+					$photolink = base64_encode($photoid);
 
 					$subject = "Order Placement ".APP_NAME."";
 					$message = "<div style='color:#00A2B5; font-size:46px; font-family:arial; font-weight:bold; margin:20px;'>PhotoRunner</div>".
@@ -653,6 +660,10 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photographer Name</div><div style='font-size:15px; width:420px;'> : ".$records->username."</div>".
 
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photographer Country</div><div style='font-size:15px; width:420px;'> : ".$records->country."</div>".
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photographer State</div><div style='font-size:15px; width:420px;'> : ".$records->state."</div>".
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photographer City</div><div style='font-size:15px; width:420px;'> : ".$records->city."</div>".
+
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>File Name</div><div style='font-size:15px; width:420px;'> : ".$photoname."</div>".
 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>File Type</div><div style='font-size:15px; width:420px;'> : ".$phototype."</div>".
@@ -660,6 +671,15 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>File Size</div><div style='font-size:15px; width:420px;'> : ".$size."</div>".
 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Amount</div><div style='font-size:15px; width:420px;'> :  $ ".$amount." USD</div><br/><br/>".
+
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photo Width</div><div style='font-size:15px; width:420px;'> : ".$photodetail->imagewidth." px</div>".
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photo Height</div><div style='font-size:15px; width:420px;'> : ".$photodetail->imageheight." px</div><br/>".
+
+"<div style='font-size:15px; margin-left:20px;'><a href='".APP_URL."view-photo.php?view==".$photolink."' >Click here</a> to view purchase again</div><br/>".
+
+
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'></div><div style='font-size:15px; width:420px;'><img src='".$image123465."".$photodetail->webfile."' style='margin:10px;' /></div>".
+
 
 "<div style='font-size:14px; text-align:left; font-family:arial;'>Team<br/>Photo Runner</div>".
 					"</div>";
@@ -758,6 +778,12 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 					$conditions = array('id'=>$photographer);
 					$records = $this->getrecord('pr_seller','*',$conditions);
 					$pemail = $records->email;
+					
+					$conditions = array('id'=>$photoid);
+					$photodetail = $this->getrecord('pr_photos','*',$conditions);
+
+					$image123465 = APP_ROOT.'uploads/photos/real/';
+					$photolink = base64_encode($photoid);
 
 					$subject = "Order Placement ".APP_NAME."";
 					$message = "<div style='color:#00A2B5; font-family:arial; font-size:46px; font-weight:bold; margin:20px;'>PhotoRunner</div>".
@@ -765,6 +791,9 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 					"<div style='text-align:left; font-family:arial; font-size:16px; margin-left:60px;'><b>Order Details:-</b><div></b> <br/>".
 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photographer Name</div><div style='font-size:15px; width:420px;'> : ".$records->username."</div>".
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photographer Country</div><div style='font-size:15px; width:420px;'> : ".$records->country."</div>".
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photographer State</div><div style='font-size:15px; width:420px;'> : ".$records->state."</div>".
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photographer City</div><div style='font-size:15px; width:420px;'> : ".$records->city."</div>".
 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>File Name</div><div style='font-size:15px; width:420px;'> : ".$photoname."</div>".
 
@@ -773,6 +802,14 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>File Size</div><div style='font-size:15px; width:420px;'> : ".$size."</div>".
 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Amount</div><div style='font-size:15px; width:420px;'> :  $ ".$amount." USD</div><br/><br/>".
+
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photo Width</div><div style='font-size:15px; width:420px;'> : ".$photodetail->imagewidth." px</div>".
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photo Height</div><div style='font-size:15px; width:420px;'> : ".$photodetail->imageheight." px</div><br/>".
+
+"<div style='font-size:15px; margin-left:20px;'><a href='".APP_URL."view-photo.php?view==".$photolink."' >Click here</a> to view purchase again</div><br/>".
+
+
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'></div><div style='font-size:15px; width:420px;'><img src='".$image123465."".$photodetail->webfile."' style='margin:10px;' /></div>".
 
 "<div style='font-size:14px; text-align:left; font-family:arial;'>Team<br/>Photo Runner</div>".
 					"</div>";
