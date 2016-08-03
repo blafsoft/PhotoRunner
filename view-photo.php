@@ -183,7 +183,7 @@ if(!empty($_GET['email']))
 		</div>
 		<div class="col-md-5 no-pading">
 			<div style="margin-top:25px; text-align:center;">
-			<?php if(empty($reviewcount)) { ?>
+			<?php /*<?php if(empty($reviewcount)) { ?>
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
@@ -219,9 +219,9 @@ if(!empty($_GET['email']))
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
-			<?php } ?>
+			<?php } ?>*/ ?>
 			</div>
-			<h5 style="font-weight:bold; margin-top:5px; color:#00A2B5; padding-left:0px; text-align:center">Reviews</h5>
+			<?php /*<h5 style="font-weight:bold; margin-top:5px; color:#00A2B5; padding-left:0px; text-align:center">Reviews</h5>*/ ?>
 		</div>
 		<div class="col-md-3 no-pading" >
 			<a href="photos.php"><h4 class="view_right" style="font-size:14px;" >View all Photos in </br>this Gallery</h4>
