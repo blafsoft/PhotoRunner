@@ -31,10 +31,10 @@ if (!defined("APP_ROOT")) define("APP_ROOT", $_SERVER["DOCUMENT_ROOT"]."/".APP_F
 if (!defined("APP_URL")) define("APP_URL", $protocol."://".$_SERVER["HTTP_HOST"]."/".APP_FOLDER);
 if (!defined("APP_FULL_URL")) define("APP_FULL_URL", $protocol."://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI']);
 
-define('UPLOADED_IMAGE', "http://www.photorunner.no/uploads/photos/real/");
+define('UPLOADED_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.download/");
 define('WATERMARK_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.thumb/");
 define('BIGWATERMARK_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.view/");
-define('DESIGN_IMAGE', "http://www.photorunner.no/uploads/photos/real/");
+define('DESIGN_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.download/");
 define('GALLERY_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.gallery/");
 define('PROFILE_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.profile/");
 
