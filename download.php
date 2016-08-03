@@ -7,6 +7,35 @@ if(isset($_POST['downloadwebfile']))
 
 	$downloadf = $downloadfile->webfile;
 	$file = APP_ROOT."uploads/photos/real/$downloadf";
+/*
+	$aws = S3Client::factory(array(
+		'credentials' => [
+			'key'    => 'AKIAJSP57LI6NF4NDFFQ',
+			'secret' => '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'
+		],
+		'region' => 'eu-west-1',
+		'version' => 'latest'
+	));
+
+	$bucket = $aws->s3->bucket('photorunner.web');
+	$object = $bucket->object($download);
+*/
+
+// Access resource attributes
+
+
+	echo $object['LastModified'];
+
+// Call resource methods to take action
+
+
+	$object->delete();
+
+	$bucket->delete();
+
+
+
+
 	if (file_exists($file)) {
 	    header('Content-Description: File Transfer');
 	    header('Content-Type: application/octet-stream');
