@@ -1437,13 +1437,18 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 			$conditions = array('email'=>$email, 'type'=>'buyer');
 			if($this->checkrecord('pr_members','*',$conditions) )
 			{
+				$conditions = array('email'=>$email);
+				$forgotpassword = $this->getrecord('pr_members','*',$conditions);
+				$forgotusername = $forgotpassword->username;
+				
 				$query = "UPDATE pr_members SET password ='".$passwordHash."' WHERE email ='".$email."' and type = 'buyer'";
 				if(mysqli_query($this->_con, $query))
 				{
 					$subject = "Forget your password ".APP_NAME."";
 					$message = "<div style='color:#00A2B5; font-family:arial; font-size:46px; font-weight:bold; margin:20px;'>PhotoRunner</div>".
-					"<div style='text-align:center; font-family:arial;'>Dear User Please follow the below details to login</div><br/><br/>".
+					"<div style='text-align:center; font-family:arial;'>Dear ".$forgotusername." Please follow the below details to login</div><br/><br/>".
 					"<div style='text-align:center; font-family:arial;'><b>Forgot Password Details:-</b><div></b> <br/>".
+					"Username: ".$forgotusername."<br/><br/>".
 					"Password: ".$password."<br/><br/>".
 					"<div style='font-size:14px; text-align:left; font-family:arial;'>Team<br/>Photo Runner</div>".
 					"</div>";
@@ -1514,13 +1519,18 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 			$conditions = array('email'=>$email, 'type'=>'seller');
 			if($this->checkrecord('pr_seller','*',$conditions) )
 			{
+				$conditions = array('email'=>$email);
+				$forgotpasswordseller = $this->getrecord('pr_seller','*',$conditions);
+				$sellerforgot = $forgotpasswordseller->username;
+				
 				$query = "UPDATE pr_seller SET password ='".$passwordHash."' WHERE email ='".$email."' and type = 'seller'";
 				if(mysqli_query($this->_con, $query))
 				{
 					$subject = "Forget your password ".APP_NAME."";
 					$message = "<div style='color:#00A2B5; font-family:arial; font-size:46px; font-weight:bold; margin:20px;'>PhotoRunner</div>".
-					"<div style='text-align:center; font-family:arial;'>Dear Photographer Please follow the below details to login</div><br/><br/>".
+					"<div style='text-align:center; font-family:arial;'>Dear ".$sellerforgot." Please follow the below details to login</div><br/><br/>".
 					"<div style='text-align:center; font-family:arial;'><b>Forgot Password Details:-</b><div></b> <br/>".
+					"Username: ".$sellerforgot."<br/><br/>".
 					"Password: ".$password."<br/><br/>".
 					"<div style='font-size:14px; text-align:left; font-family:arial;'>Team<br/>Photo Runner</div>".
 					"</div>";
