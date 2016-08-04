@@ -381,6 +381,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 			}	
 			
 			$conditions = array('username'=>$username,'password'=>$password,'type'=>$type);
+			$conditions1 = array('email'=>$username,'password'=>$password,'type'=>$type);
 			if($this->checkrecord('pr_members','*',$conditions))
 			{
 				$data = $this->getrecord('pr_members','*',$conditions);
@@ -399,14 +400,14 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 					return false;
 				}
 			}
-			elseif($this->checkrecord('pr_seller','*',$conditions1))
+			elseif($this->checkrecord('pr_members','*',$conditions1))
 			{
-				$data = $this->getrecord('pr_seller','*',$conditions1);
+				$data = $this->getrecord('pr_members','*',$conditions1);
 				if($data->status == 1)
 				{
-					$_SESSION['seller']['id'] = $data->id;
-					$_SESSION['seller']['email'] = $data->email;
-					unset($_SESSION['account']);
+					$_SESSION['account']['id'] = $data->id;
+					$_SESSION['account']['email'] = $data->email;
+					unset($_SESSION['seller']);
 					unset($_SESSION['guast']);
 					parent::add('s', 'Welcome! You are successfully login in your account panel.');
 					return true;
@@ -644,6 +645,13 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 					$conditions = array('id'=>$photographer);
 					$records = $this->getrecord('pr_seller','*',$conditions);
 					$pemail = $records->email;
+					
+					$conditions = array('id'=>$photoid);
+					$photodetail = $this->getrecord('pr_photos','*',$conditions);
+
+					$image123465 = APP_ROOT.'uploads/photos/real/';
+
+					$photolink = base64_encode($photoid);
 
 					$subject = "Order Placement ".APP_NAME."";
 					$message = "<div style='color:#00A2B5; font-size:46px; font-family:arial; font-weight:bold; margin:20px;'>PhotoRunner</div>".
@@ -652,6 +660,10 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photographer Name</div><div style='font-size:15px; width:420px;'> : ".$records->username."</div>".
 
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photographer Country</div><div style='font-size:15px; width:420px;'> : ".$records->country."</div>".
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photographer State</div><div style='font-size:15px; width:420px;'> : ".$records->state."</div>".
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photographer City</div><div style='font-size:15px; width:420px;'> : ".$records->city."</div>".
+
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>File Name</div><div style='font-size:15px; width:420px;'> : ".$photoname."</div>".
 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>File Type</div><div style='font-size:15px; width:420px;'> : ".$phototype."</div>".
@@ -659,6 +671,16 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>File Size</div><div style='font-size:15px; width:420px;'> : ".$size."</div>".
 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Amount</div><div style='font-size:15px; width:420px;'> :  $ ".$amount." USD</div><br/><br/>".
+
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photo Width</div><div style='font-size:15px; width:420px;'> : ".$photodetail->imagewidth." px</div>".
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photo Height</div><div style='font-size:15px; width:420px;'> : ".$photodetail->imageheight." px</div><br/>".
+
+
+"<div style='font-size:15px; margin-left:20px;'><a href='".APP_URL."view-photo.php?view==".$photolink."' >Click here</a> to view purchase again</div><br/>".
+
+
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'></div><div style='font-size:15px; width:420px;'><img src='".$image123465."".$photodetail->webfile."' style='margin:10px;' /></div>".
+
 
 "<div style='font-size:14px; text-align:left; font-family:arial;'>Team<br/>Photo Runner</div>".
 					"</div>";
@@ -757,6 +779,12 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 					$conditions = array('id'=>$photographer);
 					$records = $this->getrecord('pr_seller','*',$conditions);
 					$pemail = $records->email;
+					
+					$conditions = array('id'=>$photoid);
+					$photodetail = $this->getrecord('pr_photos','*',$conditions);
+
+					$image123465 = APP_ROOT.'uploads/photos/real/';
+					$photolink = base64_encode($photoid);
 
 					$subject = "Order Placement ".APP_NAME."";
 					$message = "<div style='color:#00A2B5; font-family:arial; font-size:46px; font-weight:bold; margin:20px;'>PhotoRunner</div>".
@@ -764,6 +792,9 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 					"<div style='text-align:left; font-family:arial; font-size:16px; margin-left:60px;'><b>Order Details:-</b><div></b> <br/>".
 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photographer Name</div><div style='font-size:15px; width:420px;'> : ".$records->username."</div>".
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photographer Country</div><div style='font-size:15px; width:420px;'> : ".$records->country."</div>".
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photographer State</div><div style='font-size:15px; width:420px;'> : ".$records->state."</div>".
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photographer City</div><div style='font-size:15px; width:420px;'> : ".$records->city."</div>".
 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>File Name</div><div style='font-size:15px; width:420px;'> : ".$photoname."</div>".
 
@@ -772,6 +803,14 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>File Size</div><div style='font-size:15px; width:420px;'> : ".$size."</div>".
 
 "<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Amount</div><div style='font-size:15px; width:420px;'> :  $ ".$amount." USD</div><br/><br/>".
+
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photo Width</div><div style='font-size:15px; width:420px;'> : ".$photodetail->imagewidth." px</div>".
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'>Photo Height</div><div style='font-size:15px; width:420px;'> : ".$photodetail->imageheight." px</div><br/>".
+
+"<div style='font-size:15px; margin-left:20px;'><a href='".APP_URL."view-photo.php?view==".$photolink."' >Click here</a> to view purchase again</div><br/>".
+
+
+"<div style='font-size:15px; font-weight:bold; width:180px; float:left; font-family:arial; text-align:left; margin-left:20px;'></div><div style='font-size:15px; width:420px;'><img src='".$image123465."".$photodetail->webfile."' style='margin:10px;' /></div>".
 
 "<div style='font-size:14px; text-align:left; font-family:arial;'>Team<br/>Photo Runner</div>".
 					"</div>";
@@ -1222,6 +1261,9 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 		$printfilepricea4 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea4'] );
 		$printfilepricea5 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea5'] );
 		
+		$imagewidth = mysqli_real_escape_string( $this->_con, $trimmed_data['imagewidth'] );
+		$imageheight = mysqli_real_escape_string( $this->_con, $trimmed_data['imageheight'] );
+		
 		$othertitle = mysqli_real_escape_string( $this->_con, $trimmed_data['othertitle'] );
 		$otherprice = mysqli_real_escape_string( $this->_con, $trimmed_data['otherprice'] );
 		$massage = mysqli_real_escape_string( $this->_con, $trimmed_data['massage'] );
@@ -1242,11 +1284,11 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 
 		$entered = @date('Y-m-d H:i:s');
 		if($update){
-			$query = "UPDATE pr_photos SET name = '".$name."', category='".$category."',gallery='".$gallery."', webfile = '".$filename."', webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."', webfilepriceeuro ='".$webfilepriceeuro."',printfilepricea3euro ='".$printfilepricea3euro."',printfilepricea4euro ='".$printfilepricea4euro."',printfilepricea5euro ='".$printfilepricea5euro."',otherpriceeuro ='".$otherpriceeuro."' WHERE id = '".base64_decode($_GET['id'])."' AND seller = '".$_SESSION['seller']['id']."'";
+			$query = "UPDATE pr_photos SET name = '".$name."', category='".$category."',gallery='".$gallery."', webfile = '".$filename."', webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."', webfilepriceeuro ='".$webfilepriceeuro."',printfilepricea3euro ='".$printfilepricea3euro."',printfilepricea4euro ='".$printfilepricea4euro."',printfilepricea5euro ='".$printfilepricea5euro."',otherpriceeuro ='".$otherpriceeuro."',imagewidth ='".$imagewidth."',imageheight ='".$imageheight."' WHERE id = '".base64_decode($_GET['id'])."' AND seller = '".$_SESSION['seller']['id']."'";
 		} else {
 
 
-			$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."',webfilepriceeuro ='".$webfilepriceeuro."',printfilepricea3euro ='".$printfilepricea3euro."',printfilepricea4euro ='".$printfilepricea4euro."',printfilepricea5euro ='".$printfilepricea5euro."',otherpriceeuro ='".$otherpriceeuro."',date ='".$entered."',othertitle ='".$othertitle."',otherprice ='".$otherprice."',massage ='".$massage."'";
+			$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."',webfilepriceeuro ='".$webfilepriceeuro."',printfilepricea3euro ='".$printfilepricea3euro."',printfilepricea4euro ='".$printfilepricea4euro."',printfilepricea5euro ='".$printfilepricea5euro."',otherpriceeuro ='".$otherpriceeuro."',date ='".$entered."',othertitle ='".$othertitle."',otherprice ='".$otherprice."',massage ='".$massage."',imagewidth ='".$imagewidth."',imageheight ='".$imageheight."'";
 		}
 		mysqli_query($this->_con, $query);
 	}
@@ -1395,13 +1437,18 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 			$conditions = array('email'=>$email, 'type'=>'buyer');
 			if($this->checkrecord('pr_members','*',$conditions) )
 			{
+				$conditions = array('email'=>$email);
+				$forgotpassword = $this->getrecord('pr_members','*',$conditions);
+				$forgotusername = $forgotpassword->username;
+				
 				$query = "UPDATE pr_members SET password ='".$passwordHash."' WHERE email ='".$email."' and type = 'buyer'";
 				if(mysqli_query($this->_con, $query))
 				{
 					$subject = "Forget your password ".APP_NAME."";
 					$message = "<div style='color:#00A2B5; font-family:arial; font-size:46px; font-weight:bold; margin:20px;'>PhotoRunner</div>".
-					"<div style='text-align:center; font-family:arial;'>Dear User Please follow the below details to login</div><br/><br/>".
+					"<div style='text-align:center; font-family:arial;'>Dear ".$forgotusername." Please follow the below details to login</div><br/><br/>".
 					"<div style='text-align:center; font-family:arial;'><b>Forgot Password Details:-</b><div></b> <br/>".
+					"Username: ".$forgotusername."<br/><br/>".
 					"Password: ".$password."<br/><br/>".
 					"<div style='font-size:14px; text-align:left; font-family:arial;'>Team<br/>Photo Runner</div>".
 					"</div>";
@@ -1472,13 +1519,18 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 			$conditions = array('email'=>$email, 'type'=>'seller');
 			if($this->checkrecord('pr_seller','*',$conditions) )
 			{
+				$conditions = array('email'=>$email);
+				$forgotpasswordseller = $this->getrecord('pr_seller','*',$conditions);
+				$sellerforgot = $forgotpasswordseller->username;
+				
 				$query = "UPDATE pr_seller SET password ='".$passwordHash."' WHERE email ='".$email."' and type = 'seller'";
 				if(mysqli_query($this->_con, $query))
 				{
 					$subject = "Forget your password ".APP_NAME."";
 					$message = "<div style='color:#00A2B5; font-family:arial; font-size:46px; font-weight:bold; margin:20px;'>PhotoRunner</div>".
-					"<div style='text-align:center; font-family:arial;'>Dear Photographer Please follow the below details to login</div><br/><br/>".
+					"<div style='text-align:center; font-family:arial;'>Dear ".$sellerforgot." Please follow the below details to login</div><br/><br/>".
 					"<div style='text-align:center; font-family:arial;'><b>Forgot Password Details:-</b><div></b> <br/>".
+					"Username: ".$sellerforgot."<br/><br/>".
 					"Password: ".$password."<br/><br/>".
 					"<div style='font-size:14px; text-align:left; font-family:arial;'>Team<br/>Photo Runner</div>".
 					"</div>";

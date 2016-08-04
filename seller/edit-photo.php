@@ -9,6 +9,10 @@ if(isset($_POST['update']))
 	}
 	else
 	{
+		list($width, $height, $type, $attr) = getimagesize($_FILES['webfile']['tmp_name'][$i]); 
+		$_POST['imagewidth'] = $width;
+		$_POST['imageheight'] = $height;
+		
 		if($common->addphoto($_POST, $_FILES, true))
 		{
 			$common->redirect(APP_URL."seller/photos.php");

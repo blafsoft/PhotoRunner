@@ -263,7 +263,7 @@ if(isset($_POST['printfile']))
 					?>
 					<div style="border:2px solid #33b5e5; width:100%; float:left">
 						<div>
-							<div class="col-md-3" style="padding:10px;"><img src="<?php echo APP_URL; ?>uploads/photos/watermark/<?php echo $photo->webfile; ?>" style="width:100%; height:180px;" /></div>
+							<div class="col-md-3" style="padding:10px;"><img src="https://s3-eu-west-1.amazonaws.com/photorunner.view/<?php echo $photo->webfile; ?>" style="width:100%; height:180px;" /></div>
 							<div class="col-md-7" style="padding:10px;">
 								<div style="font-size:15px; font-weight:bold; padding:5px;" class="buyerbuyer">Product Name</div>
 								<div style="font-size:15px; padding:5px;">: <?php echo $photo->name; ?></div>
@@ -287,7 +287,7 @@ if(isset($_POST['printfile']))
 							</div>
 							<div class="col-md-2" style="padding:10px;">
 							<?php if($purchase->review == '0') { ?>
-								<a href="#<?php echo $purchase->id; ?>" class="fancybox" style="color:#ffffff;"><div style="color:#ffffff; text-align:center; margin-top:50px; font-size:15px; background-color:#00A2B5; padding:9px; border-radius:3px;">Send Review</div></a>
+								<?php /*<a href="#<?php echo $purchase->id; ?>" class="fancybox" style="color:#ffffff;"><div style="color:#ffffff; text-align:center; margin-top:50px; font-size:15px; background-color:#00A2B5; padding:9px; border-radius:3px;">Send Review</div></a>*/ ?>
 								<div id="<?php echo $purchase->id; ?>" style="width:100%; display: none; margin:auto; padding-top:15px;">
 									<form action="" method="post" enctype='multipart/form-data' id="send_review" style="height: 240px;">	
 										<h4>Send Review</h4>

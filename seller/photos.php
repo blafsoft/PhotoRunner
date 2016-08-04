@@ -104,7 +104,18 @@ if(isset($_POST['deactivate']))
 							<?php 
 							if(isset($photos->webfile) && !empty($photos->webfile))
 							{
-								?><img src="<?php echo APP_URL; ?>uploads/photos/bigwatermark/<?php echo $photos->webfile; ?>" style="height:50px;"><?php
+								if(empty($gallery->password))
+								{
+									?>
+									<a href="<?php echo APP_URL; ?>photos.php?gallery=<?php echo base64_encode($gallery->id); ?>"><img src="https://s3-eu-west-1.amazonaws.com/photorunner.view/<?php echo $photos->webfile; ?>" style="height:50px;"></a>
+									<?php
+								}
+								else
+								{
+									?>
+									<a href="<?php echo APP_URL; ?>photos.php?gallery=<?php echo base64_encode($gallery->id); ?>&&lock=unlock&&password=<?php echo $gallery->password; ?>"><img src="https://s3-eu-west-1.amazonaws.com/photorunner.view/<?php echo $photos->webfile; ?>" style="height:50px;"></a>
+									<?php
+								}
 							}
 							else
 							{

@@ -69,7 +69,7 @@ if(isset($_POST['printfile']))
 	$print = $common->getrecord('pr_photos','*',$conditions);
 	?>
 	<div id="divToPrint" style="display:none;">
-		<img src="<?php echo APP_URL; ?>uploads/photos/real/<?php echo $print->printfile; ?>" style="width:100%; height:auto;" />  
+		<img src="<?php echo APP_URL; ?>uploads/photos/real/<?php echo $print->webfile; ?>" style="width:100%; height:auto;" />  
 	</div>
 	<?php if($_POST['size'] == 'normal') { ?>
 		<script type="text/javascript">     
@@ -183,7 +183,7 @@ if(!empty($_GET['email']))
 		</div>
 		<div class="col-md-5 no-pading">
 			<div style="margin-top:25px; text-align:center;">
-			<?php if(empty($reviewcount)) { ?>
+			<?php /*<?php if(empty($reviewcount)) { ?>
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
 				<img src="images/1457455617_Low rating.png" style="width:30px;" />
@@ -219,9 +219,9 @@ if(!empty($_GET['email']))
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
 				<img src="images/1457455623_Favourites.png" style="width:30px;" />
-			<?php } ?>
+			<?php } ?>*/ ?>
 			</div>
-			<h5 style="font-weight:bold; margin-top:5px; color:#00A2B5; padding-left:0px; text-align:center">Reviews</h5>
+			<?php /*<h5 style="font-weight:bold; margin-top:5px; color:#00A2B5; padding-left:0px; text-align:center">Reviews</h5>*/ ?>
 		</div>
 		<div class="col-md-3 no-pading" >
 			<a href="photos.php"><h4 class="view_right" style="font-size:14px;" >View all Photos in </br>this Gallery</h4>
@@ -316,6 +316,10 @@ if(!empty($_GET['email']))
 			$date = explode(" ",$date1);
 			?>
 			<div style="padding:5px; font-weight:bold; margin-left:10px;">Upload Date : <?php echo $date[0]; ?></div>
+			<div style="clear:both"></div>
+			<div style="padding:5px; font-weight:bold; margin-left:10px;">Massage : <span style="font-weight:200;"><?php if(!empty($view->massage)) { echo $view->massage; }else{ ?>Empty<?php } ?></span></div>
+			<div style="padding-left:5px; font-weight:bold; margin-left:10px;">Photo Size : <span style="font-weight:200;"><?php if(!empty($view->imagewidth)) { ?>( Width : <?php echo $view->imagewidth; ?>px, height : <?php echo $view->imageheight; ?>px )<?php }else{ ?>( Width : ..., Height : ... )<?php } ?></span></div>
+			<div style="clear:both"></div>
 			<div style="margin:12px;">
 				<h4 style="font-weight:bold;"><?php echo $view->name; ?></h4>
 			</div>
@@ -338,14 +342,14 @@ if(!empty($_GET['email']))
 					<div style="float:left; width:50%;">
 						<h5 style="padding-left:10px;padding-bottom:5px; font-weight:bold;">Print File</h5>
 						<h6 style="padding-left:10px;padding-bottom:5px; color:red;">Free File For Print</h6>
-					</div>*/ ?>
+					</div>
 					<div>
 						<form action=""  method="post">
 							<input type="hidden" name="id" value="<?php echo $view->id; ?>" />
 							<input type="hidden" name="size" value="normal" />
 							<button type="submit" name="printfile" style="padding:10px 45px 10px 45px; background-color:#43ace5; color:#fff; font-weight:bold; border:0px; border-radius:3px; font-size:16px;" onclick="PrintDiv();"/>Print File</button>
 						</form>
-					</div>
+					</div>*/ ?>
 					<div style="height:15px;"></div>
 					<div style="float:left; width:50%;">
 						<h5 style="padding-left:10px;padding-bottom:5px; font-weight:bold;">A3 Size Print File</h5>
