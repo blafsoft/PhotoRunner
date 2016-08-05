@@ -1,5 +1,37 @@
 <?php  include('include/config.php'); include(APP_ROOT.'include/check-logged.php');
 
+if(!empty($_SESSION['fb_username'] && $_SESSION['fb_email']))
+{
+	if($_SESSION['facebboktype'] == 'buyer')
+	{
+		if($common->facebookregistration($_SESSION))
+		{
+			$common->redirect(APP_FULL_URL);
+		}
+		else
+		{
+			$common->redirect(APP_FULL_URL);
+		}
+	}
+	if($_SESSION['facebboktype'] == 'seller')
+	{
+		if($common->facebooksellerregistration($_SESSION))
+		{
+			$common->redirect(APP_FULL_URL);
+		}
+		else
+		{
+			$common->redirect(APP_FULL_URL);
+		}
+	}
+}
+
+if(isset($_POST['facebook']))
+{
+	$_SESSION['facebboktype'] = $_POST['set'];
+	header("Location: facebook/check-facebook.php");
+}
+
 if(isset($_GET['verifykey']) && !empty($_GET['verifykey']))
 {	
 	if($common->verifyaccount($_GET['verifykey']))
@@ -97,6 +129,10 @@ if(isset($_POST['signin']))
 			</div>
 			<div style="margin: 0 0 20px; text-align:right;"><a href="forgot-password.php" style="color:#33b5e5;" >Forgot Password ?</a></div>
 			<button type="submit" name="signin" id="btnlogin"/>Log in</button>
+			<div style="clear:both; height:15px"></div>
+			<button type="submit" name="facebook" style="background-color:#fff; padding:0px; width:49%;" /><img src="images/facebbok-login.png" style="width:100%;" /></button>
+			<button type="submit" name="gmail" style="background-color:#fff; padding:0px; width:49%;" /><img src="images/gmail-login.png" style="width:100%;" /></button>
+			<div style="clear:both; height:5px"></div>
 		</form>
 	</div>
 </div>
