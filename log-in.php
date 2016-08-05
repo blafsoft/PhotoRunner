@@ -132,6 +132,19 @@ if(isset($_POST['signin']))
 	<link rel="stylesheet" href="<?php echo APP_URL; ?>css/login.css">
 	<link id="stylesheet" rel="stylesheet" type="text/css" href="<?php echo APP_URL; ?>js/checkbox/zInput_default_stylesheet.css">
 	<script src="<?php echo APP_URL; ?>js/checkbox/zInput.js"></script>
+	<?php
+	if(isset($_POST['google']))
+	{
+		$_SESSION['facebboktype'] = $_POST['set'];
+		?>
+			<script type="text/javascript">
+			$(function () {
+				parent.location.href = '<?php echo $authUrl; ?>';					
+			});
+			</script>
+		<?php
+	}
+	?>
 </head>
 <body style="background-color:#F3F3F3">
 	<?php include(APP_ROOT.'include/header.php'); ?>
