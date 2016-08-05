@@ -1,5 +1,33 @@
 <?php  include('include/config.php'); include(APP_ROOT.'include/check-logged.php');
 
+if(!empty($_SESSION['google_data']['email'] && $_SESSION['google_data']['name'] && $_SESSION['google_data']['given_name'] && $_SESSION['google_data']['family_name']))
+{
+	if($_SESSION['facebboktype'] == 'buyer')
+	{
+		if($common->googleregistration($_SESSION['google_data']))
+		{
+			$common->redirect(APP_FULL_URL);
+		}
+		else
+		{
+			$common->redirect(APP_FULL_URL);
+		}
+	}
+	if($_SESSION['facebboktype'] == 'seller')
+	{
+		if($common->googlesellerregistration($_SESSION['google_data']))
+		{
+			$common->redirect(APP_FULL_URL);
+		}
+		else
+		{
+			$common->redirect(APP_FULL_URL);
+		}
+	}
+}
+
+include('google_index.php');
+
 if(!empty($_SESSION['fb_username'] && $_SESSION['fb_email']))
 {
 	if($_SESSION['facebboktype'] == 'buyer')
