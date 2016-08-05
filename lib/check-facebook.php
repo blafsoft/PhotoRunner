@@ -1,6 +1,6 @@
 <?php
 require '../include/config.php';
-require 'facebook/facebook.php';
+require 'data/facebook.php';
 require 'fbconfig.php';
 require 'fb_functions.php';
 $facebook = new Facebook(array(
