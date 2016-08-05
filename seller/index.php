@@ -111,6 +111,11 @@ if(isset($_POST['submit']))
 					<input type="text" placeholder="Last Name" name="lastname" id="lastname" value="<?php echo $seller->lastname; ?>" />
 					<lable style="padding:5px;">Zip Code</lable>
 					<input type="text" placeholder="Zip Code"  id="zip_code" name="zip_code" value="<?php echo $seller->zip_code; ?>" />
+					<lable style="padding:5px;">Bank Name</lable>
+					<input type="text" placeholder="Bank Name"  id="bankname" name="bankname" value="<?php echo $seller->bankname; ?>" />
+					<lable style="padding:5px;">Owner Name</lable>
+					<input type="text" placeholder="Owner Name"  id="owner_name" name="owner_name" value="<?php echo $seller->owner_name; ?>" />
+					
 				</div>
 				<div class="col-md-6">
 					<lable style="padding:5px;">Business Name</lable>
@@ -126,6 +131,8 @@ if(isset($_POST['submit']))
 
 					<lable style="padding:5px;">City</lable>
 					<input type="text" placeholder="City" name="city" id="city" value="<?php echo $seller->city; ?>"/>
+					<lable style="padding:5px;">Bank Number</lable>
+					<input type="text" placeholder="Bank Number" name="banknumber" id="banknumber" value="<?php echo $seller->banknumber; ?>"/>
 
 
 
@@ -202,13 +209,13 @@ if(isset($_POST['submit']))
 				<div class="col-md-6">
 					<lable style="padding:5px;">Collection</lable>
 					<input type="file" name="banner1" id="banner1" style="border:0px;"/>
-					<img src="<?php echo APP_URL; ?>uploads/seller/<?php echo $seller->banner1; ?>" style="max-width:100px;min-width:100px;max-height:70px;min-height:70px; padding-left:15px; padding-bottom:10px;">
+					<?php if(!empty($seller->banner1)) { ?><img src="<?php echo APP_URL; ?>uploads/seller/<?php echo $seller->banner1; ?>" style="max-width:100px;min-width:100px;max-height:70px;min-height:70px; padding-left:15px; padding-bottom:10px;"><?php } ?>
 					<div style="clear:both"></div>
 				</div>
 				<div class="col-md-6">
 					<lable style="padding:5px;">Collection</lable>
 					<input type="file" name="banner2" id="banner2" style="border:0px;"/>
-					<img src="<?php echo APP_URL; ?>uploads/seller/<?php echo $seller->banner2; ?>" style="max-width:100px;min-width:100px;max-height:70px;min-height:70px; padding-left:15px; padding-bottom:10px;">
+					<?php if(!empty($seller->banner2)) { ?><img src="<?php echo APP_URL; ?>uploads/seller/<?php echo $seller->banner2; ?>" style="max-width:100px;min-width:100px;max-height:70px;min-height:70px; padding-left:15px; padding-bottom:10px;"><?php } ?>
 					<div style="clear:both"></div>
 				</div>
 				<div style="height:10px; clear:both"></div>
