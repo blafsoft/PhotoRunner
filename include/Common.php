@@ -276,6 +276,121 @@ class Cl_Common extends Cl_Messages
 		}
 	}
 	
+	public function googleregistration( $data )
+	{
+		if( !empty( $data ))
+		{
+			$data['type'] = 'buyer';
+			$firstname = mysqli_real_escape_string( $this->_con, htmlentities($data['given_name'], ENT_QUOTES) );
+			$lastname = mysqli_real_escape_string( $this->_con, htmlentities($data['family_name'], ENT_QUOTES) );
+			$email = mysqli_real_escape_string( $this->_con, htmlentities($data['email'], ENT_QUOTES) );
+			$username = mysqli_real_escape_string( $this->_con, htmlentities($data['name'], ENT_QUOTES) );
+			$type = mysqli_real_escape_string( $this->_con, htmlentities($data['type'], ENT_QUOTES) );
+
+
+			if((empty($firstname)) || (empty($lastname)) || (empty($email)) || (empty($username))) 
+			{
+				unset($_SESSION['google_data']);
+				unset($_SESSION['token']);
+				unset($_SESSION['gog_email']);	
+				parent::add('e', '(*) Fields are required.');	
+				return false;
+			}
+			
+			$conditions = array('email'=>$email,'type'=>$type);
+			if(!$this->checkrecord('pr_members','*',$conditions) )
+			{
+				$conditions = array('username'=>$username,'type'=>$type);
+				if(!$this->checkrecord('pr_members','*',$conditions) )
+				{
+
+					$digits = 8;
+					$password = rand(pow(10, $digits-1), pow(10, $digits)-1);
+					$passwordHash = md5($password);
+
+					$code = md5($_POST['email'].rand().rand());
+					$entered = date('Y-m-d h:i:s');
+					$query = "INSERT INTO pr_members SET firstname = '$firstname', lastname = '$lastname', mobile = '$mobile', email = '$email', username = '$username', password = '$passwordHash', code = '$code', type = '$type', date = '$entered'";
+					if(mysqli_query($this->_con, $query))
+					{
+						$subject = "PhotoRunner-Account verification ";
+						$message ="<html><body>
+						<div style='100%; font-family:arial; border:0px solid #00A2B5; font-family:arial; font-size:18px; border-radius:0px;'><div style='background-color:#F2F2F2; padding:20px; font-size:22px;'>Confirm your Account with ".APP_NAME."</div>
+						<div style='color:#00A2B5; font-family:arial; font-size:46px; font-weight:bold; margin:20px;'>PhotoRunner</div>".
+						"<div style='color:#00A2B5; font-family:arial; font-size:18px; font-weight:bold; margin:20px;'>Hi ".$username." </div>".
+						"<div style='color:#00A2B5; font-family:arial; font-size:18px; font-weight:bold; margin:20px;'>Thanks for registration with us.</div>".					
+
+
+						"<div style='color:#6B555A; font-family:arial; border:1px solid #ccc; margin-top:30px; width:80%; margin-top:20px; margin-left:auto; margin-right:auto; padding:10px; padding-top:30px; font-size:16px; background-color:#F2F2F2; text-align:center'>To complete the registration process. Please verify your email id by click on given below Verify Account button.<br/><br/>".
+
+
+
+						"<div style='margin-top:15px; font-family:arial; margin-bottom:15px;'> <a href='".APP_URL."log-in.php/?verifykey=".$code."'' style='color:#fff; text-decoration:none; font-size:20px; font-weight:bold; margin:20px; padding:15px; width:230px; margin-left:auto; margin-right:auto; background-color:#00A2B5; border-radius:3px; font-family:arial;'>Verify Account</a></div></div><br/><br/>".
+
+
+
+						"<div style='font-size:16px; font-family:arial; text-align:center; color:#00A2B5;'>Your login detail are given below:</div><br/>".
+						"<div style='font-size:16px; font-family:arial; text-align:center;'><b>Username:</b> ".$username."</div><br/>".
+						"<div style='font-size:16px; font-family:arial; text-align:center;'><b>Password:</b> ".$password."</div><br/><br/>".
+						"<div style='font-size:16px; font-family:arial; text-align:center; color:#00A2B5;'>If you need any help, Please contact us at post@photorunner.no</div><br/>".
+						"<div style='font-size:14px; font-family:arial; text-align:left;'>Team<br/>Photo Runner</div>".
+						"</div></body></html>";
+						if($this->sendemail($email,$subject,$message))
+						{
+							unset($_SESSION['google_data']);
+							unset($_SESSION['token']);
+							unset($_SESSION['gog_email']);
+
+							parent::add('s', 'Your registration has been completed successfully. We have sent login details in your email address. Please activate your accout from your email address.');
+							return true;
+						}
+						else
+						{
+							unset($_SESSION['google_data']);
+							unset($_SESSION['token']);
+							unset($_SESSION['gog_email']);
+
+							parent::add('e', 'Somthing went wrong. Please try again.');	
+							return false;
+						}
+					}
+					else
+					{
+						unset($_SESSION['google_data']);
+						unset($_SESSION['token']);
+						unset($_SESSION['gog_email']);
+						parent::add('e', 'Somthing went wrong. Please try again.');	
+						return false;
+					}
+				}
+				else
+				{
+					unset($_SESSION['google_data']);
+					unset($_SESSION['token']);
+					unset($_SESSION['gog_email']);
+					parent::add('e', 'Username already exist. Please try again.');	
+					return false;				
+				}
+			}
+			else
+			{
+				unset($_SESSION['google_data']);
+				unset($_SESSION['token']);
+				unset($_SESSION['gog_email']);
+				parent::add('e', 'Email already exist. Please try again.');	
+				return false;
+			}
+		} 
+		else
+		{
+			unset($_SESSION['google_data']);
+			unset($_SESSION['token']);
+			unset($_SESSION['gog_email']);
+			parent::add('e', '(*) Fields are required.');	
+			return false;
+		}
+	}
+	
 	public function deactivatephoto( $data )
 	{		
 		if(!empty( $data ) )
@@ -638,6 +753,115 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 			unset($_SESSION['fb_username']);
 			unset($_SESSION['fb_email']);
 			unset($_SESSION['facebboktype']);
+			parent::add('e', '(*)All Fields are required.');	
+			return false;
+		}
+	}
+	
+	public function googlesellerregistration( $postdata )
+	{
+		if(!empty( $postdata ))
+		{
+			
+			$trimmed_data = $postdata;
+			
+			$email = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['email'], ENT_QUOTES ));
+			$username = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['name'], ENT_QUOTES ));
+			$firstname = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['given_name'], ENT_QUOTES ));
+			$lastname = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['family_name'], ENT_QUOTES ));
+
+
+			if((empty($email)) || (empty($username))) 
+			{
+				unset($_SESSION['google_data']);
+				unset($_SESSION['token']);
+				unset($_SESSION['gog_email']);	
+				parent::add('e', '(*) Fields are required.');	
+				return false;
+			}
+			$conditions = array('email'=>$email);
+			if(!$this->checkrecord('pr_seller','*',$conditions) )
+			{
+				$conditions = array('username'=>$username);
+				if(!$this->checkrecord('pr_seller','*',$conditions) )
+				{
+					$digits = 8;
+					$password = rand(pow(10, $digits-1), pow(10, $digits)-1);
+					$passwordHash = md5($password);
+					
+					$code = md5($_POST['email'].rand().rand());
+					$entered = date('Y-m-d h:i:s');
+					$query = "INSERT into pr_seller SET email ='".$email."', username ='".$username."',password ='".$passwordHash."',firstname ='".$firstname."', lastname ='".$lastname."',date ='".$entered."',code ='".$code."'";
+					if(mysqli_query($this->_con, $query))
+					{
+						unset($_SESSION['google_data']);
+						unset($_SESSION['token']);
+						unset($_SESSION['gog_email']);
+						$subject = "PhotoRunner-Account verification ";
+						$message ="<html><body>
+						<div style='100%; border:0px solid #00A2B5; font-family:arial; font-family:arial; font-size:18px; border-radius:10px;'><div style='background-color:#F2F2F2; padding:20px; font-size:22px;'>Confirm your with Account ".APP_NAME."</div>
+						<div style='color:#00A2B5; font-size:46px; font-weight:bold; margin:20px;'>PhotoRunner</div>".
+
+						"<div style='color:#00A2B5; font-size:18px; font-family:arial; font-weight:bold; margin:20px;'>Hi ".$username." </div>".
+						"<div style='color:#00A2B5; font-size:18px; font-family:arial; font-weight:bold; margin:20px;'>Thanks for registration with us.</div>".			
+
+						"<div style='color:#6B555A; border:1px solid #ccc; margin-top:30px; width:80%; margin-top:20px; margin-left:auto; margin-right:auto; padding:10px; padding-top:30px; font-size:16px; font-family:arial; background-color:#F2F2F2; text-align:center'>To complete the registration process. Please verify your email id by click on given below Verify Account button.<br/><br/>".
+
+
+						"<div style='margin-top:15px; margin-bottom:15px; font-family:arial;'> <a href='".APP_URL."log-in.php/?verifykeyy=".$code."'' style='color:#fff; text-decoration:none; font-size:20px; font-weight:bold; margin:20px; font-family:arial; padding:15px; width:230px; margin-left:auto; margin-right:auto; background-color:#00A2B5; border-radius:3px;'>Verify Account</a></div><div></div></div style='height:10px; clear:both'><br/><br/>".
+						"<div style='font-size:16px; text-align:center; font-family:arial; color:#00A2B5;'>Your login detail are given below:</div><br/>".
+						"<div style='font-size:16px; text-align:center; font-family:arial;'><b>Username:</b> ".$username."</div><br/>".
+						"<div style='font-size:16px; text-align:center; font-family:arial;'><b>Password:</b> ".$password."</div><br/><br/>".
+						"<div style='font-size:16px; text-align:center; font-family:arial; color:#00A2B5;'>If you need any help, Please contact us at post@photorunner.no</div><br/>".
+
+						"<div style='font-size:14px; text-align:left; font-family:arial;'>Team<br/>Photo Runner</div>".
+						"</div></body></html>";
+						if($this->sendemail($email,$subject,$message))
+						{
+							parent::add('s', 'Your registration has been completed successfully. We have sent your login details in your email. Please activate your accout from your email address.');
+							return true;
+						}
+						else
+						{
+							unset($_SESSION['google_data']);
+							unset($_SESSION['token']);
+							unset($_SESSION['gog_email']);
+							parent::add('e', 'Somthing went wrong. Please try again.');	
+							return false;
+						}
+					}
+					else
+					{
+						unset($_SESSION['google_data']);
+						unset($_SESSION['token']);
+						unset($_SESSION['gog_email']);
+						parent::add('e', 'Somthing went wrong. Please try again5.');	
+						return false;
+					}
+				}
+				else
+				{
+					unset($_SESSION['google_data']);
+					unset($_SESSION['token']);
+					unset($_SESSION['gog_email']);
+					parent::add('e', 'Username Address already exists.');	
+					return false;
+				}
+			}
+			else
+			{
+				unset($_SESSION['google_data']);
+				unset($_SESSION['token']);
+				unset($_SESSION['gog_email']);
+				parent::add('e', 'Email Address already exists.');	
+				return false;
+			}	
+		} 
+		else
+		{
+			unset($_SESSION['google_data']);
+			unset($_SESSION['token']);
+			unset($_SESSION['gog_email']);
 			parent::add('e', '(*)All Fields are required.');	
 			return false;
 		}
