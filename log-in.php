@@ -29,7 +29,7 @@ if(!empty($_SESSION['fb_username'] && $_SESSION['fb_email']))
 if(isset($_POST['facebook']))
 {
 	$_SESSION['facebboktype'] = $_POST['set'];
-	header("Location: facebook/check-facebook.php");
+	header("Location: lib/check-facebook.php");
 }
 
 if(isset($_GET['verifykey']) && !empty($_GET['verifykey']))
