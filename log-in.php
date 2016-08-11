@@ -172,7 +172,7 @@ if(isset($_POST['signin']))
 			<button type="submit" name="signin" id="btnlogin"/>Log in</button>
 			<div style="clear:both; height:15px"></div>
 			<button type="submit" name="facebook" style="background-color:#fff; padding:0px; width:49%;" /><img src="images/facebbok-login.png" style="width:100%;" /></button>
-			<button type="submit" name="gmail" style="background-color:#fff; padding:0px; width:49%;" /><img src="images/gmail-login.png" style="width:100%;" /></button>
+			<button type="submit" name="google" style="background-color:#fff; padding:0px; width:49%;" /><img src="images/gmail-login.png" style="width:100%;" /></button>
 			<div style="clear:both; height:5px"></div>
 		</form>
 	</div>
