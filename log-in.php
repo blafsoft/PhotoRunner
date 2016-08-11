@@ -1,6 +1,6 @@
 <?php  include('include/config.php'); include(APP_ROOT.'include/check-logged.php');
 
-if(!empty($_SESSION['google_data']['email'] && $_SESSION['google_data']['name'] && $_SESSION['google_data']['given_name'] && $_SESSION['google_data']['family_name']))
+if(isset($_SESSION['google_data']['email']) && isset($_SESSION['google_data']['name']) && isset($_SESSION['google_data']['given_name']) && isset($_SESSION['google_data']['family_name']))
 {
 	if($_SESSION['facebboktype'] == 'buyer')
 	{
@@ -28,7 +28,7 @@ if(!empty($_SESSION['google_data']['email'] && $_SESSION['google_data']['name'] 
 
 include('google_index.php');
 
-if(!empty($_SESSION['fb_username'] && $_SESSION['fb_email']))
+if(isset($_SESSION['fb_username']) && isset($_SESSION['fb_email']))
 {
 	if($_SESSION['facebboktype'] == 'buyer')
 	{
