@@ -6,10 +6,10 @@ include_once("src/contrib/Google_Oauth2Service.php");
 ######### edit details ##########
 
 
-$clientId = '641164823839-ea1iv56jibr455cdjjiukflq98m5h3a8.apps.googleusercontent.com'; //Google CLIENT ID
-$clientSecret = 'gsMdb3kkNAqCSrCPgt4YniFZ'; //Google CLIENT SECRET
-$redirectUrl = 'http://www.photorunner.no/google_index.php';  //return url (url to script)
-$homeUrl = 'http://www.photorunner.no/log-in.php';  //return to home
+$clientId = '276006470189-4323267sjl9bvitifku1gvdkol0u875h.apps.googleusercontent.com'; //Google CLIENT ID
+$clientSecret = 'QbVfh4h8TFJWH42s7gStayus'; //Google CLIENT SECRET
+$redirectUrl = 'https://test.photorunner.no/google_index.php';  //return url (url to script)
+$homeUrl = 'https://test.photorunner.no/log-in.php';  //return to home
 
 
 ##################################
