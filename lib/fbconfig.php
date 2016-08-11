@@ -1,4 +1,4 @@
 <?php
-define('APP_ID', '1758055857740600');
-define('APP_SECRET', '95dcd76b49832960dc7867d85cc8cda4');
+define('APP_ID', '1103168166428513');
+define('APP_SECRET', '2bbe44d4a0e2ab0571f2d0444716e38e');
 ?>
