@@ -5,7 +5,7 @@ define('DB_PASSWORD', 'h@SC_2015');
 define('DB_DATABASE', 'xa392_db5');
 $db = mysqli_connect(DB_SERVER,DB_USERNAME,DB_PASSWORD,DB_DATABASE) or die(mysqli_error()); */
 
-$hostname="photorunner.mysql.domeneshop.no";
+$hostname="test.photorunner.no";
 $username="photorunner"; //anaadit
 $password="p6Fu8nS6TEADgoW"; // L@rryCP14
 $database_name="photorunner";
