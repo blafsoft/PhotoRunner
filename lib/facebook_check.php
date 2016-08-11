@@ -42,7 +42,7 @@ else
 {
 //echo"<script>alert('Invalid Email and Password.')</script>";
 
-        header('Location:signin.php?gog_err=errr');
+        header('Location:log-in.php?gog_err=errr');
 }
 }
 
