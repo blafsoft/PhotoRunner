@@ -31,12 +31,20 @@ if (!defined("APP_ROOT")) define("APP_ROOT", $_SERVER["DOCUMENT_ROOT"]."/".APP_F
 if (!defined("APP_URL")) define("APP_URL", $protocol."://".$_SERVER["HTTP_HOST"]."/".APP_FOLDER);
 if (!defined("APP_FULL_URL")) define("APP_FULL_URL", $protocol."://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI']);
 
-define('UPLOADED_IMAGE', APP_URL."uploads/photos/real/");
-define('WATERMARK_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.thumb/");
-define('BIGWATERMARK_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.view/");
+define('IMAGE_FOLDER', APP_ROOT."images/");
+define('IMAGE_URL', APP_URL."/images/");
+define('UPLOADED_IMAGE', APP_ROOT."uploads/photos/real/");
+//define('WATERMARK_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.thumb/");
+define('WATERMARK_IMAGE', IMAGE_URL."thumb/");
+//define('BIGWATERMARK_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.view/");
+define('BIGWATERMARK_IMAGE', IMAGE_URL."view/");
 define('DESIGN_IMAGE', APP_URL."uploads/photos/real/");
-define('GALLERY_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.gallery/");
-define('PROFILE_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.profile/");
+//define('GALLERY_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.gallery/");
+define('GALLERY_IMAGE', IMAGE_URL."gallery/");
+//define('PROFILE_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.profile/");
+define('PROFILE_IMAGE', IMAGE_URL."profile/");
+
+$ENV['MODE'] = 'test';
 
 if(!empty($ENV['MODE'])){
     define('MODE', $ENV['MODE']);

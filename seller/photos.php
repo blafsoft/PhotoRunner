@@ -107,13 +107,13 @@ if(isset($_POST['deactivate']))
 								if(empty($gallery->password))
 								{
 									?>
-									<a href="<?php echo APP_URL; ?>photos.php?gallery=<?php echo base64_encode($gallery->id); ?>"><img src="https://s3-eu-west-1.amazonaws.com/photorunner.view/<?php echo $photos->webfile; ?>" style="height:50px;"></a>
+									<a href="<?php echo APP_URL; ?>photos.php?gallery=<?php echo base64_encode($gallery->id); ?>"><img src="<?php echo BIGWATERMARK_IMAGE . $photos->webfile; ?>" style="height:50px;"></a>
 									<?php
 								}
 								else
 								{
 									?>
-									<a href="<?php echo APP_URL; ?>photos.php?gallery=<?php echo base64_encode($gallery->id); ?>&&lock=unlock&&password=<?php echo $gallery->password; ?>"><img src="https://s3-eu-west-1.amazonaws.com/photorunner.view/<?php echo $photos->webfile; ?>" style="height:50px;"></a>
+									<a href="<?php echo APP_URL; ?>photos.php?gallery=<?php echo base64_encode($gallery->id); ?>&&lock=unlock&&password=<?php echo $gallery->password; ?>"><img src="<?php echo BIGWATERMARK_IMAGE . $photos->webfile; ?>" style="height:50px;"></a>
 									<?php
 								}
 							}

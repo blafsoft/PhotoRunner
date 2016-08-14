@@ -1735,28 +1735,28 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 
 
 	private function uploadPictureImmidatly($command, $file, $filename){
-		exec("/usr/bin/java -jar ".APP_ROOT."image-photorunner.jar ".$command." ".$file." ".$filename, $output);
+		$this->uploadPicture($command, $file, $filename);
+		//exec("/usr/bin/java -jar ".APP_ROOT."image-photorunner.jar ".$command." ".$file." ".$filename, $output);
 	}
 
 	private function uploadPicture($command, $file, $filename){
-		if(MODE == 'dev'){
-			$this->uploadPictureImmidatly($command, $file, $filename);
+		$moved = move_uploaded_file($file, UPLOADED_IMAGE . $filename);
+
+		if(!$moved){
+			return false;
+		}
+
+		$entered = @date('Y-m-d H:i:s');
+		$query = "insert into pr_imagejob (localfile, filename, command, created_date) values('".UPLOADED_IMAGE . $filename."', '".$filename."', '".$command."', '".$entered."')";
+
+		//exec("/usr/bin/java -jar ".APP_ROOT."image-photorunner.jar image-job ".IMAGE_FOLDER, $output);
+
+		if(mysqli_query($this->_con, $query))
+		{
+			exec("/usr/bin/java -jar /Library/WebServer/Documents/image-photorunner.jar image-job /Library/WebServer/Documents/images/", $output);
+			return true;
 		} else {
-			$moved = move_uploaded_file($file, UPLOADED_IMAGE . $filename);
-	
-			if(!$moved){
-				return false;
-			}
-	
-			$entered = @date('Y-m-d H:i:s');
-			$query = "insert into pr_imagejob (localfile, filename, command, created_date) values('".UPLOADED_IMAGE . $filename."', '".$filename."', '".$command."', '".$entered."')";
-	
-			if(mysqli_query($this->_con, $query))
-			{
-				return true;
-			} else {
-				return false;
-			}
+			return false;
 		}
 	}
 	
@@ -1801,6 +1801,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 			$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."',webfilepriceeuro ='".$webfilepriceeuro."',printfilepricea3euro ='".$printfilepricea3euro."',printfilepricea4euro ='".$printfilepricea4euro."',printfilepricea5euro ='".$printfilepricea5euro."',otherpriceeuro ='".$otherpriceeuro."',date ='".$entered."',othertitle ='".$othertitle."',otherprice ='".$otherprice."',massage ='".$massage."',imagewidth ='".$imagewidth."',imageheight ='".$imageheight."'";
 		}
 		mysqli_query($this->_con, $query);
+			mysqli_error($this->_con);
 	}
 	
 	
