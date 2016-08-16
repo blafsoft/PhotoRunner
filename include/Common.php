@@ -1753,7 +1753,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 
 		if(mysqli_query($this->_con, $query))
 		{
-			exec("/usr/bin/java -jar ".APP_ROOT."image-photorunner.jar image-job /Library/WebServer/Documents/images/", $output);
+			exec("/usr/bin/java -jar ".APP_ROOT."image-photorunner.jar image-job ".IMAGE_FOLDER, $output);
 			return true;
 		} else {
 			return false;
