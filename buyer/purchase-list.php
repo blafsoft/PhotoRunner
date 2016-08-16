@@ -265,7 +265,7 @@ if(isset($_POST['printfile']))
 						<div>
 							<div class="col-md-3" style="padding:10px;">
 								<?php if(!empty($photo->webfile)) { ?>
-									<img src="https://s3-eu-west-1.amazonaws.com/photorunner.view/<?php echo $photo->webfile; ?>" style="width:100%; height:180px;" />
+									<img src="<?php echo BIGWATERMARK_IMAGE . $photo->webfile; ?>" style="width:100%; height:180px;" />
 								<?php }else{ ?>
 									<img src="<?php echo APP_URL; ?>images/No-Images.png" style="width:200px; height:180px;" />
 								<?php } ?>

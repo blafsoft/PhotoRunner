@@ -25,9 +25,6 @@ if (!defined("APP_ROOT")) define("APP_ROOT", $_SERVER["DOCUMENT_ROOT"]."/".APP_F
 if (!defined("APP_URL")) define("APP_URL", $protocol . "://".$_SERVER["HTTP_HOST"]."/".APP_FOLDER);
 if (!defined("APP_FULL_URL")) define("APP_FULL_URL", $protocol . $protocol . "://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI']);
 
-
-define('GALLERY_IMAGE', "https://s3-eu-west-1.amazonaws.com/photorunner.gallery/");
-
 function __autoload($class)
 {
 	$parts = end(explode('_', $class));

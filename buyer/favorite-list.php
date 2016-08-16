@@ -68,7 +68,7 @@ $favourite = $common->getpagirecords('pr_favourite','*',$conditions);
 					?>
 						<div class="favourite1<?php echo $favourite->id; ?>" id=""style="border:2px solid #33b5e5; float:left; width:100%;">
 							<div>
-								<div class="col-md-3" style="padding:10px;"><img src="https://s3-eu-west-1.amazonaws.com/photorunner.view/<?php echo $photo->webfile; ?>" style="width:100%; height:180px;" /></div>
+								<div class="col-md-3" style="padding:10px;"><img src="<?php echo BIGWATERMARK_IMAGE . $photo->webfile; ?>" style="width:100%; height:180px;" /></div>
 								<div class="col-md-7" style="padding:10px;">
 									<div style="font-size:15px; font-weight:bold; padding:5px;"class="buyerbuyer">Product Name</div>
 									<div style="font-size:15px; padding:5px;">: <?php echo $photo->name; ?></div>
