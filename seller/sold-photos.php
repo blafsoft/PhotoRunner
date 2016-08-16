@@ -38,10 +38,16 @@ $purchase = $common->getpagirecords('pr_payments','*',$conditions);
 					?>
 					<div class="" style="border:2px solid #33b5e5; float:left; width:100%;">
 						<div>
-							<div class="col-md-4" style="padding:10px;"><img src="<?php echo WATERMARK_IMAGE . $photo->webfile; ?>" style="width:100%; height:180px;" /></div>
+							<div class="col-md-4" style="padding:10px;">
+								<?php if(!empty($photo->webfile)) { ?>
+									<img src="<?php echo WATERMARK_IMAGE . $photo->webfile; ?>" style="width:100%; height:180px;" />
+								<?php }else{ ?>
+									<img src="<?php echo APP_URL; ?>images/No-Images.png" style="width:100%; height:180px;" />
+								<?php } ?>
+							</div>
 							<div class="col-md-8" style="padding:10px;">
 								<div style="font-size:15px; font-weight:bold; padding:5px;"class="buyerbuyer">Photo Name</div>
-								<div style="font-size:15px; padding:5px;">: <?php echo $photo->name; ?></div>
+								<div style="font-size:15px; padding:5px;">: <?php if(!empty($photo->name)) { echo $photo->name; }else{ ?>No Name <?php } ?></div>
 								<div style="font-size:15px; font-weight:bold; padding:5px;"class="buyerbuyer">TXN Id</div>
 								<div style="font-size:15px; padding:5px;">: <?php echo $purchase->txnid; ?></div>
 								<div style="font-size:15px; font-weight:bold; padding:5px;"class="buyerbuyer">Payment Status</div>
