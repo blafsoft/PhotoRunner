@@ -1770,7 +1770,22 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 		$printfilepricea3 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea3'] );
 		$printfilepricea4 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea4'] );
 		$printfilepricea5 = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea5'] );
-		
+
+		$printfilepricea3euro = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea3euro'] );
+		$printfilepricea4euro = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea4euro'] );
+		$printfilepricea5euro = mysqli_real_escape_string( $this->_con, $trimmed_data['printfilepricea5euro'] );
+
+		$webfilepricea3euro = mysqli_real_escape_string( $this->_con, $trimmed_data['webfilepricea3euro'] );
+		$webfilepricea4euro = mysqli_real_escape_string( $this->_con, $trimmed_data['webfilepricea4euro'] );
+		$webfilepricea5euro = mysqli_real_escape_string( $this->_con, $trimmed_data['webfilepricea5euro'] );
+		$webfilepricea5euro = mysqli_real_escape_string( $this->_con, $trimmed_data['webfilepricea5euro'] );
+		$webfilepriceeuro = mysqli_real_escape_string( $this->_con, $trimmed_data['webfilepriceeuro'] );
+		$otherpriceeuro = mysqli_real_escape_string( $this->_con, $trimmed_data['otherpriceeuro'] );
+
+		$webfilepricea3 = mysqli_real_escape_string( $this->_con, $trimmed_data['webfilepricea3'] );
+		$webfilepricea4 = mysqli_real_escape_string( $this->_con, $trimmed_data['webfilepricea4'] );
+		$webfilepricea5 = mysqli_real_escape_string( $this->_con, $trimmed_data['webfilepricea5'] );
+
 		$imagewidth = mysqli_real_escape_string( $this->_con, $trimmed_data['imagewidth'] );
 		$imageheight = mysqli_real_escape_string( $this->_con, $trimmed_data['imageheight'] );
 		
