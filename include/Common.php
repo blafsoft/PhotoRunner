@@ -1809,7 +1809,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 			$query = "INSERT INTO pr_photos SET name = '".$name."',seller='".$_SESSION['seller']['id']."',category='".$category."',gallery='".$gallery."', webfile ='".$filename."',webfileprice ='".$webfileprice."',printfilepricea3 ='".$printfilepricea3."',printfilepricea4 ='".$printfilepricea4."',printfilepricea5 ='".$printfilepricea5."',webfilepriceeuro ='".$webfilepriceeuro."',printfilepricea3euro ='".$printfilepricea3euro."',printfilepricea4euro ='".$printfilepricea4euro."',printfilepricea5euro ='".$printfilepricea5euro."',otherpriceeuro ='".$otherpriceeuro."',date ='".$entered."',othertitle ='".$othertitle."',otherprice ='".$otherprice."',massage ='".$massage."',imagewidth ='".$imagewidth."',imageheight ='".$imageheight."'";
 		}
 		mysqli_query($this->_con, $query);
-			mysqli_error($this->_con);
+				mysqli_error($this->_con);
 	}
 	
 	
