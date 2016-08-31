@@ -40,7 +40,17 @@ if(isset($_GET['view']))
 
 	$conditionsnumber = array('gallery'=>$view->gallery);
 	$number = $common->countrecords('pr_photos','*',$conditionsnumber);
+} elseif(isset($_GET['gallery']))
+{
+	$gallery = base64_decode($_GET['gallery']);
+	$conditions = array('gallery'=>$gallery, 'status'=>'1');
+	$view = $common->getrecords('pr_photos','*',$conditions);
+	$number = sizeof($view);
+	$view = $view[0];
+	$conditionsseller = array('id'=>$view->seller);
+	$sller = $common->getrecord('pr_seller','*',$conditionsseller);
 }
+
 else
 {
 	$common->redirect(APP_URL."photos.php");
