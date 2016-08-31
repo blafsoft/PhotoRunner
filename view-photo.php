@@ -2,7 +2,7 @@
 
 if(isset($_POST['addtocart']))
 {
-	$countcart = count($_SESSION['cart']);
+	$countcart = isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
 	if( $countcart > 0 )
 	{
 		end($_SESSION['cart']); 
@@ -18,14 +18,14 @@ if(isset($_POST['addtocart']))
 		$_SESSION['cart'][0]['size'] = $_POST['size'];
 	}
 	$link = base64_encode($_POST['gallery']);
-	if(!empty($_SESSION['app']['url']))
-	{
-		$common->redirect($_SESSION['app']['url']);
-	}
-	else
-	{
-		$common->redirect(APP_URL."photos.php?gallery=$link");
-	}
+//	if(!empty($_SESSION['app']['url']))
+//	{
+//		$common->redirect($_SESSION['app']['url']);
+//	}
+//	else
+//	{
+//		$common->redirect(APP_URL."photos.php?gallery=$link");
+//	}
 }
 
 
