@@ -60,9 +60,9 @@ if(empty($view))
 	$common->redirect(APP_URL."photos.php");
 }
 
-$review = base64_decode($_GET['view']);
-$conditions = array('photo'=>$review);
-$reviews = $common->countreviews('pr_review',$conditions);
+//$review = base64_decode($_GET['view']);
+//$conditions = array('photo'=>$review);
+//$reviews = $common->countreviews('pr_review',$conditions);
 
 if(!empty($reviews->rating))
 {
