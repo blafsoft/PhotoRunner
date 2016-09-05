@@ -221,9 +221,9 @@ if(isset($_POST['submit']))
 
 			</div>
 			<div style="clear:both; height:20px;"></div>
-				<label style="padding-left:8px;">Write a massage for customer</label>
+				<label style="padding-left:8px;">Write a message for customer</label>
 				<div style="clear:both;"></div>
-				<textarea type="text" placeholder="Write a massage for customer" name="massage" style="width:70%; border-radius:0px; padding:8px; border:1px solid #d9d9d9;" id="massage" required="required"></textarea>
+				<textarea type="text" placeholder="Write a message for customer" name="massage" style="width:70%; border-radius:0px; padding:8px; border:1px solid #d9d9d9;" id="massage" required="required"></textarea>
 			<div style="clear:both; height:20px;"></div>
 			<div style="clear:both; height:20px;"></div>
 			<noscript><input name="js_enabled" type="hidden" value="1"></noscript>
