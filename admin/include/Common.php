@@ -1642,6 +1642,10 @@ class Cl_Common extends Cl_Messages
 		{
 			$trimmed_data = $postdata;
 			$number = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['number'], ENT_QUOTES ));
+			$image8text = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['image8text'], ENT_QUOTES ));
+			$image9text = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['image9text'], ENT_QUOTES ));
+			$image10text = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['image10text'], ENT_QUOTES ));
+			$image11text = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['image11text'], ENT_QUOTES ));
 			$email = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['email'], ENT_QUOTES ));
 			$bannerheading = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['bannerheading'], ENT_QUOTES ));
 			$facilitiesheading = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['facilitiesheading'], ENT_QUOTES ));
@@ -2104,8 +2108,10 @@ class Cl_Common extends Cl_Messages
 			fourtimagesubtitle ='".$fourtimagesubtitle."', 
 			fifthimagetitle ='".$fifthimagetitle."', 
 			fifthimagesubtitle ='".$fifthimagesubtitle."', 
-
-
+			image8text ='".$image8text."', 
+			image9text ='".$image9text."', 
+			image10text ='".$image10text."', 
+			image11text ='".$image11text."', 
 			companydescription ='".$companydescription."'";
 			if(mysqli_query($this->_con, $query))
 			{
