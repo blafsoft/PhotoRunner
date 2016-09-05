@@ -23,7 +23,6 @@ if(isset($_POST['update']))
 
 $conditions = array();
 $home = $common->getrecord('pr_home','*',$conditions);	
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -88,6 +87,11 @@ $home = $common->getrecord('pr_home','*',$conditions);
 <div style="clear:both"></div>
 
 					<div class="form-group">
+						<label for="exampleInputEmail1">Logo Bottom Text</label>
+						<input type="text" class="form-control" name="logotext" id="logotext" required="required" value="<?php echo html_entity_decode($home->logotext); ?>">
+					</div>
+
+					<div class="form-group">
 						<label for="exampleInputEmail1">Banner Bottom Heading</label>
 						<input type="text" class="form-control" name="bannerheading" id="bannerheading" required="required" value="<?php echo html_entity_decode($home->bannerheading); ?>">
 					</div>
@@ -105,6 +109,14 @@ $home = $common->getrecord('pr_home','*',$conditions);
 						</div>
 					</div>
 					<div class="form-group">
+						<label for="exampleInputEmail1">Our Facilities First Image Title</label>
+						<input type="text" class="form-control" name="firstimagetitle" id="firstimagetitle" required="required" value="<?php echo html_entity_decode($home->firstimagetitle); ?>">
+					</div>
+					<div class="form-group">
+						<label for="exampleInputEmail1">Our Facilities First Image Sub Title</label>
+						<input type="text" class="form-control" name="firstimagesubtitle" id="firstimagesubtitle" required="required" value="<?php echo html_entity_decode($home->firstimagesubtitle); ?>">
+					</div>
+					<div class="form-group">
 						<label for="exampleInputEmail1">Our Facilities First Image Description</label>
 						<input type="text" class="form-control" name="firstdescription" id="firstdescription" required="required" value="<?php echo html_entity_decode($home->firstdescription); ?>">
 					</div>
@@ -115,6 +127,14 @@ $home = $common->getrecord('pr_home','*',$conditions);
 							<br/>
 							<img src="../uploads/<?php echo $home->image4; ?>" style="width:10%;border:1px solid #d2d6de;padding:5px;" />
 						</div>
+					</div>
+					<div class="form-group">
+						<label for="exampleInputEmail1">Our Facilities Second Image Title</label>
+						<input type="text" class="form-control" name="secondimagetitle" id="secondimagetitle" required="required" value="<?php echo html_entity_decode($home->secondimagetitle); ?>">
+					</div>
+					<div class="form-group">
+						<label for="exampleInputEmail1">Our Facilities Second Image Sub Title</label>
+						<input type="text" class="form-control" name="secondimagesubtitle" id="secondimagesubtitle" required="required" value="<?php echo html_entity_decode($home->secondimagesubtitle); ?>">
 					</div>
 					<div class="form-group">
 						<label for="exampleInputEmail1">Our Facilities Second Image Description</label>
@@ -129,6 +149,14 @@ $home = $common->getrecord('pr_home','*',$conditions);
 						</div>
 					</div>
 					<div class="form-group">
+						<label for="exampleInputEmail1">Our Facilities Third Image Title</label>
+						<input type="text" class="form-control" name="thirdimagetitle" id="thirdimagetitle" required="required" value="<?php echo html_entity_decode($home->thirdimagetitle); ?>">
+					</div>
+					<div class="form-group">
+						<label for="exampleInputEmail1">Our Facilities Third Image Sub Title</label>
+						<input type="text" class="form-control" name="thirdimagesubtitle" id="thirdimagesubtitle" required="required" value="<?php echo html_entity_decode($home->thirdimagesubtitle); ?>">
+					</div>
+					<div class="form-group">
 						<label for="exampleInputEmail1">Our Facilities Third Image Description</label>
 						<input type="text" class="form-control" name="thirddescription" id="thirddescription" required="required" value="<?php echo html_entity_decode($home->thirddescription); ?>">
 					</div>
@@ -141,6 +169,14 @@ $home = $common->getrecord('pr_home','*',$conditions);
 						</div>
 					</div>
 					<div class="form-group">
+						<label for="exampleInputEmail1">Our Facilities Fourth Image Title</label>
+						<input type="text" class="form-control" name="fourtimagetitle" id="fourtimagetitle" required="required" value="<?php echo html_entity_decode($home->fourtimagetitle); ?>">
+					</div>
+					<div class="form-group">
+						<label for="exampleInputEmail1">Our Facilities Fourth Image Sub Title</label>
+						<input type="text" class="form-control" name="fourtimagesubtitle" id="fourtimagesubtitle" required="required" value="<?php echo html_entity_decode($home->fourtimagesubtitle); ?>">
+					</div>
+					<div class="form-group">
 						<label for="exampleInputEmail1">Our Facilities Fourth Image Description</label>
 						<input type="text" class="form-control" name="fourthdescription" id="fourthdescription" required="required" value="<?php echo html_entity_decode($home->fourthdescription); ?>">
 					</div>
@@ -151,6 +187,14 @@ $home = $common->getrecord('pr_home','*',$conditions);
 							<br/>
 							<img src="../uploads/<?php echo $home->image7; ?>" style="width:10%;border:1px solid #d2d6de;padding:5px;" />
 						</div>
+					</div>
+					<div class="form-group">
+						<label for="exampleInputEmail1">Our Facilities Fifth Image Title</label>
+						<input type="text" class="form-control" name="fifthimagetitle" id="fifthimagetitle" required="required" value="<?php echo html_entity_decode($home->fifthimagetitle); ?>">
+					</div>
+					<div class="form-group">
+						<label for="exampleInputEmail1">Our Facilities Fifth Image Sub Title</label>
+						<input type="text" class="form-control" name="fifthimagesubtitle" id="fifthimagesubtitle" required="required" value="<?php echo html_entity_decode($home->fifthimagesubtitle); ?>">
 					</div>
 					<div class="form-group">
 						<label for="exampleInputEmail1">Our Facilities Fifth Image Description</label>
@@ -196,6 +240,42 @@ $home = $common->getrecord('pr_home','*',$conditions);
 							</div>
 						</div>
 					</div>
+
+					<div style="clear:both"></div>
+					<div style="float:left; width:25%;">
+						<div class="box-body"> 
+							<div class="form-group">
+								<label for="exampleInputFile">Register Step First Text</label>
+								<input type="text" name="image8text" id="image8text" class="form-control" value="<?php echo html_entity_decode($home->image8text); ?>">
+							</div>
+						</div>
+					</div>
+					<div style="float:left; width:25%;">
+						<div class="box-body"> 
+							<div class="form-group">
+								<label for="exampleInputFile">Register Step Second Text</label>
+								<input type="text" name="image9text" id="image9text" class="form-control" value="<?php echo html_entity_decode($home->image9text); ?>">
+							</div>
+						</div>
+					</div>
+					<div style="float:left; width:25%;">
+						<div class="box-body"> 
+							<div class="form-group">
+								<label for="exampleInputFile">Register Step Third Text</label>
+								<input type="text" name="image10text" id="image10text" class="form-control" value="<?php echo html_entity_decode($home->image10text); ?>">
+							</div>
+						</div>
+					</div>
+					<div style="float:left; width:25%;">
+						<div class="box-body"> 
+							<div class="form-group">
+								<label for="exampleInputFile">Register Step Fourth Text</label>
+								<input type="text" name="image11text" id="image11text" class="form-control" value="<?php echo html_entity_decode($home->image11text); ?>">
+							</div>
+						</div>
+					</div>
+
+
 					<div style="clear:both"></div>
 					<div style="float:left; width:25%;">
 						<div class="box-body"> 
@@ -267,4 +347,3 @@ $home = $common->getrecord('pr_home','*',$conditions);
 		$("#page-form").validate();
 	});
 </script>
-
