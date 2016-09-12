@@ -19,24 +19,32 @@
 				<div class="col-md-3  bottom-grid">
 					<div class="bottom-text" >
 						<img src="uploads/<?php echo $home->image8; ?>">
+						<div style="color: #fff;font-size: 22px;font-weight: bold;margin-top: -100px;text-align: center;"><?php echo $home->image8text; ?></div>
+						<div style="height:15px;clear:both"></div>
 					</div>
 					<div class="bottom-spa"></div>
 				</div>
 				<div class="col-md-3 bottom-grid">
 					<div class="bottom-text">
 						<img src="uploads/<?php echo $home->image9; ?>">
+						<div style="color: #fff;font-size: 22px;font-weight: bold;margin-top: -100px;text-align: center;"><?php echo $home->image9text; ?></div>
+						<div style="height:15px;clear:both"></div>
 					</div>
 					<div class="bottom-spa"></div>
 				</div>
 				<div class="col-md-3 bottom-grid">
 					<div class="bottom-text">
 						<img src="uploads/<?php echo $home->image10; ?>">
+						<div style="color: #fff;font-size: 22px;font-weight: bold;margin-top: -100px;text-align: center;"><?php echo $home->image10text; ?></div>
+						<div style="height:15px;clear:both"></div>
 					</div>
 					<div class="bottom-spa"></div>
 				</div>
 				<div class="col-md-3 bottom-grid">
 					<div class="bottom-text">
 						<img src="uploads/<?php echo $home->image11; ?>" style="border-radius:50%;">
+						<div style="color: #fff;font-size: 22px;font-weight: bold;margin-top: -100px;text-align: center;"><?php echo $home->image11text; ?></div>
+						<div style="height:15px;clear:both"></div>
 					</div>
 					<div class="bottom-spa"></div>
 				</div>
