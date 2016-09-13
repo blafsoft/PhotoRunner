@@ -338,6 +338,7 @@ if(!empty($_GET['email']))
 			{
 				?>
 				<div style="margin:15px;">
+					<?php if(!empty($view->sellwebpublik)) { ?>
 					<div style="float:left; width:50%;">
 						<h5 style="padding-left:10px;padding-bottom:5px; font-weight:bold;">Web File</h5>
 						<h6 style="padding-left:10px;padding-bottom:5px; color:red;">Free File For Download</h6>
@@ -348,6 +349,7 @@ if(!empty($_GET['email']))
 							<button type="submit" name="downloadwebfile" style="padding:10px 40px 10px 40px; background-color:#43ace5; color:#fff; font-weight:bold; border:0px; border-radius:3px; font-size:16px;" onclick="reloadPage()";/>Download</button>
 						</form>
 					</div>
+					<?php } ?>
 					<?php /*<div style="height:15px;"></div>
 					<div style="float:left; width:50%;">
 						<h5 style="padding-left:10px;padding-bottom:5px; font-weight:bold;">Print File</h5>
@@ -361,6 +363,7 @@ if(!empty($_GET['email']))
 						</form>
 					</div>*/ ?>
 					<div style="height:15px;"></div>
+					<?php if(!empty($view->sellprintpublik)) { ?>
 					<div style="float:left; width:50%;">
 						<h5 style="padding-left:10px;padding-bottom:5px; font-weight:bold;">A3 Size Print File</h5>
 						<h6 style="padding-left:10px;padding-bottom:5px; color:red;">Free File For Print</h6>
@@ -396,6 +399,7 @@ if(!empty($_GET['email']))
 							<button type="submit" name="printfile" style="padding:10px 45px 10px 45px; background-color:#43ace5; color:#fff; font-weight:bold; border:0px; border-radius:3px; font-size:16px;" onclick="PrintDiv();"/>Print File</button>
 						</form>
 					</div>
+					<?php } ?>
 					<div style="height:15px;"></div>
 				</div>
 				<?php
@@ -403,6 +407,7 @@ if(!empty($_GET['email']))
 			else
 			{
 				?>
+				<?php if(!empty($view->sellwebpublik)) { ?>
 				<div style="margin:10px;">
 					<div style="float:left; width:50%;">
 						<h5 style="padding-left:10px;padding-bottom:5px; font-weight:bold;">Web File</h5>
@@ -431,6 +436,7 @@ if(!empty($_GET['email']))
 						<?php } ?>
 					</div>
 				</div>
+				<?php } ?>
 				<div style="clear:both; height:1px;"></div>
 				<?php /*<div style="margin:10px;">
 					<div style="float:left; width:50%;">
@@ -461,6 +467,7 @@ if(!empty($_GET['email']))
 					</div>
 				</div>
 				<div style="clear:both; height:1px;"></div>*/ ?>
+				<?php if(!empty($view->sellprintpublik)) { ?>
 				<?php if($view->printfilepricea3 != '0.00') { ?>
 					<div style="margin:10px;">
 						<div style="float:left; width:50%;">
@@ -552,6 +559,7 @@ if(!empty($_GET['email']))
 							<?php } ?>
 						</div>
 					</div>
+				<?php } ?>
 				<?php } ?>
 				<div style="clear:both; height:1px;"></div>
 				<?php if($view->otherprice != '0.00') { ?>
