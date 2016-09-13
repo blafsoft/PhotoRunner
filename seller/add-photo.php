@@ -209,6 +209,7 @@ if(isset($_POST['submit']))
 		background-size: 90px 90px;
 	}
 	</style>
+	<link href="radio-button/css/bootstrap-toggle.css" rel="stylesheet">
 </head>
 <body style="background-color:#EBEBEB">
 <div class="se-pre-con"></div>
@@ -297,7 +298,11 @@ if(isset($_POST['submit']))
 				<div style="width:25%; float:left"><input type="text" placeholder="Price in $" name="webfileprice" value="" style="width:100%;" class="number_only" id="webfileprice" /></div>
 				<div style="width:25%;float:left"><input type="text" placeholder="Price in &#8364;" name="webfilepriceeuro" value="" style="width:100%;" class="number_only" id="webfilepriceeuro" /></div>
 				<div style="clear:both"></div>
-
+				<label style="padding-left:8px;">Web File sell in public</label>
+				<div style="margin:5px;">
+					<input type="checkbox" checked data-toggle="toggle" name="sellwebpublik">
+				</div>
+				<div style="clear:both;height:15px;"></div>
 			
 				<label style="padding-left:8px;">A3 Print File Price in USD and EURO</label>
 				<div style="clear:both"></div>
@@ -318,9 +323,12 @@ if(isset($_POST['submit']))
 				<div style="width:25%;float:left"><input type="" placeholder="Price in $" name="printfilepricea5" value="" style="width:100%;" id="printfilepricea5" class="number_only"/></div>
 				<div style="width:25%;float:left"><input type="" placeholder="Price in &#8364;" name="printfilepricea5euro" value="" style="width:100%;" id="printfilepricea5euro" class="number_only"/></div>
 				<div style="clear:both"></div>
-
+				<label style="padding-left:8px;">Print File sell in public</label>
+				<div style="margin:5px;">
+					<input type="checkbox" checked data-toggle="toggle" name="sellprintpublik">
+				</div>
 			</div>
-			<div style="clear:both;"></div>
+			<div style="clear:both;height:15px;"></div>
 			<label style="padding-left:8px;">Make a new print option.</label>
 			<div style="clear:both;"></div>
 			<div style="float:left">
