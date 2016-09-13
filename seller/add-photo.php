@@ -209,7 +209,7 @@ if(isset($_POST['submit']))
 		background-size: 90px 90px;
 	}
 	</style>
-	<link href="radio-button/css/bootstrap-toggle.css" rel="stylesheet">
+	<link href="js/bootstrap-toggle.css" rel="stylesheet">
 </head>
 <body style="background-color:#EBEBEB">
 <div class="se-pre-con"></div>
