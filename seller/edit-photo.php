@@ -42,6 +42,7 @@ if(isset($_GET['id']) && !empty($_GET['id']))
 	.line1{margin:0px 0px 0px 15px; padding:10px; color:#00A2B5; border-bottom:1px solid #00A2B5;}
 	.line2{margin:0px 0px 0px 15px; padding:10px; color:#00A2B5;}
 	</style>
+	<link href="js/bootstrap-toggle.css" rel="stylesheet">
 </head>
 <body style="background-color:#EBEBEB">
 <?php include(APP_ROOT.'include/header.php'); ?>
@@ -111,6 +112,11 @@ if(isset($_GET['id']) && !empty($_GET['id']))
 			<div style="width:25%; float:left"><input type="text" placeholder="Price in $" name="webfileprice" value="<?php if(isset($photo->webfileprice) && !empty($photo->webfileprice)) { echo $photo->webfileprice; } ?>" style="width:100%;" class="number_only"/></div>
 			<div style="width:25%; float:left"><input type="text" placeholder="Price in &#8364;" name="webfilepriceeuro" value="<?php if(isset($photo->webfilepriceeuro) && !empty($photo->webfilepriceeuro)) { echo $photo->webfilepriceeuro; } ?>" style="width:100%;" class="number_only"/></div>
 			<div style="clear:both"></div>
+			<label style="padding-left:8px;">Web File sell in public</label>
+			<div style="margin:5px;">
+				<input type="checkbox" data-toggle="toggle" name="sellwebpublik" <?php if(!empty($photo->sellwebpublik)) { ?>checked<?php } ?>>
+			</div>
+			<div style="clear:both;height:15px;"></div>
 			<label style="padding-left:8px;">A3 Print File Price in USD and EURO</label>
 			<div style="clear:both"></div>
 			<div style="width:25%; float:left"><input type="text" placeholder="Price in $" name="printfilepricea3" value="<?php if(isset($photo->printfilepricea3) && !empty($photo->printfilepricea3)) { echo $photo->printfilepricea3; } ?>" style="width:100%;" class="number_only"/></div>
@@ -125,7 +131,11 @@ if(isset($_GET['id']) && !empty($_GET['id']))
 			<div style="clear:both"></div>
 			<div style="width:25%; float:left"><input type="text" placeholder="Price in $" name="printfilepricea5" value="<?php if(isset($photo->printfilepricea5) && !empty($photo->printfilepricea5)) { echo $photo->printfilepricea5; } ?>" style="width:100%;" class="number_only"/></div>
 			<div style="width:25%; float:left"><input type="text" placeholder="Price in &#8364;" name="printfilepricea5euro" value="<?php if(isset($photo->printfilepricea5euro) && !empty($photo->printfilepricea5euro)) { echo $photo->printfilepricea5euro; } ?>" style="width:100%;" class="number_only"/></div>
-
+			<label style="padding-left:8px;">Print File sell in public</label>
+			<div style="margin:5px;">
+				<input type="checkbox" data-toggle="toggle" name="sellprintpublik" <?php if(!empty($photo->sellprintpublik)) { ?>checked<?php } ?> >
+			</div>
+			<div style="height:15px;"></div>
 			<div style="clear:both;"></div>
 			<?php if(!empty($photo->othertitle) && !empty($photo->otherprice)) { ?>
 			<label style="padding-left:8px;">New print option.</label>
