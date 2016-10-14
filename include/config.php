@@ -11,7 +11,8 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 //define( 'DB_HOST', 'photorunnerdb.cwehmqf1ahbp.eu-west-1.rds.amazonaws.com' );
-define( 'DB_HOST', 'test.photorunner.no' );
+//define( 'DB_HOST', 'test.photorunner.no' );
+define( 'DB_HOST', 'localhost' );
 define( 'DB_USERNAME', 'photorunner');
 define( 'DB_PASSWORD', 'p6Fu8nS6TEADgoW');
 define( 'DB_NAME', 'photorunner');
