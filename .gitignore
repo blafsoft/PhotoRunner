@@ -15,4 +15,14 @@
 log/
 target/
 
-images
+images/
+images3/
+uploads/
+
+image-photorunner_old.jar
+
+Stripe_old_version/
+
+amazon-ses-sample.php
+
+photorunner.sublime-workspace

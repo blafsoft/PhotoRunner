@@ -150,9 +150,9 @@ if(isset($_POST['paypal']))
 <head>
 	<?php include(APP_ROOT.'include/head-other.php'); ?>
 	<link rel="stylesheet" href="<?php echo APP_URL; ?>css/login.css">
-	<style>
+	<!--<style>
 		.stripe-button-el{ border-radius:none; padding: 0 !important; width: auto !important; }
-	</style>
+	</style>-->
 </head>
 <body style="background-color:#F3F3F3">
 	<?php include(APP_ROOT.'include/header.php'); ?>
@@ -177,6 +177,9 @@ if(isset($_POST['paypal']))
 			<?php
 			if(!empty($_SESSION['cart']))
 			{
+				unset($_SESSION['payment_data']);
+				$_SESSION['payment_data'] = array();
+
 				$subtotal = 0;
 				foreach($_SESSION['cart'] as $key=>$value)
 				{
@@ -187,7 +190,7 @@ if(isset($_POST['paypal']))
 					?>
 					<div class="col-md-12 payment_box_123" id="">
 						<div>
-							<div class="col-md-2" style="padding:10px;"><img src="<?php echo APP_URL; ?>uploads/photos/watermark/<?php echo $view->webfile; ?>" style="width:auto; height:110px;" /></div>
+							<div class="col-md-2" style="padding:10px;"><img src="<?php echo BIGWATERMARK_IMAGE . $view->webfile; ?>" style="width:auto; height:110px;" /></div>
 							<div class="col-md-2" style="padding:10px;">
 								<div style="font-size:15px; font-weight:bold; padding:5px;">Product Name</div>
 								<div style="font-size:15px; font-weight:bold; padding:5px;">Price</div>
@@ -302,6 +305,13 @@ if(isset($_POST['paypal']))
 					</div>
 					<div style="clear:both; height:5px;"></div>
 					<?php
+					if(!array_key_exists($view->seller, $_SESSION['payment_data']))
+					{
+						$_SESSION['payment_data'][$view->seller] = array('amount' => $stripe, 'photos' => array($value));
+					} else {
+						$_SESSION['payment_data'][$view->seller]['amount'] += $stripe;
+						array_push($_SESSION['payment_data'][$view->seller]['photos'], $value);
+					}
 					$subtotal = $stripe+$subtotal;
 				}
 			}
@@ -390,7 +400,6 @@ if(isset($_POST['paypal']))
 							data-key="<?=PUBLISHABLE_KEY?>"
 							data-image="<?=APP_URL?>images/logo.png"
 							data-amount="<?php echo $stripe1; ?>">
-						</script>
 						</script>
 						<?php } ?>
 					</form>	

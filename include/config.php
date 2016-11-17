@@ -12,7 +12,7 @@ ini_set('display_errors', 1);
 
 //define( 'DB_HOST', 'photorunnerdb.cwehmqf1ahbp.eu-west-1.rds.amazonaws.com' );
 //define( 'DB_HOST', 'test.photorunner.no' );
-define( 'DB_HOST', 'localhost' );
+define( 'DB_HOST', '127.0.0.1' );
 define( 'DB_USERNAME', 'photorunner');
 define( 'DB_PASSWORD', 'p6Fu8nS6TEADgoW');
 define( 'DB_NAME', 'photorunner');
@@ -26,10 +26,9 @@ if (!defined("ADMIN_EMAIL")) define("ADMIN_EMAIL", "info@photorunner.no");
 
 $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ? "https" : "http";
 
-
-if (!defined("APP_FOLDER")) define("APP_FOLDER", "");
-if (!defined("APP_ROOT")) define("APP_ROOT", $_SERVER["DOCUMENT_ROOT"]."/".APP_FOLDER);
-if (!defined("APP_URL")) define("APP_URL", $protocol."://".$_SERVER["HTTP_HOST"]."/".APP_FOLDER);
+if (!defined("APP_FOLDER")) define("APP_FOLDER", "/php-photorunner-master/");
+if (!defined("APP_ROOT")) define("APP_ROOT", $_SERVER["DOCUMENT_ROOT"].APP_FOLDER);
+if (!defined("APP_URL")) define("APP_URL", $protocol."://".$_SERVER["HTTP_HOST"].APP_FOLDER);
 if (!defined("APP_FULL_URL")) define("APP_FULL_URL", $protocol."://".$_SERVER["HTTP_HOST"].$_SERVER['REQUEST_URI']);
 
 define('IMAGE_FOLDER', APP_ROOT."images/");
@@ -53,13 +52,16 @@ if(!empty($ENV['MODE'])){
     define('MODE', 'dev'); //mode can be test, prod or dev
 }
 
+if(!defined("SELLER_SHARE")) define("SELLER_SHARE", 0.9);
 
 if(MODE == 'prod') {
     define('SECRET_KEY', 'sk_live_f0Zb65LFbH3jQV4zGbzb1AMV');
     define('PUBLISHABLE_KEY', 'pk_live_obp9GmiNdWLl0DWA5wYW6rCv');
 } else {
-    define('SECRET_KEY', 'sk_test_xitA2poC7TfjnP1IGD0FT6rp');
-    define('PUBLISHABLE_KEY', 'pk_test_inM99ehBADdrzRTf3wa3ggu2');
+    define('SECRET_KEY', 'sk_test_h7RGjnIbUZgP2PstNMwTupIz '); // Blafsoft test account's test secret key
+    // define('SECRET_KEY', 'sk_test_xitA2poC7TfjnP1IGD0FT6rp');
+    define('PUBLISHABLE_KEY', 'pk_test_gti1pigBawP8KLm420LxXMAP'); // Blafsoft test account's test publishable key
+    // define('PUBLISHABLE_KEY', 'pk_test_inM99ehBADdrzRTf3wa3ggu2');
 }
 
 

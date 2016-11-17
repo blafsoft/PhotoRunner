@@ -29,7 +29,7 @@ if(isset($_POST['register']))
 	}
 	else
 	{
-		if($common->sellerregistration($_POST))
+		if($common->sellerregistration($_POST, $_FILES))
 		{
 			$common->redirect(APP_FULL_URL);
 		}
@@ -148,7 +148,7 @@ if(isset($_POST['register']))
 								<div style="clear:both;"></div>
 								<textarea name="about" id="about" type="text" style="width:100%; border-radius:0px;border: 1px solid #d9d9d9; padding:10px 15px;"  placeholder="Write about your self"></textarea>
 								<div style="clear:both; height:10px;"></div>
-								<div style="font-weight:bold; margin-bottom:10px;">Brows your best collation</div>
+								<div style="font-weight:bold; margin-bottom:10px;">Browse your best collation</div>
 								<div style="float:left; width:47%;"><input type="file" id="banner1" name="banner1"/></div>
 								<div style="float:right; width:47%;"><input type="file" id="banner2" name="banner2"/></div>
 								<div style="clear:both;"></div>
@@ -158,7 +158,7 @@ if(isset($_POST['register']))
 								<div style="font-weight:bold; margin-bottom:10px;">Set your price in USD and EURO</div>
 								<div style="width:15%; float:left"><input type="text" placeholder="$ USD"  id="price" name="price" class="numeric"/></div>
 								<div style="width:15%; float:left"><input type="text" placeholder="&#8364; EURO"  id="priceeuro" name="priceeuro" class="numeric"/></div>
-								<div style="width:70%;"><input type="text" placeholder="Enter text your price is per hour or per day"  id="pricetext" name="pricetext"/></div>
+								<div style="width:70%;"><input type="text" placeholder="Enter whether your price is per hour or per day"  id="pricetext" name="pricetext"/></div>
 								<div class="form_riwidth" style="float:left">
 									<img src="captcha_code_file.php?rand=<?php echo rand(); ?>" id='captchaimg' ><br></a>	
 									<span style="float:left; color:grey;">Can't read the image? click <a href='javascript: refreshCaptcha();' style="font-weight:bold; color:#00A2B5;">&nbsp;&nbsp;here&nbsp;&nbsp;</a>to refresh</span>

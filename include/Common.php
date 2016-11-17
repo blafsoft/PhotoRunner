@@ -1,6 +1,6 @@
 <?php
 
-//require("lib/aws/aws-autoloader.php");
+require("lib/aws/aws-autoloader.php");
 use Aws\Ses\SesClient;
 use Aws\Credentials\CredentialProvider;
 
@@ -469,7 +469,7 @@ class Cl_Common extends Cl_Messages
 				parent::add('e', 'Code Not Matched');	
 				return false;
 			}
-if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area))  || (empty($price))  || (empty($priceeuro)) || (empty($password)) || (empty($firstname)) || (empty($lastname)) || (empty($business_name)) || (empty($phone_number)) || (empty($country)) || (empty($state)) || (empty($city)) || (empty($zip_code)) || (empty($bankname)) || (empty($owner_name)) || (empty($banknumber)) || (empty($pricetext))) 
+			if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area))  || (empty($price))  || (empty($priceeuro)) || (empty($password)) || (empty($firstname)) || (empty($lastname)) || (empty($business_name)) || (empty($phone_number)) || (empty($country)) || (empty($state)) || (empty($city)) || (empty($zip_code)) || (empty($bankname)) || (empty($owner_name)) || (empty($banknumber)) || (empty($pricetext)))
 			{	
 				parent::add('e', '(*) Fields are required.');	
 				return false;
@@ -482,7 +482,6 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 				{
 					if(!empty($filesdata['banner1']))
 					{
-
 						$validextensions = array("jpeg", "jpg", "png", "gif", "JPEG", "JPG", "PNG", "GIF");
 						$ext = explode('.', basename($filesdata['banner1']['name']));
 						$file_extension = end($ext);
@@ -492,8 +491,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 						if(in_array($file_extension, $validextensions)) 
 						{
 							if (move_uploaded_file($filesdata['banner1']['tmp_name'], $file_target_path)) 
-							{ 
-
+							{
 								if(!empty($filesdata['banner2']))
 								{
 									$ext1 = explode('.', basename($filesdata['banner2']['name']));
@@ -503,75 +501,86 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 				
 									if(in_array($file_extension, $validextensions)) 
 									{
-										if (move_uploaded_file($filesdata['banner2']['tmp_name'], $file_target_path1)) 
+										if (move_uploaded_file($filesdata['banner2']['tmp_name'], $file_target_path1))
 										{
-											$code = md5($_POST['email'].rand().rand());
-											$entered = date('Y-m-d h:i:s');
-											$query = "INSERT into pr_seller SET email ='".$email."', 
-											username ='".$username."',
-											password ='".$password."',
-											firstname ='".$firstname."', 
-											lastname ='".$lastname."',
-											business_name ='".$business_name."',
-											phone_number ='".$phone_number."',
-											country ='".$country."',
-											state ='".$state."',
-											zip_code ='".$zip_code."',
-											code ='".$code."',
-
-											bankname ='".$bankname."',
-											owner_name ='".$owner_name."',
-											banknumber ='".$banknumber."',
-
-											about ='".$about."',
-											area ='".$area."',
-											price ='".$price."',
-
-											priceeuro ='".$priceeuro."',
-
-											banner1 ='".$filename."',
-											banner2 ='".$filename1."',
-
-											pricetext ='".$pricetext."',
-
-											date ='".$entered."',
-											city ='".$city."'";
-											if(mysqli_query($this->_con, $query))
+											$currency = 'usd';
+											if($_SESSION['currency'] == 'EURO') $currency = 'eur';
+											$resCrStripeAcct = $this->createStripeAccount($email, $currency);
+											if(!empty($resCrStripeAcct["stripeAccount"]))
 											{
-												$subject = "PhotoRunner-Account verification ";
-												$message ="<html><body>
-												<div style='100%; border:0px solid #00A2B5; font-family:arial; font-family:arial; font-size:18px; border-radius:10px;'><div style='background-color:#F2F2F2; padding:20px; font-size:22px;'>Confirm your with Account ".APP_NAME."</div>
-												<div style='color:#00A2B5; font-size:46px; font-weight:bold; margin:20px;'>PhotoRunner</div>".
+												$code = md5($_POST['email'].rand().rand());
+												$entered = date('Y-m-d h:i:s');
+												$query = "INSERT into pr_seller SET email ='".$email."', 
+													username ='".$username."',
+													password ='".$password."',
+													firstname ='".$firstname."', 
+													lastname ='".$lastname."',
+													business_name ='".$business_name."',
+													phone_number ='".$phone_number."',
+													country ='".$country."',
+													state ='".$state."',
+													zip_code ='".$zip_code."',
+													code ='".$code."',
+		
+													bankname ='".$bankname."',
+													owner_name ='".$owner_name."',
+													banknumber ='".$banknumber."',
+		
+													about ='".$about."',
+													area ='".$area."',
+													price ='".$price."',
+		
+													priceeuro ='".$priceeuro."',
+		
+													banner1 ='".$filename."',
+													banner2 ='".$filename1."',
+		
+													pricetext ='".$pricetext."',
+		
+													date ='".$entered."',
+													city ='".$city."',
+													stripe_account_id ='".$resCrStripeAcct["stripeAccount"]->id."'";
 
-												"<div style='color:#00A2B5; font-size:18px; font-family:arial; font-weight:bold; margin:20px;'>Hi ".$_POST['firstname']." </div>".
-												"<div style='color:#00A2B5; font-size:18px; font-family:arial; font-weight:bold; margin:20px;'>Thanks for registration with us.</div>".			
-
-												"<div style='color:#6B555A; border:1px solid #ccc; margin-top:30px; width:80%; margin-top:20px; margin-left:auto; margin-right:auto; padding:10px; padding-top:30px; font-size:16px; font-family:arial; background-color:#F2F2F2; text-align:center'>To complete the registration process. Please verify your email id by click on given below Verify Account button.<br/><br/>".
-
-
-												"<div style='margin-top:15px; margin-bottom:15px; font-family:arial;'> <a href='".APP_URL."log-in.php/?verifykeyy=".$code."'' style='color:#fff; text-decoration:none; font-size:20px; font-weight:bold; margin:20px; font-family:arial; padding:15px; width:230px; margin-left:auto; margin-right:auto; background-color:#00A2B5; border-radius:3px;'>Verify Account</a></div><div></div></div style='height:10px; clear:both'><br/><br/>".
-												"<div style='font-size:16px; text-align:center; font-family:arial; color:#00A2B5;'>Your login detail are given below:</div><br/>".
-												"<div style='font-size:16px; text-align:center; font-family:arial;'><b>Username:</b> ".$trimmed_data['username']."</div><br/>".
-												"<div style='font-size:16px; text-align:center; font-family:arial;'><b>Password:</b> ".$trimmed_data['passwordd']."</div><br/><br/>".
-												"<div style='font-size:16px; text-align:center; font-family:arial; color:#00A2B5;'>If you need any help, Please contact us at post@photorunner.no</div><br/>".
-
-												"<div style='font-size:14px; text-align:left; font-family:arial;'>Team<br/>Photo Runner</div>".
-												"</div></body></html>";
-												if($this->sendemail($email,$subject,$message))
+												if(mysqli_query($this->_con, $query))
 												{
-													parent::add('s', 'Registration has been completed successfully. Please activate your accout from your email address.');
-													return true;
+													$subject = "PhotoRunner-Account verification ";
+													$message ="<html><body>
+														<div style='100%; border:0px solid #00A2B5; font-family:arial; font-family:arial; font-size:18px; border-radius:10px;'><div style='background-color:#F2F2F2; padding:20px; font-size:22px;'>Confirm your with Account ".APP_NAME."</div>
+														<div style='color:#00A2B5; font-size:46px; font-weight:bold; margin:20px;'>PhotoRunner</div>".
+
+														"<div style='color:#00A2B5; font-size:18px; font-family:arial; font-weight:bold; margin:20px;'>Hi ".$_POST['firstname']." </div>".
+														"<div style='color:#00A2B5; font-size:18px; font-family:arial; font-weight:bold; margin:20px;'>Thanks for registration with us.</div>".
+
+														"<div style='color:#6B555A; border:1px solid #ccc; margin-top:30px; width:80%; margin-top:20px; margin-left:auto; margin-right:auto; padding:10px; padding-top:30px; font-size:16px; font-family:arial; background-color:#F2F2F2; text-align:center'>To complete the registration process. Please verify your email id by click on given below Verify Account button.<br/><br/>".
+
+
+														"<div style='margin-top:15px; margin-bottom:15px; font-family:arial;'> <a href='".APP_URL."log-in.php/?verifykeyy=".$code."'' style='color:#fff; text-decoration:none; font-size:20px; font-weight:bold; margin:20px; font-family:arial; padding:15px; width:230px; margin-left:auto; margin-right:auto; background-color:#00A2B5; border-radius:3px;'>Verify Account</a></div><div></div></div style='height:10px; clear:both'><br/><br/>".
+														"<div style='font-size:16px; text-align:center; font-family:arial; color:#00A2B5;'>Your login detail are given below:</div><br/>".
+														"<div style='font-size:16px; text-align:center; font-family:arial;'><b>Username:</b> ".$trimmed_data['username']."</div><br/>".
+														"<div style='font-size:16px; text-align:center; font-family:arial;'><b>Password:</b> ".$trimmed_data['passwordd']."</div><br/><br/>".
+														"<div style='font-size:16px; text-align:center; font-family:arial; color:#00A2B5;'>If you need any help, Please contact us at post@photorunner.no</div><br/>".
+
+														"<div style='font-size:14px; text-align:left; font-family:arial;'>Team<br/>Photo Runner</div>".
+														"</div></body></html>";
+													if($this->sendemail($email,$subject,$message))
+													{
+														parent::add('s', 'Registration has been completed successfully. Please activate your accout from your email address.');
+														return true;
+													}
+													else
+													{
+														parent::add('e', 'Somthing went wrong. Please try again.');
+														return false;
+													}
 												}
 												else
 												{
-													parent::add('e', 'Somthing went wrong. Please try again.');	
+													parent::add('e', 'Somthing went wrong. Please try again5.');
 													return false;
 												}
-											}
-											else
+											} else
 											{
-												parent::add('e', 'Somthing went wrong. Please try again5.');	
-												return false;
+												parent::add('e', $resCrStripeAcct["errorMessage"]);
 											}
 										}
 										else
@@ -1013,46 +1022,43 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 				return false;
 			}
 			$client = SesClient::factory(array(
-			'credentials' => [
-				'key'    => 'AKIAJSP57LI6NF4NDFFQ',
-				'secret' => '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'
-				],
-			'region' => 'eu-west-1',
-			'version' => 'latest'
-		));
+				'credentials' => array(
+					'key'    => 'AKIAJXWN3WDQ33LK4PWQ',
+					'secret' => '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'
+				),
+				'region' => 'eu-west-1',
+				'version' => 'latest'
+			));
 
-		$result = $client->sendEmail(array(
-			// Source is required
-			'Source' => 'post@photorunner.no',
-			// Destination is required
-			'Destination' => array(
-				'ToAddresses' => array($email),
-								),
-			// Message is required
-			'Message' => array(
-				// Subject is required
-				'Subject' => array(
-					// Data is required
-					'Data' => $subject,
-					'Charset' => 'UTF-8',
-				),
-				// Body is required
-				'Body' => array(
-					'Text' => array(
+			$result = $client->sendEmail(array(
+				// Source is required
+				'Source' => 'post@photorunner.no',
+				// Destination is required
+				'Destination' => array('ToAddresses' => array($email)),
+				// Message is required
+				'Message' => array(
+					// Subject is required
+					'Subject' => array(
 						// Data is required
-						'Data' => $message,
-						'Charset' => 'UTF-8',
+						'Data' => $subject,
+						'Charset' => 'UTF-8'
 					),
-					'Html' => array(
-						// Data is required
-						'Data' => $message,
-						'Charset' => 'UTF-8',
-					),
-				),
-			),
-			'SourceArn' => 'arn:aws:ses:eu-west-1:567219455324:identity/post@photorunner.no'
-		));
-		return true;
+					// Body is required
+					'Body' => array(
+						'Text' => array(
+							// Data is required
+							'Data' => $message,
+							'Charset' => 'UTF-8'
+						),
+						'Html' => array(
+							// Data is required
+							'Data' => $message,
+							'Charset' => 'UTF-8'
+						)
+					)
+				)
+			));
+			return true;
 		}
 		else
 		{
@@ -1115,7 +1121,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 			$photoname = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['photoname'], ENT_QUOTES ));
 			$ack = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['ack'], ENT_QUOTES ));
 			$size = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['size'], ENT_QUOTES ));
-			$photographername1 = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['photographername1'], ENT_QUOTES ));
+			//$photographername1 = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['photographername1'], ENT_QUOTES ));
 
 			if((empty($photoid)) || (empty($photographer)) || (empty($txnid)) || (empty($amount)) || (empty($phototype)) || (empty($ack))) 
 			{
@@ -1250,7 +1256,7 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 			$photoname = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['photoname'], ENT_QUOTES ));
 			$ack = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['ack'], ENT_QUOTES ));
 			$size = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['size'], ENT_QUOTES ));
-			$photographername1 = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['photographername1'], ENT_QUOTES ));
+			//$photographername1 = mysqli_real_escape_string( $this->_con, htmlentities($trimmed_data['photographername1'], ENT_QUOTES ));
 
 			if((empty($photoid)) || (empty($photographer)) || (empty($txnid)) || (empty($amount)) || (empty($phototype)) || (empty($ack))) 
 			{	
@@ -1753,7 +1759,8 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 
 		if(mysqli_query($this->_con, $query))
 		{
-			exec("/usr/bin/java -jar ".APP_ROOT."image-photorunner.jar image-job ".IMAGE_FOLDER, $output);
+			exec("java -jar ".APP_ROOT."image-photorunner.jar image-job ".IMAGE_FOLDER, $output);
+
 			return true;
 		} else {
 			return false;
@@ -3254,9 +3261,35 @@ if((empty($email)) || (empty($username))  || (empty($about))  || (empty($area)) 
 			return false;
 		}
 	}
-	
 
-
+	private function createStripeAccount($email, $currency)
+	{
+		try {
+			require_once('Stripe/lib/Stripe.php');
+			\Stripe\Stripe::setApiKey(SECRET_KEY);
+			$stripeAccount = \Stripe\Account::create(array(
+				"managed" => "false",
+				"default_currency" => $currency,
+				"email" => $email
+			));
+			$result = array(
+				"stripeAccount" => $stripeAccount,
+				"errorMessage" => null
+			);
+			return $result;
+		} catch(Exception $ex) {
+			$errorMessage = $ex->getMessage();
+			if($errorMessage == "An account with this email already exists.")
+			{
+				$errorMessage = "This email address is already registered with another Stripe account. Please enter another email address";
+			}
+			$result = array(
+				"stripeAccount" => null,
+				"errorMessage" => $errorMessage
+			);
+			return $result;
+		}
+	}
 	
 }
 ?>

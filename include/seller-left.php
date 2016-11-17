@@ -7,7 +7,7 @@
 <a href="<?php echo APP_URL; ?>seller/logout.php"><div class="line2">Sign Out</div></a>*/ 
 
 $conditions = array('id'=>$_SESSION['seller']['id']);
-$seller = $common->getrecord('pr_seller','*',$conditions) ;
+$seller = $common->getrecord('pr_seller','*',$conditions);
 
 if(isset($_POST['profile_picture_submit']))
 {
@@ -57,6 +57,7 @@ if(!empty($seller->profilepicture))
 <a href="<?php echo APP_URL; ?>seller/photos.php"><div class="line1">Photos</div></a>
 <a href="<?php echo APP_URL; ?>seller/add-photo.php"><div  class="line1">Add Photo</div></a>
 <a href="<?php echo APP_URL; ?>seller/sold-photos.php"><div  class="line1">Sold Photos</div></a>
+<a href="<?php echo APP_URL; ?>seller/stripe_account_status.php"><div class="line1">Stripe Account</div></a>
 <a href="<?php echo APP_URL; ?>seller/change-password.php"><div  class="line1">Change Password</div></a>
 <a href="<?php echo APP_URL; ?>seller/logout.php"><div class="line2">Sign Out</div></a>
 <script type="text/javascript" src="<?php echo APP_URL; ?>fancy-box/jquery.fancybox.js?v=2.1.5"></script>

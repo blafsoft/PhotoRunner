@@ -1,5 +1,6 @@
 <?php 
 include('include/config.php');
+
 if(empty($_SESSION['account']['id']) && !isset($_SESSION['account']['id']))
 {		
 	$common->redirect(APP_URL.'log-in.php');
@@ -18,6 +19,7 @@ if(empty($_SESSION['cart']))
 {
 	$common->redirect(APP_URL."photos.php");
 }
+
 if(isset($_POST['paypal']))
 {
 	$environment = 'live';	// or 'beta-sandbox' or 'live'
@@ -167,16 +169,17 @@ if(isset($_POST['paypal']))
 <body style="background-color:#F3F3F3">
 	<?php include(APP_ROOT.'include/header.php'); ?>
 <div class="space_header_join">&nbsp;</div>
-<div style="width:89%; margin:auto;">
-	<?php
-		if(!empty($_SESSION['flash_messages']))
-		{	
-			echo $msgs->display();
-		}	
-	?>
-</div>
+
 <div class="container" style="background-color:#ffffff;">
 	<div class="module form-module" style="max-width: 95%; border-top:0px; height:0px;">
+		<div style="padding:15px;">
+			<?php
+			if(!empty($_SESSION['flash_messages']))
+			{
+				echo $msgs->display();
+			}
+			?>
+		</div>
 		<div style="padding:15px;">
 			<a href="<?php echo APP_URL; ?>photos.php" style="color:#fff; text-decoration:none;"><div style="font-size:18px; padding:10px; color:#00A2B5; float:left; background-color:#33b5e5; color:#fff; margin-bottom:10px; border-radius:2px;">Continue Purchasing</div></a>
 			<div style="font-size:20px; padding:10px; color:#00A2B5; float:right; color:#33b5e5; margin-bottom:10px; border-radius:2px;">Photo Runner</div>
@@ -184,17 +187,19 @@ if(isset($_POST['paypal']))
 			<?php
 			if(!empty($_SESSION['cart']))
 			{
+				unset($_SESSION['payment_data']);
+				$_SESSION['payment_data'] = array();
+
 				$subtotal = 0;
 				foreach($_SESSION['cart'] as $key=>$value)
 				{
-					
 					$id = $value['photo'];
 					$conditions = array('id'=>$id);
 					$view = $common->getrecord('pr_photos','*',$conditions);
 					?>
 					<div class="col-md-12 payment_box_123" id="">
 						<div>
-							<div class="col-md-2" style="padding:10px;"><img src="<?php echo $view->webfile; ?>" style="width:140px; height:110px;" /></div>
+							<div class="col-md-2" style="padding:10px;"><img src="<?php echo BIGWATERMARK_IMAGE . $view->webfile; ?>" style="width:140px; height:110px;" /></div>
 							<div class="col-md-2" style="padding:10px;">
 								<div style="font-size:15px; font-weight:bold; padding:5px;">Product Name</div>
 								<div style="font-size:15px; font-weight:bold; padding:5px;">Price</div>
@@ -280,7 +285,14 @@ if(isset($_POST['paypal']))
 					</div>
 					<div style="clear:both; height:5px;"></div>
 					<?php
-					$subtotal = $stripe+$subtotal;
+					if(!array_key_exists($view->seller, $_SESSION['payment_data']))
+					{
+						$_SESSION['payment_data'][$view->seller] = array('amount' => $stripe, 'photos' => array($value));
+					} else {
+						$_SESSION['payment_data'][$view->seller]['amount'] += $stripe;
+						array_push($_SESSION['payment_data'][$view->seller]['photos'], $value);
+					}
+					$subtotal += $stripe;
 				}
 			}
 			?>

@@ -1,322 +1,278 @@
 <?php
-include 'include/config.php'; 
+include 'include/config.php';
 
-if(!empty($_SESSION['account']['id']))
-{
-	$amounttt = $_POST['amount']/100;
-	$amountttt = number_format($amounttt,2);
-	$stirpeamount=$_REQUEST['amount'];
-
-	try {
+try {
+	if(!empty($_POST['stripeToken']))
+	{
 		require_once('Stripe/lib/Stripe.php');
-		Stripe::setApiKey(SECRET_KEY);
+		\Stripe\Stripe::setApiKey(SECRET_KEY);
 
-		if($_SESSION['currency'] == 'USD') {
-			 $charge = Stripe_Charge::create(array(
-			  "amount" => $stirpeamount,
-			  "currency" => 'usd',
-			  "card" => $_POST['stripeToken'],
-			  "description" =>$amount['id']
-			));
-		}
-		if($_SESSION['currency'] == 'EURO') {
-			 $charge = Stripe_Charge::create(array(
-			  "amount" => $stirpeamount,
-			  "currency" => 'eur',
-			  "card" => $_POST['stripeToken'],
-			  "description" =>$amount['id']
-			));
+		list($member, $guest) = setMemberAndGuestVars($common, $_SESSION['account']['id'], $_SESSION['guast']['email']);
+
+		if(empty($member) && empty($guest)) {
+			$msgs->add('e', 'Sorry, but we were unable to find any info about the user. Payment won\'t be processed');
+			$common->redirect(APP_URL."payment.php");
 		}
 
-		if(!empty($_REQUEST['stripeToken']))
+        $stripeCustomerId = getStripeCustomerId($member, $guest);
+
+		$currency = getStripeCurrency($_SESSION['currency']);
+
+		foreach($_SESSION['payment_data'] as $sellerId => $payDetails)
 		{
-			foreach($_SESSION['cart'] as $key=>$valuee)
+            $seller = getSeller($common, $sellerId);
+
+            $amount = (string)($payDetails['amount'] * 100);
+            $applicationFee = (string)calcApplicationFee($payDetails['amount']);
+            $descroiption = (string)getStripeChargeDescription($member, $guest, $seller, $payDetails['amount'], $_SESSION['currency']);
+
+			$stripeDestAcctId = $seller->stripe_account_id;
+
+			if(is_null($stripeCustomerId))
 			{
+				$stripeCustomerId = createStripeCustomer($_POST['stripeToken'], getBuyerEmail($member, $guest))->id;
+				updateBuyer($common, $member, $guest, $stripeCustomerId);
+			}
 
-				$downloadid = $valuee['photo'];
-				$conditions = array('id'=>$downloadid);
-				$download = $common->getrecord('pr_photos','*',$conditions);
+			$charge = createStripeCharge($amount, $currency, $description, $applicationFee, $stripeCustomerId, $stripeDestAcctId);
 
+			foreach($payDetails['photos'] as $photoDetails)
+			{
+				$photo = getPhoto($common, $photoDetails['photo']);
+				$email = getBuyerEmail($member, $guest);
 
-				$currencyCode="USD";
-				$conditions = array('id'=>$_SESSION['account']['id']);
-				$emaill = $common->getrecord('pr_members','*',$conditions);
-				$email1 = $emaill->email;
-				if($valuee['type'] == 'webfileprice') 
-				{ 
-					if($_SESSION['currency'] == 'USD') {
-						$amount = urlencode($download->webfileprice);
+				$photoAmount = null;
+				if($photoDetails['type'] == 'webfileprice')
+				{
+					if($currency == 'usd') $photoAmount = urlencode($photo->webfileprice); else if($currency == 'eur') $photoAmount = urlencode($photo->webfilepriceeuro);
+				}
+				if($photoDetails['type'] == 'printfileprice')
+				{
+					if($photoDetails['size'] == 'A3')
+					{
+						if($currency == 'usd') $photoAmount = urlencode($photo->printfilepricea3); else if($currency == 'eur') $photoAmount = urlencode($photo->printfilepricea3euro);
 					}
-					if($_SESSION['currency'] == 'EURO') {
-						$amount = urlencode($download->webfilepriceeuro);
+					if($photoDetails['size'] == 'A4')
+					{
+						if($currency == 'usd') $photoAmount = urlencode($photo->printfilepricea4); else if($currency == 'eur') $photoAmount = urlencode($photo->printfilepricea4euro);
+					}
+					if($photoDetails['size'] == 'A5')
+					{
+						if($currency == 'usd') $photoAmount = urlencode($photo->printfilepricea5); else if($currency == 'eur') $photoAmount = urlencode($photo->printfilepricea5euro);
+					}
+					if($photoDetails['size'] == 'othertitle')
+					{
+						if($currency == 'usd') $photoAmount = urlencode($photo->otherprice); else if($_SESSION['currency'] == 'eur') $photoAmount = urlencode($photo->otherpriceeuro);
 					}
 				}
-				if($valuee['type'] == 'printfileprice') 
-				{
-					if($valuee['size'] == 'A3') 
-					{
-						if($_SESSION['currency'] == 'USD') {
-							$amount = urlencode($download->printfilepricea3);
-						}
-						if($_SESSION['currency'] == 'EURO') {
-							$amount = urlencode($download->printfilepricea3euro);
-						}
-					}
-					if($valuee['size'] == 'A4') 
-					{
-						if($_SESSION['currency'] == 'USD') {
-							$amount = urlencode($download->printfilepricea4);
-						}
-						if($_SESSION['currency'] == 'EURO') {
-							$amount = urlencode($download->printfilepricea4euro);
-						}
-					}
-					if($valuee['size'] == 'A5') 
-					{
-						if($_SESSION['currency'] == 'USD') {
-							$amount = urlencode($download->printfilepricea5);
-						}
-						if($_SESSION['currency'] == 'EURO') {
-							$amount = urlencode($download->printfilepricea5euro);
-						}
-					}
-					if($valuee['size'] == 'othertitle') 
-					{
-						if($_SESSION['currency'] == 'USD') {
-							$amount = urlencode($download->otherprice);
-						}
-						if($_SESSION['currency'] == 'EURO') {
-							$amount = urlencode($download->otherpriceeuro);
-						}
-					}
-				}
-				$currencyCode="USD";
 
-				if($valuee['type'] == 'webfileprice')
+				if($photoDetails['type'] == 'webfileprice')
 				{
-					$_POST['photoname'] = $download->name;
-					$_POST['photoid'] = $download->id;
-					$_POST['photographer'] = $download->seller;
+					$_POST['photoname'] = $photo->name;
+					$_POST['photoid'] = $photo->id;
+					$_POST['photographer'] = $photo->seller;
 					$_POST['txnid'] = $_POST['stripeToken'];
-					$_POST['amount'] = $amount;
+					$_POST['amount'] = $photoAmount;
 					$_POST['phototype'] = 'webfile';
 					$_POST['ack'] = $_POST['stripeTokenType'];
-					$_POST['size'] = $valuee['size'];
+					$_POST['size'] = $photoDetails['size'];
 
-					$common->addpayment($_POST, $email1);
-
+					$common->addpayment($_POST, $email);
 				}
-				if($valuee['type'] == 'printfileprice')
+				if($photoDetails['type'] == 'printfileprice')
 				{
-					$_POST['photoid'] = $download->id;
-					$_POST['photoname'] = $download->name;
-					$_POST['photographer'] = $download->seller;
+					$_POST['photoid'] = $photo->id;
+					$_POST['photoname'] = $photo->name;
+					$_POST['photographer'] = $photo->seller;
 					$_POST['txnid'] = $_POST['stripeToken'];
-					$_POST['amount'] = $amount;
+					$_POST['amount'] = $photoAmount;
 					$_POST['phototype'] = 'printfile';
 					$_POST['ack'] = $_POST['stripeTokenType'];
-					$_POST['size'] = $valuee['size'];
+					$_POST['size'] = $photoDetails['size'];
 
-					$common->addprintpayment($_POST, $email1);
-
+					$common->addprintpayment($_POST, $email);
 				}
 			}
-			unset($_SESSION['cart']);
-			$common->add('s', 'Your transaction has been completed please received your File after click on download button.');	
-			$common->redirect(APP_URL."buyer/purchase-list.php");			
 		}
-		else
-		{
-			$msgs->add('e', 'Something went Wrong.');	
-			$common->redirect(APP_URL."buyer/purchase-list.php");
-		}
-	  
+		unset($_SESSION['cart']);
+		$common->add('s', 'Congratulations, your transaction has been completed');
+		$common->redirect(APP_URL . 'buyer/purchase-list.php');
 	}
-	catch(Stripe_CardError $e) {
-	
-	}
-
-	//catch the errors in any way you like
-
-	 catch (Stripe_InvalidRequestError $e) {
-	  // Invalid parameters were supplied to Stripe's API
-
-	} catch (Stripe_AuthenticationError $e) {
-	  // Authentication with Stripe's API failed
-	  // (maybe you changed API keys recently)
-
-	} catch (Stripe_ApiConnectionError $e) {
-	  // Network communication with Stripe failed
-	} catch (Stripe_Error $e) {
-
-	  // Display a very generic error to the user, and maybe send
-	  // yourself an email
-	} catch (Exception $e) {
-
-	  // Something else happened, completely unrelated to Stripe
+	else
+	{
+		$msgs->add('e', 'Error while getting Stripe token');
+		$common->redirect(APP_URL . 'payment.php');
 	}
 }
-else
+catch(\Stripe\Error\Card $ex) {
+	// Error related to the card
+	$msgs->add('e', 'Stripe Card error: ' . $ex->getMessage());
+	$common->redirect(APP_URL . 'payment.php');
+}
+catch (\Stripe\Error\Authentication $ex) {
+	// Authentication with Stripe's API failed
+	// (maybe you changed API keys recently)
+	$msgs->add('e', 'Stripe Authentication error: ' . $ex->getMessage());
+	$common->redirect(APP_URL . 'payment.php');
+}
+catch (\Stripe\Error\ApiConnection $ex) {
+	// Network communication with Stripe failed
+	$msgs->add('e', 'Stripe API Connection error: ' . $ex->getMessage());
+	$common->redirect(APP_URL . 'payment.php');
+}
+catch (\Stripe\Error\RateLimit $ex) {
+	// Stripe's rate limit exception
+	$msgs->add('e', 'Stripe Rate Limit error: ' . $ex->getMessage());
+	$common->redirect(APP_URL . 'payment.php');
+}
+catch (\Stripe\Error\InvalidRequest $ex) {
+	// Invalid parameters were supplied to Stripe's API
+	$msgs->add('e', 'Stripe Invalid Request error: ' . $ex->getMessage());
+	$common->redirect(APP_URL . 'payment.php');
+}
+catch (\Stripe\Error\Api $ex) {
+	// Stripe's API exception
+	$msgs->add('e', 'Stripe API error: ' . $ex->getMessage());
+	$common->redirect(APP_URL . 'payment.php');
+}
+catch (Exception $ex) {
+	$msgs->add('e', 'Something went wrong. Error message: ' . $ex->getMessage());
+	$common->redirect(APP_URL . 'payment.php');
+}
+
+function calcApplicationFee($price)
 {
-	$amounttt = $_POST['amount']/100;
-	$amountttt = number_format($amounttt,2);
-	$stirpeamount=$_REQUEST['amount'];
+	return $price * 100 * (1 - SELLER_SHARE);
+}
 
-	try {
-		require_once('Stripe/lib/Stripe.php');
-		Stripe::setApiKey(SECRET_KEY);
-
-		if($_SESSION['currency'] == 'USD') {
-			 $charge = Stripe_Charge::create(array(
-			  "amount" => $stirpeamount,
-			  "currency" => 'usd',
-			  "card" => $_POST['stripeToken'],
-			  "description" =>$amount['id']
-			));
-		}
-		if($_SESSION['currency'] == 'EURO') {
-			 $charge = Stripe_Charge::create(array(
-			  "amount" => $stirpeamount,
-			  "currency" => 'eur',
-			  "card" => $_POST['stripeToken'],
-			  "description" =>$amount['id']
-			));
-		}
-
-
-		if(!empty($_REQUEST['stripeToken']))
-		{
-			foreach($_SESSION['cart'] as $key=>$valuee)
-			{
-				$downloadid = $valuee['photo'];
-				$conditions = array('id'=>$downloadid);
-				$download = $common->getrecord('pr_photos','*',$conditions);
-
-
-				$currencyCode="USD";
-				$email1 = $_SESSION['guast']['email'];
-				if($valuee['type'] == 'webfileprice') 
-				{ 
-					if($_SESSION['currency'] == 'USD') {
-						$amount = urlencode($download->webfileprice);
-					}
-					if($_SESSION['currency'] == 'EURO') {
-						$amount = urlencode($download->webfilepriceeuro);
-					}
-				}
-				if($valuee['type'] == 'printfileprice') 
-				{
-					if($valuee['size'] == 'A3') 
-					{
-						if($_SESSION['currency'] == 'USD') {
-							$amount = urlencode($download->printfilepricea3);
-						}
-						if($_SESSION['currency'] == 'EURO') {
-							$amount = urlencode($download->printfilepricea3euro);
-						}
-					}
-					if($valuee['size'] == 'A4') 
-					{
-						if($_SESSION['currency'] == 'USD') {
-							$amount = urlencode($download->printfilepricea4);
-						}
-						if($_SESSION['currency'] == 'EURO') {
-							$amount = urlencode($download->printfilepricea4euro);
-						}
-					}
-					if($valuee['size'] == 'A5') 
-					{
-						if($_SESSION['currency'] == 'USD') {
-							$amount = urlencode($download->printfilepricea5);
-						}
-						if($_SESSION['currency'] == 'EURO') {
-							$amount = urlencode($download->printfilepricea5euro);
-						}
-					}
-					if($valuee['size'] == 'othertitle') 
-					{
-						if($_SESSION['currency'] == 'USD') {
-							$amount = urlencode($download->otherprice);
-						}
-						if($_SESSION['currency'] == 'EURO') {
-							$amount = urlencode($download->otherpriceeuro);
-						}
-					}
-				}
-				/*if($_POST['phototype'] == 'webfileprice') 
-				{ 
-					$amount = urlencode($download->webfileprice);
-				}else{
-					$amount = urlencode($download->printfileprice);
-				}*/
-				
-				
-				
-				
-				$currencyCode="USD";
-
-				if($valuee['type'] == 'webfileprice')
-				{
-					$_POST['photoname'] = $download->name;
-					$_POST['photoid'] = $download->id;
-					$_POST['photographer'] = $download->seller;
-					$_POST['txnid'] = $_POST['stripeToken'];
-					$_POST['amount'] = $amount;
-					$_POST['phototype'] = 'webfile';
-					$_POST['ack'] = $_POST['stripeTokenType'];
-					$_POST['size'] = $valuee['size'];
-
-					$common->addpayment($_POST, $email1);
-
-				}
-				if($valuee['type'] == 'printfileprice')
-				{
-					$_POST['photoid'] = $download->id;
-					$_POST['photoname'] = $download->name;
-					$_POST['photographer'] = $download->seller;
-					$_POST['txnid'] = $_POST['stripeToken'];
-					$_POST['amount'] = $amount;
-					$_POST['phototype'] = 'printfile';
-					$_POST['ack'] = $_POST['stripeTokenType'];
-					$_POST['size'] = $valuee['size'];
-
-					$common->addprintpayment($_POST, $email1);
-
-				}
-			}
-			unset($_SESSION['cart']);
-			$common->add('s', 'Your transaction has been completed please received your File after click on download button.');	
-			$common->redirect(APP_URL."success.php");		
-		}
-		else
-		{
-			$msgs->add('e', 'Something went Wrong.');	
-			$common->redirect(APP_FULL_URL);
-		}
-	  
+function getStripeChargeDescription($member, $guest, $seller, $price, $currency)
+{
+	$buyerInfo = null;
+	if(!empty($member))
+	{
+		$buyerInfo = $member->firstname . ' ' . $member->lastname . ' (' . $member->email . ')';
 	}
-	catch(Stripe_CardError $e) {
-	
+	else if(!empty($guest))
+	{
+		$buyerInfo = $guest->email;
 	}
+	return '[Photorunner] User ' . $buyerInfo . ' bought images from '
+            . $seller->firstname . ' ' . $seller->lastname . ' (' . $seller->business_name . ') for a price of '
+            . $price . ' ' . $currency;
+}
 
-	//catch the errors in any way you like
-
-	 catch (Stripe_InvalidRequestError $e) {
-	  // Invalid parameters were supplied to Stripe's API
-
-	} catch (Stripe_AuthenticationError $e) {
-	  // Authentication with Stripe's API failed
-	  // (maybe you changed API keys recently)
-
-	} catch (Stripe_ApiConnectionError $e) {
-	  // Network communication with Stripe failed
-	} catch (Stripe_Error $e) {
-
-	  // Display a very generic error to the user, and maybe send
-	  // yourself an email
-	} catch (Exception $e) {
-
-	  // Something else happened, completely unrelated to Stripe
+function setMemberAndGuestVars($common, $memberId, $guestEmail)
+{
+	if(!empty($memberId))
+	{
+		return array(getMember($common, $memberId), null);
+	} else if(!empty($guestEmail))
+	{
+        $guest = $common->checkrecord('pr_guests', '*', array('email' => $guestEmail));
+        if(empty($guest))
+        {
+            $guestId = $common->insertrecord('pr_guests', array('email' => $guestEmail));
+            return array(null, getGuest($common, 'id', $guestId));
+        }
+        return array(null, getGuest($common, 'email', $guestEmail));
 	}
+}
+
+function getMember($common, $id)
+{
+	$conditions = array('id' => $id);
+	return $common->getrecord('pr_members', '*', $conditions);
+}
+
+function getGuest($common, $condKey, $condValue)
+{
+	$conditions = array($condKey => $condValue);
+	return $common->getrecord('pr_guests', '*', $conditions);
+}
+
+function getBuyerEmail($member, $guest)
+{
+	if(!empty($member))
+	{
+		return $member->email;
+	}
+	else if(!empty($guest))
+	{
+		return $guest->email;
+	}
+}
+
+function updateBuyer($common, $member, $guest, $stripeCustomerId)
+{
+	if(!empty($member))
+	{
+		$conditions = array('id' => $member->id);
+		$data = array('stripe_customer_id' => $stripeCustomerId);
+		return $common->updaterecord('pr_members', $data, $conditions);
+	}
+	else if(!empty($guest))
+	{
+		$conditions = array('id' => $guest->id);
+		$data = array('stripe_customer_id' => $stripeCustomerId);
+		return $common->updaterecord('pr_guests', $data, $conditions);
+	}
+}
+
+function getSeller($common, $sellerId)
+{
+	$conditions = array('id' => $sellerId);
+	return $common->getrecord('pr_seller', '*', $conditions);
+}
+
+function getPhoto($common, $photoId)
+{
+	$conditions = array('id' => $photoId);
+	return $common->getrecord('pr_photos','*',$conditions);
+}
+
+function getStripeCurrency($sessionCurr)
+{
+	if($sessionCurr == 'USD')
+	{
+		return 'usd';
+	}
+	else if($sessionCurr == 'EURO')
+	{
+		return 'eur';
+	}
+}
+
+function createStripeCustomer($stripeToken, $email)
+{
+	$customer = \Stripe\Customer::create(array(
+		'source' => $stripeToken,
+		'email' => $email
+	));
+	return $customer;
+}
+
+function getStripeCustomerId($member, $guest)
+{
+	if(!empty($member))
+	{
+		return $member->stripe_customer_id;
+	}
+	else if(!empty($guest))
+	{
+		return $guest->stripe_customer_id;
+	}
+}
+
+function createStripeCharge($amount, $currency, $description, $applicationFee, $customerId, $stripeDestAcctId)
+{
+	$charge = \Stripe\Charge::create(array(
+		'amount' => $amount,
+		'currency' => $currency,
+		'customer' => $customerId,
+		'description' => $description,
+		'destination' => $stripeDestAcctId,
+		'application_fee' => $applicationFee
+	));
+	return $charge;
 }
 ?>
