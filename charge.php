@@ -1,6 +1,5 @@
 <?php
 include 'include/config.php';
-// test git commit from phpStorm
 try {
 	if(!empty($_POST['stripeToken']))
 	{
