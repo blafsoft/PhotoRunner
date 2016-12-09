@@ -1,6 +1,6 @@
 <?php
 
-require("lib/aws/aws-autoloader.php");
+//require("lib/aws/aws-autoloader.php");
 use Aws\Ses\SesClient;
 use Aws\Credentials\CredentialProvider;
 

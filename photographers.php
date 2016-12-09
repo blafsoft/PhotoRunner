@@ -73,7 +73,7 @@ if(isset($_GET['galleryy']))
 			<div class="">
 				<div class="col-md-3">
 					<div style="padding:8px;">
-						<a class="fancybox" href="#inlin<?php echo $seller->id; ?>"><?php if(!empty($seller->profilepicture)) { ?><img src="<?php echo APP_URL; ?>uploads/seller/<?php echo $seller->profilepicture; ?>" style="width:100px; height:100px;"><?php }else{ ?><img src="images/no-profile.png" style="width:100px; height:100px;"><?php } ?></a>
+						<a class="fancybox" href="#inlin<?php echo $seller->id; ?>"><?php if(!empty($seller->profilepicture)) { ?><img src="<?php echo PROFILE_IMAGE . $seller->profilepicture; ?>" style="width:100px; height:100px;"><?php }else{ ?><img src="images/no-image.png" style="width:100px; height:100px;"><?php } ?></a>
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -98,7 +98,7 @@ if(isset($_GET['galleryy']))
 						<div id="inlin<?php echo $seller->id; ?>" style="display: none;">
 							<div class="col-md-3">
 								<div style="padding:8px;">
-									<?php if(!empty($seller->profilepicture)) { ?><img src="<?php echo APP_URL; ?>uploads/seller/<?php echo $seller->profilepicture; ?>" style="width:100px; height:100px;"><?php }else{ ?><img src="images/no-profile.png" style="width:100px; height:100px;"><?php } ?>
+									<?php if(!empty($seller->profilepicture)) { ?><img src="<?php echo PROFILE_IMAGE . $seller->profilepicture; ?>" style="width:100px; height:100px;"><?php }else{ ?><img src="images/no-profile.png" style="width:100px; height:100px;"><?php } ?>
 								</div>
 								<div style="padding:8px;">
 									<div><b>Name</b> : <?php echo $seller->firstname; ?></div>
@@ -155,11 +155,11 @@ if(isset($_GET['galleryy']))
 											<div class="demo-3">
 												<ul class="grid cs-style-3" style="padding: 0px 0px 0px;">
 													<li style="padding: 0px; width:100%;">
-														<?php if($_SESSION['gallery']['id'] == $gallery->id) { ?>
+														<?php if(isset($_SESSION['gallery']) && $_SESSION['gallery']['id'] == $gallery->id) { ?>
 														<figure>
 															<div class="tj_wrapper">
 																<ul class="tj_gallery" style="margin-bottom: -5px;">
-																	<li style="list-style:none; width:100%;"><a href="photos.php?gallery=<?php echo base64_encode($gallery->id); ?>&&lock=unlock"><img src="<?php echo APP_URL; ?>uploads/galleries/<?php echo $gallery->image; ?>" class="image_width_photographers" alt="img06"></a></li>
+																	<li style="list-style:none; width:100%;"><a href="photos.php?gallery=<?php echo base64_encode($gallery->id); ?>&&lock=unlock"><img src="<?php echo GALLERY_IMAGE . $gallery->image; ?>" class="image_width_photographers" alt="img06"></a></li>
 																</ul>
 															</div>
 															<figcaption>
@@ -171,9 +171,9 @@ if(isset($_GET['galleryy']))
 															<div class="tj_wrapper">
 																<ul class="tj_gallery" style="margin-bottom: -5px;">
 																<?php if(empty($gallery->password)) { ?>
-																	<li style="list-style:none; width:100%;"><a href="photos.php?gallery=<?php echo base64_encode($gallery->id); ?>"><img src="<?php echo APP_URL; ?>uploads/galleries/<?php echo $gallery->image; ?>" class="image_width_photographers" alt="img06"></a></li>
+																	<li style="list-style:none; width:100%;"><a href="photos.php?gallery=<?php echo base64_encode($gallery->id); ?>"><img src="<?php echo GALLERY_IMAGE . $gallery->image; ?>" class="image_width_photographers" alt="img06"></a></li>
 																<?php }else{ ?>
-																	<li style="list-style:none; width:100%;"><a class="fancybox" href="#inline<?php echo $gallery->id; ?>"><img src="<?php echo APP_URL; ?>uploads/galleries/<?php echo $gallery->image; ?>" class="image_width_photographers" alt="img06"></a></li>
+																	<li style="list-style:none; width:100%;"><a class="fancybox" href="#inline<?php echo $gallery->id; ?>"><img src="<?php echo GALLERY_IMAGE . $gallery->image; ?>" class="image_width_photographers" alt="img06"></a></li>
 																		<div id="inline<?php echo $gallery->id; ?>" style="width:98%; display: none; margin:auto; padding-top:15px;">
 																			<form action="photographers.php" method="get">
 																				<div style="font-weight:bold; padding-bottom:5px;">To unlock gallery Enter secure password</div>

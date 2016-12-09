@@ -9,7 +9,7 @@ if(isset($_POST['submit']))
 	}
 	else
 	{
-		if($common->updateseller($_POST))
+		if($common->updateseller($_POST, $_FILES))
 		{
 			$common->redirect(APP_URL."seller/index.php");
 		}
@@ -80,7 +80,7 @@ if(isset($_POST['submit']))
 	</div>
 	<div class="col-md-9 features features-right padding_account" style="margin:20px 0;">
 		<div class="col-md-12 form-module" style="max-width: 100%;">
-			<form  action=""  method="post" id="register-form" style="margin:30px;"> 
+			<form  action=""  method="post" enctype="multipart/form-data" id="register-form" style="margin:30px;">
 				<h2 style="text-align:center">Update Your Profile</h2>
 				<div class="col-md-6">
 					<lable style="padding:5px;">Category</lable>
