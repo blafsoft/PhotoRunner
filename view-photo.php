@@ -176,13 +176,13 @@ if(!empty($_GET['email']))
 			if(!empty($sller->profilepicture))
 			{
 				?>
-				<h3 class="tittle" style="margin-bottom: 12px; margin-top: 5px;"><img src="<?php echo APP_URL; ?>uploads/seller/<?php echo $sller->profilepicture; ?>" style="width:100px; height:80px; border-radius:50%;"/></h3> 
+				<h3 class="tittle" style="margin-bottom: 12px; margin-top: 5px;"><img src="<?php echo PROFILE_IMAGE . $sller->profilepicture; ?>" style="width:100px; height:80px; border-radius:50%;"/></h3>
 				<?php
 			}
 			else
 			{
 				?>
-				<h3 class="tittle" style="margin-bottom: 12px; margin-top: 5px;"><img src="<?php echo APP_URL; ?>images/no-image.png" style="width:100px; height:80px; border-radius:50%;"/></h3> 
+				<h3 class="tittle" style="margin-bottom: 12px; margin-top: 5px;"><img src="<?php echo IMAGE_URL . 'images/no-image.png'; ?>" style="width:100px; height:80px; border-radius:50%;"/></h3>
 				<?php
 			}
 			?>	
