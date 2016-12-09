@@ -957,6 +957,7 @@ class Cl_Common extends Cl_Messages
 			}	
 			
 			$conditions = array('username'=>$username,'password'=>$password,'type'=>$type);
+			$conditions1 = array('email'=>$username,'password'=>$password,'type'=>$type);
 			if($this->checkrecord('pr_seller','*',$conditions))
 			{
 				$data = $this->getrecord('pr_seller','*',$conditions);
@@ -2392,13 +2393,13 @@ class Cl_Common extends Cl_Messages
 			else
 			{
 				return false;
-			}			
+			}
 		}
 		else
 		{
 			return false;
-		}		
-	}	
+		}
+	}
 	
 	
 	public function changepassword( array $data )
