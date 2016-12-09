@@ -26,3 +26,5 @@ Stripe_old_version/
 amazon-ses-sample.php
 
 photorunner.sublime-workspace
+
+admin/include/config.php
